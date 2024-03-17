@@ -1,15 +1,32 @@
 {% extends 'base.html' %}
-{% block title %}HomePage - {% endblock %}
 {% block content %}
-    <link rel="stylesheet" href="static/landingPage.css" />
+{% load static %}
+<link rel="stylesheet" href="{% static 'landingPage.css' %}?{% now "U" %}" />
     <main >
-        <div class="d-flex justify-content-center align-items-center vh-100 flex-column">
-            <form class="container text-center" method="POST" action="{% url 'submit_summoner_name' %}">
+        <div class="container">
+            <h1>Search form</h1>
+            <form class="text-center" method="POST" action="{% url 'submit_summoner_name' %}">
                 {% csrf_token %}
-                <input type="text" name="summoner_name">
-                <button type="submit">Submit</button>
+                <div class="row ">
+                    <div class="col-2">
+                        <select class="form-select" id="region" name="region" required="">
+                            <option>Europe</option>
+                            <option>Americas</option>
+                            <option>Asia</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="form-control" name="summoner_name" placeholder="Summoner name.." required="">
+                    </div>
+                    <div class="col-2">
+                        <input type="text" class="form-control" name="summoner_tag" placeholder="Tag.." required="">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
             </form>
-            <h2 class="m-4">
+            <h2 class="container wrap">
                 {% if message %}
                     {{ message }}
                 {% endif %}
