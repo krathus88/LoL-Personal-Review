@@ -20,5 +20,6 @@ from django.urls import path
 from home import views
 
 urlpatterns = [
-    path('', views.home_page)
+    path('', views.home_page, name='home_page'),
+    path('submit/', views.submit_summoner_name, name='submit_summoner_name'),
 ]

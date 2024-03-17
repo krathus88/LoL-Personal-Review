@@ -2,7 +2,18 @@
 {% block title %}HomePage - {% endblock %}
 {% block content %}
     <link rel="stylesheet" href="static/landingPage.css" />
-    <div>
-        <h1>Hello World</h1>
-    </div>
+    <main >
+        <div class="d-flex justify-content-center align-items-center vh-100 flex-column">
+            <form class="container text-center" method="POST" action="{% url 'submit_summoner_name' %}">
+                {% csrf_token %}
+                <input type="text" name="summoner_name">
+                <button type="submit">Submit</button>
+            </form>
+            <h2 class="m-4">
+                {% if message %}
+                    {{ message }}
+                {% endif %}
+            </div>
+        </div>
+    </main>
 {% endblock %}
