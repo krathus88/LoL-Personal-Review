@@ -17,9 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from home import views
+from home import views as home_views
+from summoner import views as summoner_views
 
 urlpatterns = [
-    path('', views.home_page, name='home_page'),
-    path('submit/', views.submit_summoner_name, name='submit_summoner_name'),
+    path('', home_views.home_page, name='home_page'),
+    path('submit/', home_views.submit_summoner_name, name='submit_summoner_name'),
+    path('summoner/', summoner_views.summoner, name="summoner_page")
 ]
