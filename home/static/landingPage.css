@@ -1,7 +1,23 @@
-body {
-    background-color: lightblue;
+#region {
+    width: 150px;
 }
 
-h2 {
-    color: blueviolet;
+.region-label {
+    display: block;
+}
+
+.search-container {
+    background-color: #31313c; /* Change as per your design */
+    border-radius: 50px; /* Adjust to make it look like a cylinder */
+    padding: 10px 30px; /* Adjust as per your design */
+    width: fit-content; /* Adjust as per your design */
+}
+
+.form-control {
+    border: none;
+    border-radius: 0;
+}
+
+.form-select {
+    border: none;
 }
