@@ -24,4 +24,5 @@ urlpatterns = [
     path('', home_views.home_page, name='home_page'),
     path('submit_summoner/', home_views.submit_summoner, name='submit_summoner'),
     path('summoner/<region>/<summoner_name>-<summoner_tag>', summoner_views.summoner_detail, name='summoner_detail'),
+    path('admin/', admin.site.urls),
 ]
