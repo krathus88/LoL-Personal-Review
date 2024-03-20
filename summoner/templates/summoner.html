@@ -6,6 +6,9 @@
     <main>
         <div class="container mt-5">
             <h1>{{ summoner_info.0.summonerName }}#{{ region }}</h1>
+            <div class="league-rank-img-container">
+                <img class="league-rank-img" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-{{ summoner_info.0.tier|lower }}.png" alt="SoloQ Tier">
+            </div>
             <p>Level: {{ account_info.level }}</p>
             <p>Soloqueue: {{ summoner_info.0.tier }} {{ summoner_info.0.rank }} </p>
             <p>Wins: {{ summoner_info.0.wins }} | Defeats: {{ summoner_info.0.losses }}</p>

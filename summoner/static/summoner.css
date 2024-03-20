@@ -1,0 +1,14 @@
+.league-rank-img-container {
+    width: 200px;
+    height: 200px;
+    overflow: hidden; /* Ensure the clipped portion is hidden */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.league-rank-img {
+    width: 100%;
+    height: 225%;
+    object-fit: cover;
+}
