@@ -10,7 +10,7 @@ class Player(models.Model):
     @classmethod
     def add_to_db(cls, puuid, server, summoner_name, summoner_tag, additional_info):
         if cls.objects.filter(puuid=puuid).exists():
-            return None
+            return cls.objects.get(puuid=puuid)
         player = cls(puuid=puuid, summoner_name=summoner_name, server=server, summoner_tag=summoner_tag) 
         player.save()
         PlayerAdditionalInfo.add_to_db(player, additional_info)
@@ -19,7 +19,7 @@ class Player(models.Model):
     @classmethod
     def find_db(cls, server, summoner_name,  summoner_tag):
         try:
-            return cls.objects.get(server__iexact=server, summoner_name__iexact=summoner_name, summoner_tag__iexact=summoner_tag)
+            return cls.objects.get(server__iexact=server.strip(), summoner_name__iexact=summoner_name.strip(), summoner_tag__iexact=summoner_tag.strip())
         except cls.DoesNotExist:
             return None
 
