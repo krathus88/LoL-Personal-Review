@@ -14,11 +14,11 @@
             <label for="floatingInput">Region</label>
         </div>
         <div class="form-floating " bis_skin_checked="1">
-            <input type="text" class="form-control rounded-start" id="floatingInputName" name="summoner_name" placeholder="hide on bush" required>
+            <input type="text" class="form-control rounded-start" id="floatingInputName" name="summoner_name" placeholder="Summoner Name" maxlength="16" required>
             <label for="floatingInput">Summoner Name</label>
         </div>
         <div class="form-floating " bis_skin_checked="1">
-            <input type="text" class="form-control rounded-end" id="floatingInputTag" name="summoner_tag" placeholder="EUW" required>
+            <input type="text" class="form-control rounded-end" id="floatingInputTag" name="summoner_tag" placeholder="Tag" maxlength="5" required oninput="this.value = this.value.toUpperCase()">
             <label for="floatingInput">Tag</label>
         </div>
         <button type="submit" class="btn fw-bold">Submit</button>

@@ -18,7 +18,7 @@
     <header class="pb-5">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark border-bottom">
             <div class="container-fluid" bis_skin_checked="1">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{% url 'home_page' %}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-person-square" viewBox="0 0 16 16">
                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                         <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
@@ -62,71 +62,12 @@
                     </div>
                     <form class="d-flex col-12 col-md-4 col-lg-3 col-xxl-2" role="search">
                         <form role="search" action="/search" method="get" id="summonerSearchForm">
-                            <input id="summonerSearch" type="search" name="keyword" class="form-control" placeholder="Search Summoner" autocomplete="off" aria-label="Search" />
+                            <input id="summonerSearch" type="search" name="keyword" class="form-control" placeholder="ex: Summ#EUW" autocomplete="off" aria-label="Search" />
                         </form>    
                     </form>
                 </div>
             </div>
         </nav>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-          <!-- <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <div class="container-fluid" bis_skin_checked="1">
-                <a href="/" >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="white" class="bi bi-person-square" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
-                      </svg>
-                </a>
-                <div id="upperMenu" class="row align-items-center ms-auto">
-                    <div class="col-auto me-auto d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-sun-fill" viewBox="0 0 16 16">
-                            <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
-                        </svg>
-                        <div class="form-check form-switch" bis_skin_checked="1">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault"></label>
-                        </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-moon-fill" viewBox="0 0 16 16">
-                            <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/>
-                        </svg>
-                    </div>
-                    <div class="col">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" 
-                            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </div>
-                </div>
-                <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse" bis_skin_checked="1">
-                    <ul class="d-flex align-items-center navbar-nav mb-2 mb-md-0 col-xl-8 col-lg-10 col-md-6">
-                        <li class="search my-3 my-md-0 ms-lg-3 col-lg-6 col-12" role="search">
-                            <form role="search" action="/search" method="get" id="animeSearchForm">
-                                <input id="animeSearch" type="search" name="keyword" class="form-control" placeholder="Search anime..." autocomplete="off" aria-label="Search" />
-                            </form>             
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav> -->
     </header>
     {% endblock %}
 
@@ -143,5 +84,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Bootstrap 5.3.3 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>
