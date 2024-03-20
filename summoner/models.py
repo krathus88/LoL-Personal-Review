@@ -19,7 +19,7 @@ class Player(models.Model):
     @classmethod
     def find_db(cls, server, summoner_name,  summoner_tag):
         try:
-            return cls.objects.get(server=server, summoner_name=summoner_name, summoner_tag=summoner_tag)
+            return cls.objects.get(server__iexact=server, summoner_name__iexact=summoner_name, summoner_tag__iexact=summoner_tag)
         except cls.DoesNotExist:
             return None
 
@@ -44,6 +44,6 @@ class PlayerAdditionalInfo(models.Model):
     @classmethod
     def find_db(cls, player_id):
         try:
-            return cls.objects.get(id=player_id)  # Change to get() instead of filter()
+            return cls.objects.get(id=player_id)
         except cls.DoesNotExist:
             return None
