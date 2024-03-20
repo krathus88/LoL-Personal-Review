@@ -8,7 +8,6 @@ def find_account(server, summoner_name, tag):
 	api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
 	if api_result.status_code == 200:
 		# API call successful
-		print(api_result.status_code)
 		return api_result.json()
 	else:
 		# API call failed
@@ -20,7 +19,6 @@ def find_account_id(server, puuid):
 	api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
 	if api_result.status_code == 200:
         # API call successful
-		print(api_result.status_code)
 		return api_result.json()
 	else:
         # API call failed

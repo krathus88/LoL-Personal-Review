@@ -11,4 +11,13 @@ def submit_summoner(request):
         region = request.GET['region']
         summoner_name = request.GET['summoner_name']
         summoner_tag = request.GET['summoner_tag']
+        print(summoner_name + summoner_tag)
+        return redirect('summoner_detail', region=region, summoner_name=summoner_name, summoner_tag=summoner_tag)
+
+def submit_summoner_header(request):
+    if request.method == 'GET':
+        region = request.GET['region']
+        summoner_name_tag = request.GET['summoner_name']
+        summoner_name, summoner_tag = summoner_name_tag.split("#")
+        print(summoner_name + summoner_tag)
         return redirect('summoner_detail', region=region, summoner_name=summoner_name, summoner_tag=summoner_tag)
