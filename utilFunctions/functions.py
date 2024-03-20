@@ -12,10 +12,11 @@ def find_account(server, summoner_name, tag):
 	api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
 	if api_result.status_code == 200:
 		# API call successful
+		print(api_result.status_code)
 		return api_result.json()
 	else:
 		# API call failed
-		return f"Failed to retrieve summoner information. Error code: {api_result.status_code}"
+		return api_result.status_code
 
 def find_account_id(server, puuid):
 	dict = {
@@ -28,10 +29,11 @@ def find_account_id(server, puuid):
 	api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
 	if api_result.status_code == 200:
         # API call successful
+		print(api_result.status_code)
 		return api_result.json()
 	else:
         # API call failed
-		return f"Failed to retrieve summoner information. Error code: {api_result.status_code}"
+		return api_result.status_code
 
 def find_summoner(server, summonerId):
 	dict = {
@@ -41,13 +43,13 @@ def find_summoner(server, summonerId):
 	}
 	api_url = os.getenv("API_URL").replace("[server]", dict[server])
 	endpoint_url = os.getenv("SUMMONER_SEARCH").replace("[encryptedSummonerId]", summonerId)
-	api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
+	api_result = requests.get(api_url + endpoint_url + '?api_ey=' + os.getenv("API_KEY"))
 	if api_result.status_code == 200:
         # API call successful
 		return api_result.json()
 	else:
         # API call failed
-		return f"Failed to retrieve summoner information. Error code: {api_result.status_code}"
+		return api_result.status_code
 
 def dic_summoner_info(region, summonerName, summonerTag, summonerLevel, summonerIcon):
     dic = {
@@ -58,3 +60,19 @@ def dic_summoner_info(region, summonerName, summonerTag, summonerLevel, summoner
 		"iconId": summonerIcon
 	}
     return dic
+
+def map_error_to_message(error):
+	dict_of_errors = {
+		400 : "Bad request",
+		401 : "Unauthorized",
+		403 : "Forbidden",
+		404 : "Data not found",
+		405 : "Method not allowed",
+		415 : "Unsupported media type",
+		429 : "Rate limit exceeded",
+		500 : "Internal server error",
+		502 : "Bad gateway",
+		503 : "Service unavailable",
+		504 : "Gateway timeout",
+	}
+	return "RIOT API Error " + dict_of_errors[error].upper()
