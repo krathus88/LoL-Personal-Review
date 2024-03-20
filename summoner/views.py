@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Player, PlayerAdditionalInfo
-from utilFunctions import functions
+from globals import functions
+import requests
 
 # Create your views here.
 def summoner_detail(request, region, summoner_name, summoner_tag):
@@ -28,6 +29,8 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
 
         if(type(apiRequestSummoner) == int): #API call failed
             return render(request, "error.html", {'message' : functions.map_error_to_message(apiRequestSummoner)})
-
-        return render(request, "summoner.html", {'region': region, 'account_info': account_info,'summoner_info': apiRequestSummoner})
+        
+        print(apiRequestSummoner[0]["tier"])
+        game_version = requests.get("https://ddragon.leagueoflegends.com/api/versions.json").json()[0]
+        return render(request, "summoner.html", {'game_version': game_version, 'region': region, 'account_info': account_info,'summoner_info': apiRequestSummoner})
     

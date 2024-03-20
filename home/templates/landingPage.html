@@ -3,13 +3,26 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'landingPage.css' %}?{% now "U" %}" />
 <main>
-    <form class="search-container container d-flex justify-content-center mt-5" method="GET" action="{% url 'submit_summoner' %}">
+    <form class="search-container container d-flex justify-content-center mt-5" role="search" method="GET" action="{% url 'submit_summoner' %}">
     {% csrf_token %}
         <div class="form-floating me-1" bis_skin_checked="1">
             <select class="form-select" id="region" name="region" required>
                 <option>EUW</option>
                 <option>EUNE</option>
                 <option>NA</option>
+                <option>KR</option>
+                <option>JP</option>
+                <option>OCE</option>
+                <option>BR</option>
+                <option>LAS</option>
+                <option>LAN</option>
+                <option>RU</option>
+                <option>TR</option>
+                <option>SG</option>
+                <option>PH</option>
+                <option>TW</option>
+                <option>VN</option>
+                <option>TH</option>
             </select>
             <label for="floatingInput">Region</label>
         </div>
