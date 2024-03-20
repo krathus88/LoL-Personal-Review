@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'error.css' %}?{% now "U" %}" />
+<main>
+    <title>Error</title>
+    <h1>Error</h1>
+    <p>{{ message }}</p>
+</main>
+{% endblock %}
