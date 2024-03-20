@@ -48,3 +48,13 @@ def find_summoner(server, summonerId):
 	else:
         # API call failed
 		return f"Failed to retrieve summoner information. Error code: {api_result.status_code}"
+
+def dic_summoner_info(region, summonerName, summonerTag, summonerLevel, summonerIcon):
+    dic = {
+		"region": region,
+		"name": summonerName,
+		"tag": summonerTag,
+		"level": summonerLevel,
+		"iconId": summonerIcon
+	}
+    return dic
