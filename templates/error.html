@@ -2,8 +2,11 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'error.css' %}?{% now "U" %}" />
-<main>
-    <h1>Error</h1>
-    <p>{{ message }}</p>
+<main class="text-center mt-5">
+    <div class="container col-6 pt-2 pb-3 rounded-4">
+        <h1>Error</h1>
+        <hr>
+        <p>{{ message }}</p>
+    </div>
 </main>
 {% endblock %}

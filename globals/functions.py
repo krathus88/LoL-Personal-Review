@@ -11,7 +11,7 @@ def find_account(server, summoner_name, tag):
 		return api_result.json()
 	else:
 		# API call failed
-		return api_result.status_code
+		raise Exception(api_result.status_code)
 
 def find_account_id(server, puuid):
 	api_url = os.getenv("API_URL").replace("[server]", dictionary.dict_server[server])
@@ -22,18 +22,18 @@ def find_account_id(server, puuid):
 		return api_result.json()
 	else:
         # API call failed
-		return api_result.status_code
+		raise Exception(api_result.status_code)
 
-def find_summoner(server, summonerId):
+def find_ranked_data(server, summonerId):
 	api_url = os.getenv("API_URL").replace("[server]", dictionary.dict_server[server])
 	endpoint_url = os.getenv("SUMMONER_SEARCH").replace("[encryptedSummonerId]", summonerId)
-	api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
+	api_result = requests.get(api_url + endpoint_url + '?api_ey=' + os.getenv("API_KEY"))
 	if api_result.status_code == 200:
         # API call successful
 		return api_result.json()
 	else:
         # API call failed
-		return api_result.status_code
+		raise Exception(api_result.status_code)
 
 def organize_summoner_data(region, summonerName, summonerTag, summonerLevel, summonerIcon):
      return {
@@ -45,8 +45,8 @@ def organize_summoner_data(region, summonerName, summonerTag, summonerLevel, sum
 	}
 
 def organize_summoner_ranked_data(summoner_list):
-    solo_queue = "Unranked"
-    flex_queue = "Unranked"
+    solo_queue = {"tier": "unranked"}
+    flex_queue = {"tier": "unranked"}
 
     for input in summoner_list:
         if input['queueType'] == 'RANKED_SOLO_5x5':
@@ -59,11 +59,11 @@ def organize_summoner_ranked_data(summoner_list):
 def calculate_winrate(summoner_data):
 	wrSoloQ = None
 	wrFlexQ = None
-
-	if not summoner_data[0] == "Unranked":
+ 
+	if not summoner_data[0]["tier"] == "unranked":
 		wrSoloQ = round(summoner_data[0]["wins"] / (summoner_data[0]["wins"] + summoner_data[0]["losses"]) * 100)
-	if not summoner_data[1] == "Unranked":
-		wrFlexQ = round(summoner_data[0]["wins"] / (summoner_data[1]["wins"] + summoner_data[1]["losses"]) * 100)
+	if not summoner_data[0]["tier"] == "unranked":
+		wrFlexQ = round(summoner_data[1]["wins"] / (summoner_data[1]["wins"] + summoner_data[1]["losses"]) * 100)
     
 	return [wrSoloQ, wrFlexQ]
 
@@ -81,4 +81,4 @@ def map_error_to_message(error):
 		503 : "Service unavailable",
 		504 : "Gateway timeout",
 	}
-	return "RIOT API Error:", dict_of_errors[error].upper()
+	return "RIOT API Error: " + dict_of_errors[error].upper()
