@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import Player, PlayerAdditionalInfo
 from globals import functions
 import requests
@@ -36,5 +37,9 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
             game_version = requests.get("https://ddragon.leagueoflegends.com/api/versions.json").json()[0]
             
             return render(request, "summoner.html", {'game_version': game_version, 'region': region, 'account_info': accountInfo, 'ranked_info': organizedRankedData, 'win_rate': winRate})
+    
     except Exception as e:
+        if int(e.args[0]) == 404: # summoner not found
+            return JsonResponse({'message': 'No results found'})
+
         return render(request, "error.html", {'message': functions.map_error_to_message(int(e.args[0]))})
