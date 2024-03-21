@@ -65,3 +65,8 @@ def map_error_to_message(error):
 		504 : "Gateway timeout",
 	}
 	return "RIOT API Error " + dict_of_errors[error].upper()
+
+def calculate_winrate(summoner):
+    wrSoloQ = round(summoner[0]["wins"] / (summoner[0]["wins"] + summoner[0]["losses"]) * 100)
+    wrFlexQ = round(summoner[1]["wins"] / (summoner[1]["wins"] + summoner[1]["losses"]) * 100)
+    return [wrSoloQ, wrFlexQ]

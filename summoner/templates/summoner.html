@@ -3,15 +3,76 @@
 {% block content %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'summoner.css' %}?{% now "U" %}" />
-    <main>
-        <div class="container mt-5">
-            <h1>{{ summoner_info.0.summonerName }}#{{ region }}</h1>
-            <div class="league-rank-img-container">
-                <img class="league-rank-img" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-{{ summoner_info.0.tier|lower }}.png" alt="SoloQ Tier">
+    <main class="container mt-2">
+        <!-- Summoner Header -->
+        <div class="container row align-items-center mb-3 py-2 rounded-3" id="summonerHeader">
+            <div class="col-auto">
+                <img class="profile-icon rounded-3" src="https://ddragon.leagueoflegends.com/cdn/{{ game_version }}/img/profileicon/{{ account_info.iconId }}.png" />
             </div>
-            <p>Level: {{ account_info.level }}</p>
-            <p>Soloqueue: {{ summoner_info.0.tier }} {{ summoner_info.0.rank }} </p>
-            <p>Wins: {{ summoner_info.0.wins }} | Defeats: {{ summoner_info.0.losses }}</p>
+            <div class="col">
+                <h4>{{ summoner_info.0.summonerName }}#{{ region }} ({{ region }})</h1>
+                <small>Level: {{ account_info.level }}</small>
+            </div>
+            <div class="col ms-auto text-end">
+                <button type="button" class="btn btn-warning">
+                    Update
+                    <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                        <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"/>
+                        <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
+                    </svg></span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Summoner Personal Rating-->
+            <div class="col-md-4">
+                <div class="container-fluid rounded-4" id="personalInfoContainer">
+                    <p class="border-bottom pt-1 ps-2 fw-light">Personal Ratings</p>
+                    <!-- Solo Queue -->
+                    <div class="row" id="summonerRankedSoloQ">
+                        <div class="col-auto league-rank-img-container img-soloq">
+                            <img class="league-rank-img" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-{{ summoner_info.0.tier|lower }}.png" alt="SoloQ Tier">
+                        </div>
+                        <div class="col d-flex flex-column">
+                            <h3>{{ summoner_info.0.tier }} {{ summoner_info.0.rank }} </h3>
+                            <small class="fw-light mb-3">Soloqueue</small>
+                            <small class="fw-light">LP: {{ summoner_info.0.leaguePoints }}</small>
+                            <small class="fw-light mb-1">Wins: <span class="font-color-win">{{ summoner_info.0.wins }}</span> - Defeats: <span class="font-color-loss">{{ summoner_info.0.losses }}</span></small>
+                            <small class="fw-light win-rate">WR: {{ win_rate.0 }}%</small>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- Flex Queue -->
+                    <div class="row pb-2" id="summonerRankedFlex">
+                        <div class="col-auto league-rank-img-container img-flexq">
+                            <img class="league-rank-img" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-{{ summoner_info.1.tier|lower }}.png" alt="SoloQ Tier">
+                        </div>
+                        <div class="col row">
+                            <div class="col d-flex flex-column">
+                                <h3>{{ summoner_info.1.tier }} {{ summoner_info.1.rank }}</h1>
+                                <small class="fw-light mb-2">Ranked Flex</small>
+                                <small class="fw-light">LP: {{ summoner_info.1.leaguePoints }}</small>
+                            </div>
+                            <div class="col d-flex flex-column">
+                                <small class="fw-light">Wins: <span class="font-color-win">{{ summoner_info.1.wins }}</span></small>
+                                <small class="fw-light mb-2">Defeats: <span class="font-color-loss">{{ summoner_info.1.losses }}</span></small>
+                                <small class="fw-light">WR: {{ win_rate.1 }}%</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Match History -->
+            <div class="col-md-8">
+                <div class="container-fluid rounded-4 pt-1 pb-2" id="matchHistoryContainer">
+                    <p class="border-bottom ps-2 fw-light">Recent Games</p>
+                    <div class="rounded-1 d-flex flex-column gap-1">
+                        <div class="container match rounded-1">Hello</div>
+                        <div class="container match rounded-1">Hello</div>
+                        <div class="container match rounded-1">Hello</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 {% endblock %}

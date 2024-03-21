@@ -2,22 +2,22 @@
     width: 150px;
 }
 
-main > .region-label {
+main .region-label {
     display: block;
 }
 
-main > .search-container {
+main .search-container {
     background-color: #31313c; /* Change as per your design */
     border-radius: 50px; /* Adjust to make it look like a cylinder */
     padding: 10px 30px; /* Adjust as per your design */
     width: fit-content; /* Adjust as per your design */
 }
 
-main > .form-control {
+main .form-control {
     border: none;
     border-radius: 0;
 }
 
-main > .form-select {
+main .form-select {
     border: none;
 }
