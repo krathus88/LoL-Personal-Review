@@ -2,7 +2,7 @@ import os
 import requests
 from globals import dictionary
 
-def find_account(server, summoner_name, tag):
+def find_account(summoner_name, tag):
 	api_url = os.getenv("API_URL").replace("[server]", "europe")
 	endpoint_url = os.getenv("ACCOUNT_SEARCH").replace("[gameName]", summoner_name).replace("[tagLine]", tag)
 	api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
@@ -14,7 +14,7 @@ def find_account(server, summoner_name, tag):
 		raise Exception(api_result.status_code)
 
 def find_account_id(server, puuid):
-	api_url = os.getenv("API_URL").replace("[server]", dictionary.dict_server[server])
+	api_url = os.getenv("API_URL").replace("[server]", dictionary.dictServer[server])
 	endpoint_url = os.getenv("ACCOUNT_SUMMONER_SEARCH").replace("[encryptedPUUID]", puuid)
 	api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
 	if api_result.status_code == 200:
@@ -25,7 +25,7 @@ def find_account_id(server, puuid):
 		raise Exception(api_result.status_code)
 
 def find_ranked_data(server, summonerId):
-	api_url = os.getenv("API_URL").replace("[server]", dictionary.dict_server[server])
+	api_url = os.getenv("API_URL").replace("[server]", dictionary.dictServer[server])
 	endpoint_url = os.getenv("SUMMONER_SEARCH").replace("[encryptedSummonerId]", summonerId)
 	api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
 	if api_result.status_code == 200:
@@ -34,6 +34,30 @@ def find_ranked_data(server, summonerId):
 	else:
         # API call failed
 		raise Exception(api_result.status_code)
+
+def find_match_history(startCount, numGames, puuid):
+	api_url = os.getenv("API_URL").replace("[server]", "europe")
+	endpoint_url = os.getenv("SUMMONER_MATCH_HISTORY_SEARCH").replace("[encryptedPUUID]", puuid).replace("[startCount]", startCount).replace("[numGames]", numGames)
+	print(api_url + endpoint_url + '&api_key=' + os.getenv("API_KEY"))
+	api_result = requests.get(api_url + endpoint_url + '&api_key=' + os.getenv("API_KEY"))
+	if api_result.status_code == 200:
+        # API call successful
+		return api_result.json()
+	else:
+        # API call failed
+		raise Exception(api_result.status_code)
+
+def find_match_data(matches):
+	match_data = []
+	api_url = os.getenv("API_URL").replace("[server]", "europe")
+	for match in matches:
+		endpoint_url = os.getenv("SUMMONER_MATCH_SEARCH").replace("[match]", match)
+		print(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
+		api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
+		match_data.append(api_result)
+
+	return match_data
+
 
 def organize_summoner_data(region, summonerName, summonerTag, summonerLevel, summonerIcon):
      return {

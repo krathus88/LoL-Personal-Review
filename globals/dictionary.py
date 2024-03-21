@@ -1,4 +1,4 @@
-dict_server = {
+dictServer = {
     "EUW": "euw1",
     "EUNE": "eun1",
     "NA": "na1",
