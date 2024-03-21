@@ -1,14 +1,94 @@
-.league-rank-img-container {
-    width: 200px;
-    height: 200px;
+#summonerHeader {
+    background-color: #31313c;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+}
+
+#personalInfoContainer {
+    background-color: #31313c;
+}
+
+#personalInfoContainer > hr {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+#matchHistoryContainer {
+    background-color: #31313c;
+}
+
+#matchHistoryContainer > p {
+    margin-bottom: 0.5rem;
+}
+
+#matchHistoryContainer > hr {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+
+
+#matchHistoryContainer .gap-1 .container {
+    background-color: red;
+}
+
+
+main .league-rank-img-container {
     overflow: hidden; /* Ensure the clipped portion is hidden */
     display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
 }
 
-.league-rank-img {
-    width: 100%;
+main .img-soloq {
+    width: 160px;
+    height: 160px;
+}
+
+main .img-flexq {
+    margin-left: 0.75rem;
+    width: 80px;
+    height: 80px;
+}
+
+main .league-rank-img {
     height: 225%;
     object-fit: cover;
+}
+
+main .profile-icon {
+    width: 64px;
+    height: 64px;
+    object-fit: fill;
+}
+
+#summonerHeader .col {
+    padding-left: 0;
+}
+
+#summonerHeader h4 {
+    margin-bottom: 0;
+}
+
+#summonerHeader small {
+    margin-bottom: 0;
+}
+
+#summonerRankedSoloQ h3 {
+    font-size: 22px;
+    margin-bottom: 0;
+}
+
+#summonerRankedFlex h3 {
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+#summonerRankedFlex small {
+    font-size: 13px;
+}
+
+#summonerRankedSoloQ .win-rate {
+    font-size: 13px;
 }

@@ -1,10 +1,23 @@
-header > nav {
+#region {
+    max-width: 95px;
+    padding-right: 1.5rem;
+}
+
+header nav {
     padding-top: 0px !important;
     padding-bottom: 0px !important;
 }
 
 #themeSwitchMobile {
     display: none !important;
+}
+
+header .form-control {
+    border-radius: 0;
+}
+
+header .form-select {
+    border-radius: 0;
 }
 
 @media (max-width: 767px) {

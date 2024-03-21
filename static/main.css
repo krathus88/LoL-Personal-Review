@@ -2,7 +2,21 @@ body, html {
     overflow-x: clip;
 }
 
+html {
+    background-image: url('images/dark-background.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
 body {
     padding-left: 0px !important;
     padding-right: 0px !important;
+}
+
+.font-color-win {
+    color: #2DEB90;
+}
+
+.font-color-loss {
+    color: #ff5859;
 }
