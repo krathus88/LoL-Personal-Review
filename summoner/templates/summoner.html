@@ -10,10 +10,15 @@
                 <img class="profile-icon rounded-3" src="https://ddragon.leagueoflegends.com/cdn/{{ game_version }}/img/profileicon/{{ account_info.iconId }}.png" />
             </div>
             <div class="col">
-                <h4>{% if ranked_info %}
-                    {{ ranked_info.0.summonerName }}#{{ account_info.tag }} ({{ region }})
-                {% else %}
-                    {{ account_info.name }}#{{ account_info.tag }} ({{ region }}){% endif %}</h1>
+                <h4>
+                    {% if ranked_info.0.tier == 'unranked' and ranked_info.1.tier == 'unranked' %}
+                        {{ account_info.name }}#{{ account_info.tag }} ({{ region }})
+                    {% elif ranked_info.0.tier == 'unranked' %}
+                        {{ ranked_info.1.summonerName }}#{{ account_info.tag }} ({{ region }})
+                    {% else %}
+                        {{ ranked_info.0.summonerName }}#{{ account_info.tag }} ({{ region }})
+                    {% endif %}
+                </h4>
                 <small>Level: {{ account_info.level }}</small>
             </div>
             <div class="col ms-auto text-end">
@@ -32,37 +37,45 @@
                 <div class="container-fluid rounded-4" id="personalInfoContainer">
                     <p class="border-bottom pt-1 ps-2 fw-light">Personal Ratings</p>
                     <!-- Solo Queue -->
-                    <div class="row" id="summonerRankedSoloQ">
-                        <div class="col-auto league-rank-img-container img-soloq">
-                            <img class="league-rank-img" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-{{ ranked_info.0.tier|lower }}.png" alt="SoloQ Tier">
+                    {% if ranked_info.0.tier == 'unranked' %}
+                        <p class="fw-light">Ranked Solo: <small>Unranked</small></p>
+                    {% else %}
+                        <div class="row" id="summonerRankedSoloQ">
+                            <div class="col-auto league-rank-img-container img-soloq">
+                                <img class="league-rank-img" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-{{ ranked_info.0.tier|lower }}.png" alt="SoloQ Tier">
+                            </div>
+                            <div class="col d-flex flex-column">
+                                <h3>{{ ranked_info.0.tier }} {{ ranked_info.0.rank }} </h3>
+                                <small class="fw-light mb-3">Soloqueue</small>
+                                <small class="fw-light">LP: {{ ranked_info.0.leaguePoints }}</small>
+                                <small class="fw-light mb-1">Wins: <span class="font-color-win">{{ ranked_info.0.wins }}</span> - Defeats: <span class="font-color-loss">{{ ranked_info.0.losses }}</span></small>
+                                <small class="fw-light win-rate">WR: {{ win_rate.0 }}%</small>
+                            </div>
                         </div>
-                        <div class="col d-flex flex-column">
-                            <h3>{{ ranked_info.0.tier }} {{ ranked_info.0.rank }} </h3>
-                            <small class="fw-light mb-3">Soloqueue</small>
-                            <small class="fw-light">LP: {{ ranked_info.0.leaguePoints }}</small>
-                            <small class="fw-light mb-1">Wins: <span class="font-color-win">{{ ranked_info.0.wins }}</span> - Defeats: <span class="font-color-loss">{{ ranked_info.0.losses }}</span></small>
-                            <small class="fw-light win-rate">WR: {{ win_rate.0 }}%</small>
-                        </div>
-                    </div>
+                    {% endif %}
                     <hr>
                     <!-- Flex Queue -->
-                    <div class="row pb-2" id="summonerRankedFlex">
-                        <div class="col-auto league-rank-img-container img-flexq">
-                            <img class="league-rank-img" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-{{ ranked_info.1.tier|lower }}.png" alt="SoloQ Tier">
-                        </div>
-                        <div class="col row">
-                            <div class="col d-flex flex-column">
-                                <h3>{{ ranked_info.1.tier }} {{ ranked_info.1.rank }}</h1>
-                                <small class="fw-light mb-2">Ranked Flex</small>
-                                <small class="fw-light">LP: {{ ranked_info.1.leaguePoints }}</small>
+                    {% if ranked_info.1.tier == 'unranked' %}
+                        <p class="fw-light pt-2 pb-3">Ranked Flex: <small>Unranked</small></p>
+                    {% else %}
+                        <div class="row pb-2" id="summonerRankedFlex">
+                            <div class="col-auto league-rank-img-container img-flexq">
+                                <img class="league-rank-img" src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-{{ ranked_info.1.tier|lower }}.png" alt="SoloQ Tier">
                             </div>
-                            <div class="col d-flex flex-column">
-                                <small class="fw-light">Wins: <span class="font-color-win">{{ ranked_info.1.wins }}</span></small>
-                                <small class="fw-light mb-2">Defeats: <span class="font-color-loss">{{ ranked_info.1.losses }}</span></small>
-                                <small class="fw-light">WR: {{ win_rate.1 }}%</small>
+                            <div class="col row">
+                                <div class="col d-flex flex-column">
+                                    <h3>{{ ranked_info.1.tier }} {{ ranked_info.1.rank }}</h1>
+                                    <small class="fw-light mb-2">Ranked Flex</small>
+                                    <small class="fw-light">LP: {{ ranked_info.1.leaguePoints }}</small>
+                                </div>
+                                <div class="col d-flex flex-column">
+                                    <small class="fw-light">Wins: <span class="font-color-win">{{ ranked_info.1.wins }}</span></small>
+                                    <small class="fw-light mb-2">Defeats: <span class="font-color-loss">{{ ranked_info.1.losses }}</span></small>
+                                    <small class="fw-light">WR: {{ win_rate.1 }}%</small>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
             <!-- Match History -->
