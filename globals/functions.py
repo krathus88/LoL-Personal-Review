@@ -27,7 +27,7 @@ def find_account_id(server, puuid):
 def find_ranked_data(server, summonerId):
 	api_url = os.getenv("API_URL").replace("[server]", dictionary.dict_server[server])
 	endpoint_url = os.getenv("SUMMONER_SEARCH").replace("[encryptedSummonerId]", summonerId)
-	api_result = requests.get(api_url + endpoint_url + '?api_ey=' + os.getenv("API_KEY"))
+	api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
 	if api_result.status_code == 200:
         # API call successful
 		return api_result.json()
