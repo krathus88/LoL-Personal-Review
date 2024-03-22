@@ -83,8 +83,13 @@
                 <div class="container-fluid rounded-4 pt-1 pb-2" id="matchHistoryContainer">
                     <p class="border-bottom ps-2 fw-light">Recent Games</p>
                     <div class="rounded-1 d-flex flex-column gap-1">
-                        <div class="container match rounded-1">Hello</div>
-                        <div class="container match rounded-1">Hello</div>
+                        <div class="container match rounded-1">
+                            <p>Hello</p>
+                            <p>{{ matches_data.0.info.participants.0.championName }}</p>
+                        </div>
+                        <div class="container match rounded-1">
+                            <p>{{ matches_data.1.info.participants.0.championName }}</p>
+                        </div>
                         <div class="container match rounded-1">Hello</div>
                     </div>
                 </div>

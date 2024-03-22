@@ -1,4 +1,6 @@
 import os
+import aiohttp
+import asyncio
 import requests
 from globals import dictionary
 
@@ -38,7 +40,6 @@ def find_ranked_data(server, summonerId):
 def find_match_history(startCount, numGames, puuid):
 	api_url = os.getenv("API_URL").replace("[server]", "europe")
 	endpoint_url = os.getenv("SUMMONER_MATCH_HISTORY_SEARCH").replace("[encryptedPUUID]", puuid).replace("[startCount]", startCount).replace("[numGames]", numGames)
-	print(api_url + endpoint_url + '&api_key=' + os.getenv("API_KEY"))
 	api_result = requests.get(api_url + endpoint_url + '&api_key=' + os.getenv("API_KEY"))
 	if api_result.status_code == 200:
         # API call successful
@@ -48,15 +49,13 @@ def find_match_history(startCount, numGames, puuid):
 		raise Exception(api_result.status_code)
 
 def find_match_data(matches):
-	match_data = []
+	urls = []
 	api_url = os.getenv("API_URL").replace("[server]", "europe")
 	for match in matches:
 		endpoint_url = os.getenv("SUMMONER_MATCH_SEARCH").replace("[match]", match)
-		print(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
-		api_result = requests.get(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
-		match_data.append(api_result)
+		urls.append(api_url + endpoint_url + '?api_key=' + os.getenv("API_KEY"))
 
-	return match_data
+	return asyncio.run(main(urls))
 
 
 def organize_summoner_data(region, summonerName, summonerTag, summonerLevel, summonerIcon):
@@ -79,7 +78,7 @@ def organize_summoner_ranked_data(summoner_list):
             flex_queue = input
     
     return [solo_queue, flex_queue]
-    
+
 def calculate_winrate(summoner_data):
 	wrSoloQ = None
 	wrFlexQ = None
@@ -106,3 +105,17 @@ def map_error_to_message(error):
 		504 : "Gateway timeout",
 	}
 	return "RIOT API Error: " + dict_of_errors[error].upper()
+
+async def get(url, session):
+    try:
+        async with session.get(url=url) as response:
+            if response.status == 200:
+                return await response.json()
+    except Exception as e:
+        print("Unable to get url {} due to {}.".format(url, e.__class__))
+
+
+async def main(urls):
+    async with aiohttp.ClientSession() as session:
+        ret = await asyncio.gather(*(get(url, session) for url in urls))
+    return ret
