@@ -32,11 +32,14 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
                 
                 apiRequestRankedData = functions.find_ranked_data(region, apiRequestAccountId["id"]) # API call
 
+            # Fetch Match History
             match_history = functions.find_match_history("0", "10", player.puuid)
             matches_data = functions.find_match_data(match_history)
-
+            
             organizedRankedData = functions.organize_summoner_ranked_data(apiRequestRankedData)
+            
             winRate = functions.calculate_winrate(organizedRankedData)
+            
             game_version = requests.get("https://ddragon.leagueoflegends.com/api/versions.json").json()[0]
             
             return render(request, "summoner.html", {'game_version': game_version, 'region': region, 'account_info': accountInfo, 'ranked_info': organizedRankedData, 'win_rate': winRate, 'matches_data': matches_data})
