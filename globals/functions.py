@@ -115,6 +115,7 @@ def filter_player_match_data(match_data, puuid):
     (by the given PUUID).
 
     Accepts multiple matches in a singe List."""
+
     player_data = []
     for match in match_data:
         for participant in match["info"]["participants"]:
@@ -123,9 +124,12 @@ def filter_player_match_data(match_data, puuid):
                     participant["totalMinionsKilled"]
                     + participant["neutralMinionsKilled"]
                 )
-                kill_participation = int(
-                    round(participant["challenges"]["killParticipation"] * 100)
-                )
+                kill_participation = calculate_kp(match,participant["teamId"],
+                                                  participant["kills"],participant["assists"])
+                kda = calculate_kda(participant)
+
+                print(kda)
+                print(kill_participation)
 
                 player_data.append(
                     {
@@ -136,6 +140,7 @@ def filter_player_match_data(match_data, puuid):
                         "deaths": participant["deaths"],
                         "assists": participant["assists"],
                         "killParticipation": kill_participation,
+                        "kda": kda,
                         "cs": cs,
                         "summoner1Id": participant["summoner1Id"],
                         "summoner2Id": participant["summoner2Id"],
@@ -180,6 +185,38 @@ def organize_summoner_ranked_data(summoner_list):
 
     return [solo_queue, flex_queue]
 
+def calculate_kp(match, player_team, player_kills, player_assists):
+    """returns an int
+    
+    Calculates the KP based on the player team kill divided
+    by the player assists and kills and tranformed to %"""
+
+    if player_kills + player_assists == 0:
+        return 0
+    
+    team_kills = 0
+
+    for participant in match["info"]["participants"]:
+        if(participant["teamId"]==player_team):
+            team_kills = team_kills + participant["kills"]
+
+    return int(((player_kills+player_assists)/team_kills)*100)
+
+def calculate_kda(participant_data):
+    """returns a float, KDA
+    
+    Calculates the KDA base on the info in the participant kills, deaths and assists """
+
+    kills=participant_data["kills"]
+    deaths=participant_data["deaths"]
+    assists=participant_data["assists"]
+    
+    if deaths != 0:
+        kda= int((kills+assists)/deaths)
+    else:
+        kda = "Perfect"
+    
+    return kda
 
 def calculate_winrate(ranked_data):
     """Returns a List, [SoloQ, FlexQ]
