@@ -111,10 +111,16 @@ main .profile-icon {
     position: relative;
 }
 
-.match-history-icon {
+.match-history-player-icon {
     object-fit: fill;
     height: 100%;
     width: 100%;
+}
+
+.match-history-team-icon {
+    width: 28px;
+    height: 28px;
+    z-index: 10000;
 }
 
 .match-history-level {
@@ -130,4 +136,17 @@ main .profile-icon {
     display: flex; /* Add flexbox to center text */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
+}
+
+#matchHistoryContainer .container {
+    height: 72px;
+}
+
+.btn-review {
+    padding-top: 0 !important;
+    padding-bottom: 2px !important;
+}
+
+.match-history-options {
+    height: 72px;
 }
