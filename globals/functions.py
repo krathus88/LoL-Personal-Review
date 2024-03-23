@@ -91,9 +91,11 @@ def find_match_history(start_count, num_games, puuid):
 
 
 def find_match_data_general(matches):
-    """Returns a dictionary of dictionaries
+    """Returns a List of Dictionaries
 
-    Provides GENERAL information about a given match for all players."""
+    Provides GENERAL information about a given match for all players.
+
+    Accepts multiple matches in a singe List."""
 
     urls = []
     api_url = os.getenv("API_URL").replace("[server]", "europe")
@@ -104,6 +106,44 @@ def find_match_data_general(matches):
         urls.append(api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY"))
 
     return asyncio.run(main(urls))
+
+
+def filter_player_match_data(match_data, puuid):
+    """Returns a List of Dictionaries
+
+    Provides GENERAL information about a given match for the player
+    (by the given PUUID).
+
+    Accepts multiple matches in a singe List."""
+    player_data = []
+    for match in match_data:
+        for participant in match["info"]["participants"]:
+            if participant["puuid"] == puuid:
+                cs = (
+                    participant["totalMinionsKilled"]
+                    + participant["neutralMinionsKilled"]
+                )
+                kill_participation = int(
+                    round(participant["challenges"]["killParticipation"] * 100)
+                )
+
+                player_data.append(
+                    {
+                        "puuid": participant["puuid"],
+                        "championId": participant["championId"],
+                        "level": participant["champLevel"],
+                        "kills": participant["kills"],
+                        "deaths": participant["deaths"],
+                        "assists": participant["assists"],
+                        "killParticipation": kill_participation,
+                        "cs": cs,
+                        "summoner1Id": participant["summoner1Id"],
+                        "summoner2Id": participant["summoner2Id"],
+                        "win": participant["win"],  # bool
+                    }
+                )
+
+    return player_data
 
 
 def organize_summoner_data(

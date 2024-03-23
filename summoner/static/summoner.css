@@ -27,13 +27,6 @@
     margin-bottom: 0.5rem;
 }
 
-
-
-#matchHistoryContainer .gap-1 .container {
-    background-color: red;
-}
-
-
 main .league-rank-img-container {
     overflow: hidden; /* Ensure the clipped portion is hidden */
     display: flex; /* Use flexbox for centering */
@@ -91,4 +84,50 @@ main .profile-icon {
 
 #summonerRankedSoloQ .win-rate {
     font-size: 13px;
+}
+
+.decoration {
+    width: 6px;
+    height: 100%;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+}
+
+.decoration-win {
+    background-color: #2DEB90;
+}
+
+.decoration-defeat {
+    background-color: #e84057;
+}
+
+.match-history-container {
+    width: 64px;
+    height: 64px;
+    position: relative;
+}
+
+.match-history-icon {
+    object-fit: fill;
+    height: 100%;
+    width: 100%;
+}
+
+.match-history-level {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 24px; /* Set the width */
+    height: 24px; /* Set the height */
+    margin: 0;
+    background-color: #28344e; /* Add background color for better visibility */
+    color: white; /* Set text color */
+    border-radius: 50%; /* Make it round */
+    display: flex; /* Add flexbox to center text */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
 }

@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.shortcuts import render
 from .models import Player, PlayerAdditionalInfo
 from globals import functions, dictionary
 import requests
@@ -10,13 +9,13 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
     try:
         if region and summoner_name and summoner_tag:
             player = Player.find_db(region, summoner_name, summoner_tag)  # DB table 1
-            account_info = None
+            summoner_info = None
             if player:  # if player found in db
                 player_additional_info = PlayerAdditionalInfo.find_db(
                     player.id
                 )  # DB table 2
 
-                account_info = functions.organize_summoner_data(
+                summoner_info = functions.organize_summoner_data(
                     player.server,
                     player.summoner_name,
                     player.summoner_tag,
@@ -33,41 +32,42 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
                 )  # Matches DB table 1
                 print("api_request_account:", api_request_account)
 
-                api_request_account_id = functions.find_summoner(
+                api_request_summoner = functions.find_summoner(
                     region, api_request_account["puuid"]
                 )  # Matches DB table 2
-                print("api_request_account_id:", api_request_account_id)
+                print("api_request_summoner:", api_request_summoner)
 
-                # Add Player to DB
                 Player.add_to_db(
                     api_request_account["puuid"],
                     region,
                     api_request_account["gameName"],
                     api_request_account["tagLine"],
-                    api_request_account_id,
+                    api_request_summoner,
                 )
 
-                # Organize Data
-                account_info = functions.organize_summoner_data(
+                summoner_info = functions.organize_summoner_data(
                     region,
                     api_request_account["gameName"],
                     api_request_account["tagLine"],
-                    api_request_account_id["summonerLevel"],
-                    api_request_account_id["profileIconId"],
+                    api_request_summoner["summonerLevel"],
+                    api_request_summoner["profileIconId"],
                 )
 
                 api_request_ranked_data = functions.find_ranked_data(
-                    region, api_request_account_id["id"]
-                )  # API call
-
-            # Fetch Match History
-            match_history = functions.find_match_history("0", "10", player.puuid)
-            matches_data = functions.find_match_data_general(match_history)
+                    region, api_request_summoner["id"]
+                )
 
             organized_ranked_data = functions.organize_summoner_ranked_data(
                 api_request_ranked_data
             )
 
+            # Fetch Match History
+            match_history = functions.find_match_history("0", "10", player.puuid)
+            matches_data = functions.find_match_data_general(match_history)
+            player_match_data = functions.filter_player_match_data(
+                matches_data, player.puuid
+            )
+            print(player_match_data)
             win_rate = functions.calculate_winrate(organized_ranked_data)
 
             game_version = requests.get(
@@ -80,17 +80,14 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
                 {
                     "game_version": game_version,
                     "region": region,
-                    "account_info": account_info,
+                    "summoner_info": summoner_info,
                     "ranked_info": organized_ranked_data,
                     "win_rate": win_rate,
-                    "matches_data": matches_data,
+                    "matches_data": zip(player_match_data, matches_data),
                 },
             )
 
     except Exception as e:
-        if int(e.args[0]) == 404:  # summoner not found
-            return JsonResponse({"message": "No results found"})
-
         return render(
             request,
             "error.html",
