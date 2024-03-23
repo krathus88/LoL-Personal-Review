@@ -17,6 +17,14 @@ body {
     color: #2DEB90;
 }
 
-.font-color-loss {
+.font-color-defeat {
     color: #ff5859;
+}
+
+.background-win {
+    background-color: #28344e;
+}
+
+.background-defeat {
+    background-color: #59343b;
 }

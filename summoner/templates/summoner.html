@@ -7,19 +7,19 @@
         <!-- Summoner Header -->
         <div class="container row align-items-center mb-3 py-2 rounded-3" id="summonerHeader">
             <div class="col-auto">
-                <img class="profile-icon rounded-3" src="https://ddragon.leagueoflegends.com/cdn/{{ game_version }}/img/profileicon/{{ account_info.iconId }}.png" />
+                <img class="profile-icon rounded-3" src="https://ddragon.leagueoflegends.com/cdn/{{ game_version }}/img/profileicon/{{ summoner_info.iconId }}.png" />
             </div>
             <div class="col">
                 <h4>
                     {% if ranked_info.0.tier == 'unranked' and ranked_info.1.tier == 'unranked' %}
-                        {{ account_info.name }}#{{ account_info.tag }} ({{ region }})
+                        {{ summoner_info.name }}#{{ summoner_info.tag }} ({{ region }})
                     {% elif ranked_info.0.tier == 'unranked' %}
-                        {{ ranked_info.1.summonerName }}#{{ account_info.tag }} ({{ region }})
+                        {{ ranked_info.1.summonerName }}#{{ summoner_info.tag }} ({{ region }})
                     {% else %}
-                        {{ ranked_info.0.summonerName }}#{{ account_info.tag }} ({{ region }})
+                        {{ ranked_info.0.summonerName }}#{{ summoner_info.tag }} ({{ region }})
                     {% endif %}
                 </h4>
-                <small>Level: {{ account_info.level }}</small>
+                <small>Level: {{ summoner_info.level }}</small>
             </div>
             <div class="col ms-auto text-end">
                 <button type="button" class="btn btn-warning">
@@ -33,7 +33,7 @@
         </div>
         <div class="row">
             <!-- Summoner Personal Rating-->
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <div class="container-fluid rounded-4" id="personalInfoContainer">
                     <p class="border-bottom pt-1 ps-2 fw-light">Personal Ratings</p>
                     <!-- Solo Queue -->
@@ -48,7 +48,7 @@
                                 <h3>{{ ranked_info.0.tier }} {{ ranked_info.0.rank }} </h3>
                                 <small class="fw-light mb-3">Soloqueue</small>
                                 <small class="fw-light">LP: {{ ranked_info.0.leaguePoints }}</small>
-                                <small class="fw-light mb-1">Wins: <span class="font-color-win">{{ ranked_info.0.wins }}</span> - Defeats: <span class="font-color-loss">{{ ranked_info.0.losses }}</span></small>
+                                <small class="fw-light mb-1">Wins: <span class="font-color-win">{{ ranked_info.0.wins }}</span> - Defeats: <span class="font-color-defeat">{{ ranked_info.0.losses }}</span></small>
                                 <small class="fw-light win-rate">WR: {{ win_rate.0 }}%</small>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col d-flex flex-column">
                                     <small class="fw-light">Wins: <span class="font-color-win">{{ ranked_info.1.wins }}</span></small>
-                                    <small class="fw-light mb-2">Defeats: <span class="font-color-loss">{{ ranked_info.1.losses }}</span></small>
+                                    <small class="fw-light mb-2">Defeats: <span class="font-color-defeat">{{ ranked_info.1.losses }}</span></small>
                                     <small class="fw-light">WR: {{ win_rate.1 }}%</small>
                                 </div>
                             </div>
@@ -82,24 +82,39 @@
             <div class="col-md-8">
                 <div class="container-fluid rounded-4 pt-1 pb-2" id="matchHistoryContainer">
                     <p class="border-bottom ps-2 fw-light">Recent Games</p>
-                    <div class="rounded-1 d-flex flex-column gap-1">
-                        <div class="container match rounded-1">
-                            <div class="row">
+                    <div class="rounded-1 d-flex flex-column gap-2">
+                        <!-- Match -->
+                        {% for player_match_data, match_data in matches_data %}
+                        <div class="container match position-relative rounded-1 {% if player_match_data.win %}background-win{% else %}background-defeat{% endif %}">
+                            <div class="decoration {% if player_match_data.win %}decoration-win{% else %}decoration-defeat{% endif %}"></div>
+                            <div class="row align-items-center">
                                 <div class="col">
-                                    <p>{{ matches_data.0.info.participants.0.championName }}</p>
+                                    <div class="match-history-container text-center">
+                                        <img class="match-history-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ player_match_data.championId }}.png" />
+                                        <p class="match-history-level">{{ player_match_data.level }}</p>
+                                    </div>
                                 </div>
                                 <div class="col">
-                                    <p>KDA + CS + KP%</p>
+                                    <small class="font-color-defeat">Kill P. {{ player_match_data.killParticipation }}%</small>
+                                    <p class="fw-bolder m-0">{{ player_match_data.kills }} / <span class="font-color-defeat">{{ player_match_data.deaths }}</span> / {{ player_match_data.assists }}</p>
+                                    <small class="fw-light">CS: {{ player_match_data.cs }}</small>
                                 </div>
                                 <div class="col">
-                                    <p>All player champs + potentially names</p>
+                                    {% for participant in match.info.participants %}
+                                        {% if participant.teamId == 100 %}
+                                        <div class="TeamLine">
+                                            Hello
+                                        </div>
+                                        {% else %}
+                                        <div class="TeamLine">
+                                            Bye
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
-                        <div class="container match rounded-1">
-                            <p>{{ matches_data.1.info.participants.0.championName }}</p>
-                        </div>
-                        <div class="container match rounded-1">Hello</div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
