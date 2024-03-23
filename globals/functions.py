@@ -195,7 +195,7 @@ def calculate_winrate(ranked_data):
             / (ranked_data[0]["wins"] + ranked_data[0]["losses"])
             * 100
         )
-    if not ranked_data[0]["tier"] == "unranked":
+    if not ranked_data[1]["tier"] == "unranked":
         wr_flex_q = round(
             ranked_data[1]["wins"]
             / (ranked_data[1]["wins"] + ranked_data[1]["losses"])

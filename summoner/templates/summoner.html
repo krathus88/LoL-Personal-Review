@@ -38,7 +38,7 @@
                     <p class="border-bottom pt-1 ps-2 fw-light">Personal Ratings</p>
                     <!-- Solo Queue -->
                     {% if ranked_info.0.tier == 'unranked' %}
-                        <p class="fw-light">Ranked Solo: <small>Unranked</small></p>
+                        <p class="ps-3 fw-light">Ranked Solo: <small>Unranked</small></p>
                     {% else %}
                         <div class="row" id="summonerRankedSoloQ">
                             <div class="col-auto league-rank-img-container img-soloq">
@@ -56,7 +56,7 @@
                     <hr>
                     <!-- Flex Queue -->
                     {% if ranked_info.1.tier == 'unranked' %}
-                        <p class="fw-light pt-2 pb-3">Ranked Flex: <small>Unranked</small></p>
+                        <p class="fw-light ps-3 pt-2 pb-3">Ranked Flex: <small>Unranked</small></p>
                     {% else %}
                         <div class="row pb-2" id="summonerRankedFlex">
                             <div class="col-auto league-rank-img-container img-flexq">
@@ -90,7 +90,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="match-history-container text-center">
-                                        <img class="match-history-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ player_match_data.championId }}.png" />
+                                        <img class="match-history-player-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ player_match_data.championId }}.png" />
                                         <p class="match-history-level">{{ player_match_data.level }}</p>
                                     </div>
                                 </div>
@@ -99,18 +99,34 @@
                                     <p class="fw-bolder m-0">{{ player_match_data.kills }} / <span class="font-color-defeat">{{ player_match_data.deaths }}</span> / {{ player_match_data.assists }}</p>
                                     <small class="fw-light">CS: {{ player_match_data.cs }}</small>
                                 </div>
-                                <div class="col">
-                                    {% for participant in match.info.participants %}
-                                        {% if participant.teamId == 100 %}
-                                        <div class="TeamLine">
-                                            Hello
-                                        </div>
-                                        {% else %}
-                                        <div class="TeamLine">
-                                            Bye
-                                        </div>
-                                        {% endif %}
-                                    {% endfor %}
+                                <div class="col-auto">
+                                    <div>
+                                        <img class="match-history-team-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.0.championId }}.png" />
+                                        <img class="match-history-team-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.1.championId }}.png" />
+                                        <img class="match-history-team-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.2.championId }}.png" />
+                                        <img class="match-history-team-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.3.championId }}.png" />
+                                        <img class="match-history-team-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.4.championId }}.png" />
+                                    </div>
+                                    <div>
+                                        <img class="match-history-team-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.5.championId }}.png" />
+                                        <img class="match-history-team-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.6.championId }}.png" />
+                                        <img class="match-history-team-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.7.championId }}.png" />
+                                        <img class="match-history-team-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.8.championId }}.png" />
+                                        <img class="match-history-team-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.9.championId }}.png" />
+                                    </div>
+                                </div>
+                                <div class="col-auto d-flex flex-column pe-0 match-history-options">
+                                    <button type="button" class="btn btn-secondary btn-review">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+                                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+                                        </svg>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary mt-auto">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down" viewBox="0 0 16 16">
+                                            <path d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"/>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
