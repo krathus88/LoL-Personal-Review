@@ -120,7 +120,25 @@ main .profile-icon {
 .match-history-team-icon {
     width: 28px;
     height: 28px;
-    z-index: 10000;
+    object-fit: cover;
+}
+
+.match-history-rune-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px; /* Set the width */
+    height: 24px; /* Set the height */
+    background-color: black; /* Add background color for better visibility */
+    border-radius: 50%; /* Make it round */
+    display: flex; /* Add flexbox to center text */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.match-history-rune {
+    width: 100%;
+    height: auto;
 }
 
 .match-history-level {
@@ -150,3 +168,10 @@ main .profile-icon {
 .match-history-options {
     height: 72px;
 }
+
+.match-history-sum-spell {
+    height: 32px;
+    width: 32px;
+    object-fit: cover;
+}
+
