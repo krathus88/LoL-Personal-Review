@@ -62,7 +62,7 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
             )
 
             # Fetch Match History
-            match_history = functions.find_match_history("0", "1", player.puuid)
+            match_history = functions.find_match_history("0", "10", player.puuid)
             matches_data = functions.find_match_data_general(match_history)
             player_match_data = functions.filter_player_match_data(
                 matches_data, player.puuid
