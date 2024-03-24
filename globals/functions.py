@@ -75,11 +75,9 @@ def find_match_history(start_count, num_games, puuid):
 
     api_url = os.getenv("API_URL").replace("[server]", "europe")
     endpoint_url = (
-        os.getenv("SUMMONER_MATCH_HISTORY_SEARCH")
-        .replace("[encryptedPUUID]", puuid)
-        .replace("[startCount]", start_count)
-        .replace("[numGames]", num_games)
-    )
+        os.getenv("SUMMONER_MATCH_HISTORY_SEARCH").replace("[encryptedPUUID]", puuid)
+    ) + f"?start={start_count}&count={num_games}"
+
     api_result = requests.get(
         api_url + endpoint_url + "&api_key=" + os.getenv("API_KEY")
     )
@@ -122,12 +120,15 @@ def filter_player_match_data(match_data, puuid):
     print(len(match_data))
     for match in match_data:
         print(type(match))
-        if(match == None):
+        if match == None:
             continue
         for participant in match["info"]["participants"]:
             if participant["puuid"] == puuid:
                 # Calculates game duration
-                game_duration = (match["info"]["gameEndTimestamp"] - match["info"]["gameStartTimestamp"]) / 1000  # Timestamp is in milliseconds 
+                game_duration = (
+                    match["info"]["gameEndTimestamp"]
+                    - match["info"]["gameStartTimestamp"]
+                ) / 1000  # Timestamp is in milliseconds
                 minutes = int(game_duration // 60)
                 seconds = int(game_duration % 60)
 
@@ -136,18 +137,29 @@ def filter_player_match_data(match_data, puuid):
                         "puuid": participant["puuid"],
                         "gameMode": dictionary.dict_queue_id[match["info"]["queueId"]],
                         "gameDuration": f"{minutes}m {seconds}s",
-                        "timeSinceGameEnd": time_elapsed(match["info"]["gameEndTimestamp"]),
+                        "timeSinceGameEnd": time_elapsed(
+                            match["info"]["gameEndTimestamp"]
+                        ),
                         "championId": participant["championId"],
                         "level": participant["champLevel"],
                         "kills": participant["kills"],
                         "deaths": participant["deaths"],
                         "assists": participant["assists"],
-                        "killParticipation": calculate_kp(match,participant["teamId"],
-                                             participant["kills"],participant["assists"]),
+                        "killParticipation": calculate_kp(
+                            match,
+                            participant["teamId"],
+                            participant["kills"],
+                            participant["assists"],
+                        ),
                         "kda": calculate_kda(participant),
-                        "cs": participant["totalMinionsKilled"] + participant["neutralMinionsKilled"],
-                        "summoner1Id": dictionary.dict_summoner_spells[participant["summoner1Id"]],
-                        "summoner2Id": dictionary.dict_summoner_spells[participant["summoner2Id"]],
+                        "cs": participant["totalMinionsKilled"]
+                        + participant["neutralMinionsKilled"],
+                        "summoner1Id": dictionary.dict_summoner_spells[
+                            participant["summoner1Id"]
+                        ],
+                        "summoner2Id": dictionary.dict_summoner_spells[
+                            participant["summoner2Id"]
+                        ],
                         "primaryRune": participant["perks"]["styles"][0]["style"],
                         "win": participant["win"],  # bool
                     }
@@ -155,9 +167,10 @@ def filter_player_match_data(match_data, puuid):
 
     return player_data
 
+
 def time_elapsed(game_end_timestamp):
     """Returns a String
-    
+
     Calculates time elapsed since the match was played until today.
 
     Only accepts UNIX timestamps in miliseconds"""
@@ -202,9 +215,10 @@ def organize_summoner_data(
         "iconId": summoner_icon,
     }
 
+
 def time_elapsed(game_end_timestamp):
     """Returns a String
-    
+
     Calculates time elapsed since the match was played until today.
 
     Only accepts UNIX timestamps in miliseconds"""
@@ -250,38 +264,40 @@ def organize_summoner_ranked_data(summoner_list):
 
     return [solo_queue, flex_queue]
 
+
 def calculate_kp(match, player_team, player_kills, player_assists):
-    """returns an int
-    
-    Calculates the KP based on the player team kill divided
-    by the player assists and kills and tranformed to %"""
+    """Returns an Int
+
+    Calculates the Kill Participation and tranformes to %"""
 
     if player_kills + player_assists == 0:
         return 0
-    
+
     team_kills = 0
 
     for participant in match["info"]["participants"]:
-        if(participant["teamId"]==player_team):
+        if participant["teamId"] == player_team:
             team_kills = team_kills + participant["kills"]
 
-    return int(((player_kills+player_assists)/team_kills)*100)
+    return int(((player_kills + player_assists) / team_kills) * 100)
+
 
 def calculate_kda(participant_data):
-    """returns a float, KDA
-    
-    Calculates the KDA base on the info in the participant kills, deaths and assists """
+    """Returns a Float
 
-    kills=participant_data["kills"]
-    deaths=participant_data["deaths"]
-    assists=participant_data["assists"]
-    
+    Calculates the KDA base on the info of the player kills, deaths and assists"""
+
+    kills = participant_data["kills"]
+    deaths = participant_data["deaths"]
+    assists = participant_data["assists"]
+
     if deaths != 0:
-        kda= int((kills+assists)/deaths)
+        kda = int((kills + assists) / deaths)
     else:
         kda = "Perfect"
-    
+
     return kda
+
 
 def calculate_winrate(ranked_data):
     """Returns a List, [SoloQ, FlexQ]
