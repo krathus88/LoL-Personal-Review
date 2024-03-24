@@ -117,19 +117,18 @@ def filter_player_match_data(match_data, puuid):
     Accepts multiple matches in a singe List."""
 
     player_data = []
+    print("AAAAAAAAAAAAAAAAA")
+    print(len(match_data))
     for match in match_data:
+        print(type(match))
+        if(match == None):
+            continue
         for participant in match["info"]["participants"]:
             if participant["puuid"] == puuid:
                 cs = (
                     participant["totalMinionsKilled"]
                     + participant["neutralMinionsKilled"]
                 )
-                kill_participation = calculate_kp(match,participant["teamId"],
-                                                  participant["kills"],participant["assists"])
-                kda = calculate_kda(participant)
-
-                print(kda)
-                print(kill_participation)
 
                 player_data.append(
                     {
@@ -139,8 +138,9 @@ def filter_player_match_data(match_data, puuid):
                         "kills": participant["kills"],
                         "deaths": participant["deaths"],
                         "assists": participant["assists"],
-                        "killParticipation": kill_participation,
-                        "kda": kda,
+                        "killParticipation": calculate_kp(match,participant["teamId"],
+                                             participant["kills"],participant["assists"]),
+                        "kda": calculate_kda(participant),
                         "cs": cs,
                         "summoner1Id": participant["summoner1Id"],
                         "summoner2Id": participant["summoner2Id"],
