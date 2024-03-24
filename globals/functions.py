@@ -116,10 +116,7 @@ def filter_player_match_data(match_data, puuid):
     Accepts multiple matches in a singe List."""
 
     player_data = []
-    print("AAAAAAAAAAAAAAAAA")
-    print(len(match_data))
     for match in match_data:
-        print(type(match))
         if match == None:
             continue
         for participant in match["info"]["participants"]:
