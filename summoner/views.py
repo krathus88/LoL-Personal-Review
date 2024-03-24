@@ -67,7 +67,6 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
             player_match_data = functions.filter_player_match_data(
                 matches_data, player.puuid
             )
-            print(player_match_data)
             win_rate = functions.calculate_winrate(organized_ranked_data)
 
             game_version = requests.get(
