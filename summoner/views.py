@@ -37,7 +37,7 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
                 )  # Matches DB table 2
                 print("api_request_summoner:", api_request_summoner)
 
-                Player.add_to_db(
+                player = Player.add_to_db(
                     api_request_account["puuid"],
                     region,
                     api_request_account["gameName"],

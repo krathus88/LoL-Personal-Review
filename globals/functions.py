@@ -2,6 +2,7 @@ import os
 import aiohttp
 import asyncio
 import requests
+from datetime import datetime
 from globals import dictionary
 
 
@@ -125,14 +126,17 @@ def filter_player_match_data(match_data, puuid):
             continue
         for participant in match["info"]["participants"]:
             if participant["puuid"] == puuid:
-                cs = (
-                    participant["totalMinionsKilled"]
-                    + participant["neutralMinionsKilled"]
-                )
+                # Calculates game duration
+                game_duration = (match["info"]["gameEndTimestamp"] - match["info"]["gameStartTimestamp"]) / 1000  # Timestamp is in milliseconds 
+                minutes = int(game_duration // 60)
+                seconds = int(game_duration % 60)
 
                 player_data.append(
                     {
                         "puuid": participant["puuid"],
+                        "gameMode": dictionary.dict_queue_id[match["info"]["queueId"]],
+                        "gameDuration": f"{minutes}m {seconds}s",
+                        "timeSinceGameEnd": time_elapsed(match["info"]["gameEndTimestamp"]),
                         "championId": participant["championId"],
                         "level": participant["champLevel"],
                         "kills": participant["kills"],
@@ -141,14 +145,45 @@ def filter_player_match_data(match_data, puuid):
                         "killParticipation": calculate_kp(match,participant["teamId"],
                                              participant["kills"],participant["assists"]),
                         "kda": calculate_kda(participant),
-                        "cs": cs,
-                        "summoner1Id": participant["summoner1Id"],
-                        "summoner2Id": participant["summoner2Id"],
+                        "cs": participant["totalMinionsKilled"] + participant["neutralMinionsKilled"],
+                        "summoner1Id": dictionary.dict_summoner_spells[participant["summoner1Id"]],
+                        "summoner2Id": dictionary.dict_summoner_spells[participant["summoner2Id"]],
+                        "primaryRune": participant["perks"]["styles"][0]["style"],
                         "win": participant["win"],  # bool
                     }
                 )
 
     return player_data
+
+def time_elapsed(game_end_timestamp):
+    """Returns a String
+    
+    Calculates time elapsed since the match was played until today.
+
+    Only accepts UNIX timestamps in miliseconds"""
+    match_end_time = datetime.fromtimestamp(game_end_timestamp / 1000)
+
+    # Get current time
+    current_time = datetime.now()
+
+    # Calculate time difference
+    time_difference = current_time - match_end_time
+
+    # Calculate time difference in terms of months, days, hours, and minutes
+    months = time_difference.days // 30
+    days = time_difference.days % 30
+    hours = time_difference.seconds // 3600
+    minutes = (time_difference.seconds % 3600) // 60
+
+    # Determine the highest time unit
+    if months > 0:
+        return f"{months} months"
+    elif days > 0:
+        return f"{days} days"
+    elif hours > 0:
+        return f"{hours} hours"
+    else:
+        return f"{minutes} minutes"
 
 
 def organize_summoner_data(
@@ -166,6 +201,36 @@ def organize_summoner_data(
         "level": summoner_level,
         "iconId": summoner_icon,
     }
+
+def time_elapsed(game_end_timestamp):
+    """Returns a String
+    
+    Calculates time elapsed since the match was played until today.
+
+    Only accepts UNIX timestamps in miliseconds"""
+    match_end_time = datetime.fromtimestamp(game_end_timestamp / 1000)
+
+    # Get current time
+    current_time = datetime.now()
+
+    # Calculate time difference
+    time_difference = current_time - match_end_time
+
+    # Calculate time difference in terms of months, days, hours, and minutes
+    months = time_difference.days // 30
+    days = time_difference.days % 30
+    hours = time_difference.seconds // 3600
+    minutes = (time_difference.seconds % 3600) // 60
+
+    # Determine the highest time unit
+    if months > 0:
+        return f"{months} months"
+    elif days > 0:
+        return f"{days} days"
+    elif hours > 0:
+        return f"{hours} hours"
+    else:
+        return f"{minutes} minutes"
 
 
 def organize_summoner_ranked_data(summoner_list):
@@ -232,7 +297,7 @@ def calculate_winrate(ranked_data):
             / (ranked_data[0]["wins"] + ranked_data[0]["losses"])
             * 100
         )
-    if not ranked_data[0]["tier"] == "unranked":
+    if not ranked_data[1]["tier"] == "unranked":
         wr_flex_q = round(
             ranked_data[1]["wins"]
             / (ranked_data[1]["wins"] + ranked_data[1]["losses"])
