@@ -2,9 +2,9 @@
 
 #summonerHeader {
     background-color: #31313c;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: 0 !important;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
     height: 80px;
 }
 
@@ -100,10 +100,28 @@
 /* .match */
 #matchHistoryContainer .match {
     height: 80px;
+    padding-left: 0.75rem;
+}
+
+#matchHistoryContainer .match > small {
+    display: none;
+    font-size: 11px;
+    padding-bottom: 0.1rem;
+    border-bottom-color: inherit !important;
+    width: 70%;
 }
 
 #matchHistoryContainer .match small {
     font-size: 13px;
+}
+
+#matchHistoryContainer .match > div {
+    width: inherit;
+    height: inherit;
+}
+
+#matchHistoryContainer .match > div > div {
+    margin-right: 1rem;
 }
 
 #matchHistoryContainer .match .decoration {
@@ -117,19 +135,9 @@
     border-bottom-left-radius: inherit;
 }
 
-#matchHistoryContainer .match > .flex-row {
-    width: inherit !important;
-    height: inherit;
-}
-
-#matchHistoryContainer .match > div > div {
-    padding-left: 0 !important;
-    padding-right: 1rem;
-}
-
 /* .match-info */
 #matchHistoryContainer .match-info {
-    max-width: 115px;
+    width: 100px;
 }
 
 #matchHistoryContainer .match-info p {
@@ -141,19 +149,13 @@
 #matchHistoryContainer .match-info > hr {
     margin-top: 0.1rem; 
     margin-bottom: 0.1rem;
-    width: 85%;
+    width: 75%;
 }
 
 /* .match-player-champ */
-#matchHistoryContainer .match > small {
-    display: none;
-    font-size: 11px;
-    padding-bottom: 0.1rem;
-}
-
 #matchHistoryContainer .match-player-champ-info {
-    width: 58px;
-    height: 58px;
+    width: 64px;
+    height: 64px;
     position: relative;
 }
 
@@ -161,13 +163,13 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 24px; /* Set the width */
-    height: 24px; /* Set the height */
-    background-color: black; /* Add background color for better visibility */
-    border-radius: 50%; /* Make it round */
-    display: flex; /* Add flexbox to center text */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    width: 24px; 
+    height: 24px; 
+    background-color: black; 
+    border-radius: 50%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
 }
 
 #matchHistoryContainer .match-player-champ-rune {
@@ -185,20 +187,20 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 24px; /* Set the width */
-    height: 24px; /* Set the height */
+    width: 24px; 
+    height: 24px; 
     margin: 0;
-    background-color: #28344e; /* Add background color for better visibility */
-    color: white; /* Set text color */
-    border-radius: 50%; /* Make it round */
-    display: flex; /* Add flexbox to center text */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    background-color: #28344e; 
+    color: white;
+    border-radius: 50%; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
 }
 
 #matchHistoryContainer .match-player-champ-sum-spell {
-    height: 28px;
-    width: 28px;
+    height: 30px;
+    width: 30px;
     object-fit: cover;
 }
 
@@ -207,50 +209,46 @@
 
 /* .match-player-items */
 #matchHistoryContainer .match-player-item-container {
-    width: 28px; /* Set the width */
-    height: 28px; /* Set the height */
-    background-color: #31313c; /* Add background color for better visibility */
-    display: flex; /* Add flexbox to center text */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-}
-
-.btn-review {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.btn-overview {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    width: 32px;
+    height: 32px;
+    background-color: #31313c; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
 }
 
 /* .match-team-comp */
 #matchHistoryContainer .match-team-comp-icon {
-    padding: 0 !important;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
     object-fit: cover;
 }
 
-#matchHistoryContainer .match .match-player-analysis > small {
-    background-color: lightcoral;
-    padding-bottom: 0.1rem;
-    
-}
-
-/* .match-player-analysis-small */
-#matchHistoryContainer .match .match-player-analysis-small {
-    margin-right: 2.5rem;
+/* .match-player-analysis */
+#matchHistoryContainer .match-player-analysis {
+    height: 46.2px;
+    margin-right: 2.5rem !important;
+    position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
 }
 
-#matchHistoryContainer .match .match-player-analysis-small > small {
+#matchHistoryContainer .match-player-analysis-text-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden; /* Hide overflow */
+}
+
+#matchHistoryContainer .match-player-analysis-text-container small {
     background-color: lightcoral;
     padding-bottom: 0.1rem;
-    width: fit-content;
+    overflow: hidden; /* Hide overflow */
+    width: max-content;
 }
 
 /* .match-buttons */
@@ -261,16 +259,22 @@
 #matchHistoryContainer .btn-review {
     height: 24px;
     width: 85px;
+    position: absolute;
+    top: 0;
+    right: 0;
     padding: 0;
 }
 
 #matchHistoryContainer .btn-review svg {
-    margin-top: 2px !important;
+    margin-top: 2px;
 }
 
 #matchHistoryContainer .btn-overview {
     height: 36px;
     width: 36px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     padding: 0;
 }
 
@@ -286,80 +290,126 @@
     background-color: #ffc107c7;
 }
 
-#matchHistoryContainer .match .match-player-analysis-small {
-    display: flex;
-    flex-direction: column;
-}
+@media (max-width: 1499px) {
+    #matchHistoryContainer .match > div > div {
+        margin-right: 0.5rem;
+    }
 
-@media (min-width: 992px) and (max-width: 1399px) {
-    #personalInfoContainer {
-        max-width: 350px;
+    #matchHistoryContainer .match-info {
+        margin-right: 0 !important;
+    }
+
+    #matchHistoryContainer .match-player-champ-info {
+        width: 60px;
+        height: 60px;
+    }
+    
+    #matchHistoryContainer .match-player-champ-sum-spell {
+        height: 28px;
+        width: 28px;
+    }
+    
+    #matchHistoryContainer .match-player-item-container {
+        width: 30px;
+        height: 30px;
+    }
+    
+    #matchHistoryContainer .match-team-comp-icon {
+        width: 30px;
+        height: 30px;
     }
 }
 
-@media (min-width: 992px) and (max-width: 1199px) {
-
+@media (max-width: 1499px) and (min-width: 1400px) {
+    #matchHistoryContainer .match-player-analysis {
+        margin-top: 1.75rem;
+        height: calc(100% - 1.75rem);
+    }
 }
 
 @media (max-width: 1399px) {
-    #matchHistoryContainer .match > div > div {
-        padding-left: 0 !important;
-        padding-right: 0.5rem;
-    }
-
     #matchHistoryContainer .match > small {
         display: block;
-        width: 75%;
-        border-bottom-color: inherit !important;
     }
 
     #matchHistoryContainer .match-info {
         display: none !important;
     }
 
-    #matchHistoryContainer .btn-review span {
-        display: none;
-    } 
+    #matchHistoryContainer .match {
+        height: 86px;
+    }
 
-    #matchHistoryContainer .btn-review {
-        width: 36px !important;
+    #matchHistoryContainer .match-player-champ-info {
+        width: 56px;
+        height: 56px;
+    }
+    
+    #matchHistoryContainer .match-player-champ-sum-spell {
+        height: 26px;
+        width: 26px;
+    }
+    
+    #matchHistoryContainer .match-player-item-container {
+        width: 28px;
+        height: 28px;
+    }
+    
+    #matchHistoryContainer .match-team-comp-icon {
+        width: 28px;
+        height: 28px;
     }
 }
 
 @media (max-width: 1199px) {
-
-}
-
-@media (max-width: 991px) {
-    #matchHistoryContainer .match > small {
-        display: block;
-        width: 85%;
-        border-bottom-color: inherit !important;
+    #matchHistoryContainer .match-player-items {
+        display: none;
     }
 
-    #matchHistoryContainer {
-        padding-left: calc(var(--bs-gutter-x) * .5) !important;
-    }
-
-}
-
-@media (max-width: 575px) {
-    #matchHistoryContainer > div {
-        padding-left: 0.25rem !important;
-        padding-right: 0.25rem !important;
-    }
-
-    #matchHistoryContainer .match-player-champ .justify-content-between {
-        justify-content: space-around !important;
-    }
-
-    #matchHistoryContainer .match-player-champ .match-player-champ-sum-spell {
+    #matchHistoryContainer .match-team-comp-icon {
         width: 26px;
         height: 26px;
     }
+}
 
-    #matchHistoryContainer .match .match-player-analysis-small {
-        display: flex;
-        flex-direction: column;
+@media (max-width: 1075px) and (min-width: 992px) {
+    #matchHistoryContainer .match-player-champ-info {
+        width: 52px;
+        height: 52px;
+    }
+    
+    #matchHistoryContainer .match-player-champ-sum-spell {
+        height: 24px;
+        width: 24px;
+    }
+}
+
+@media (max-width: 991px) {
+    #matchHistoryContainer .match-player-items {
+        display: block;
+    }
+}
+
+@media (max-width: 767px) {
+    #matchHistoryContainer .match-player-items {
+        display: none;
+    }
+}
+
+@media (max-width: 625px) and (min-width: 576px) {
+    #matchHistoryContainer .match-player-champ-info {
+        width: 52px;
+        height: 52px;
+    }
+    
+    #matchHistoryContainer .match-player-champ-sum-spell {
+        height: 24px;
+        width: 24px;
+    }
+}
+
+@media (max-width: 575px) {
+    #matchHistoryContainer .match-team-comp {
+        display: none;
     }
 }
