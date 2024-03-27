@@ -1,56 +1,14 @@
+/* #summonerHeader */
+
 #summonerHeader {
     background-color: #31313c;
     margin-left: 0 !important;
     margin-right: 0 !important;
     padding-left: 0 !important;
-}
-
-#personalInfoContainer {
-    background-color: #31313c;
-}
-
-#personalInfoContainer > hr {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-}
-
-#matchHistoryContainer {
-    background-color: #31313c;
-}
-
-#matchHistoryContainer > p {
-    margin-bottom: 0.5rem;
-}
-
-#matchHistoryContainer > hr {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-}
-
-main .league-rank-img-container {
-    overflow: hidden; /* Ensure the clipped portion is hidden */
-    display: flex; /* Use flexbox for centering */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-}
-
-main .img-soloq {
-    width: 160px;
-    height: 160px;
-}
-
-main .img-flexq {
-    margin-left: 0.75rem;
-    width: 80px;
     height: 80px;
 }
 
-main .league-rank-img {
-    height: 225%;
-    object-fit: cover;
-}
-
-main .profile-icon {
+#summonerHeader .profile-icon {
     width: 64px;
     height: 64px;
     object-fit: fill;
@@ -68,9 +26,55 @@ main .profile-icon {
     margin-bottom: 0;
 }
 
+
+/* #personalInfoContainer */
+
+#personalInfoContainer > div {
+    background-color: #31313c;
+    min-width: 300px;
+}
+
+#personalInfoContainer > div > hr {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+#personalInfoContainer .league-rank-img-container {
+    overflow: hidden; /* Ensure the clipped portion is hidden */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+#personalInfoContainer .league-rank-img {
+    height: 225%;
+    object-fit: cover;
+}
+
+
+/* #summonerRankedSoloQ */
+
+#summonerRankedSoloQ .league-rank-img-container {
+    width: 160px;
+    height: 160px;
+}
+
 #summonerRankedSoloQ h3 {
     font-size: 22px;
     margin-bottom: 0;
+}
+
+#summonerRankedSoloQ .win-rate {
+    font-size: 13px;
+}
+
+
+/* #summonerRankedFlex */
+
+#summonerRankedFlex .league-rank-img-container {
+    margin-left: 0.75rem;
+    width: 80px;
+    height: 80px;
 }
 
 #summonerRankedFlex h3 {
@@ -82,11 +86,27 @@ main .profile-icon {
     font-size: 13px;
 }
 
-#summonerRankedSoloQ .win-rate {
+
+/* #matchHistoryContainer */
+
+#matchHistoryContainer > div {
+    background-color: #31313c;
+}
+
+#matchHistoryContainer > div > p {
+    margin-bottom: 0.5rem;
+}
+
+/* .match */
+#matchHistoryContainer .match {
+    height: 80px;
+}
+
+#matchHistoryContainer .match small {
     font-size: 13px;
 }
 
-.decoration {
+#matchHistoryContainer .match .decoration {
     width: 6px;
     height: 100%;
     padding: 0;
@@ -97,33 +117,47 @@ main .profile-icon {
     border-bottom-left-radius: inherit;
 }
 
-.decoration-win {
-    background-color: #2DEB90;
+#matchHistoryContainer .match > .flex-row {
+    width: inherit !important;
+    height: inherit;
 }
 
-.decoration-defeat {
-    background-color: #e84057;
+#matchHistoryContainer .match > div > div {
+    padding-left: 0 !important;
+    padding-right: 1rem;
 }
 
-.match-history-container {
-    width: 64px;
-    height: 64px;
+/* .match-info */
+#matchHistoryContainer .match-info {
+    max-width: 115px;
+}
+
+#matchHistoryContainer .match-info p {
+    margin-bottom: 0; 
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#matchHistoryContainer .match-info > hr {
+    margin-top: 0.1rem; 
+    margin-bottom: 0.1rem;
+    width: 85%;
+}
+
+/* .match-player-champ */
+#matchHistoryContainer .match > small {
+    display: none;
+    font-size: 11px;
+    padding-bottom: 0.1rem;
+}
+
+#matchHistoryContainer .match-player-champ-info {
+    width: 58px;
+    height: 58px;
     position: relative;
 }
 
-.match-history-player-icon {
-    object-fit: fill;
-    height: 100%;
-    width: 100%;
-}
-
-.match-history-team-icon {
-    width: 28px;
-    height: 28px;
-    object-fit: cover;
-}
-
-.match-history-rune-container {
+#matchHistoryContainer .match-player-champ-rune-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -136,12 +170,18 @@ main .profile-icon {
     align-items: center; /* Center vertically */
 }
 
-.match-history-rune {
+#matchHistoryContainer .match-player-champ-rune {
     width: 100%;
     height: auto;
 }
 
-.match-history-level {
+#matchHistoryContainer .match-player-champ-icon {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+#matchHistoryContainer .match-player-champ-level {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -156,22 +196,170 @@ main .profile-icon {
     align-items: center; /* Center vertically */
 }
 
-#matchHistoryContainer .container {
-    height: 72px;
-}
-
-.btn-review {
-    padding-top: 0 !important;
-    padding-bottom: 2px !important;
-}
-
-.match-history-options {
-    height: 72px;
-}
-
-.match-history-sum-spell {
-    height: 32px;
-    width: 32px;
+#matchHistoryContainer .match-player-champ-sum-spell {
+    height: 28px;
+    width: 28px;
     object-fit: cover;
 }
 
+/* .match-player-stats */
+
+
+/* .match-player-items */
+#matchHistoryContainer .match-player-item-container {
+    width: 28px; /* Set the width */
+    height: 28px; /* Set the height */
+    background-color: #31313c; /* Add background color for better visibility */
+    display: flex; /* Add flexbox to center text */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.btn-review {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.btn-overview {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+/* .match-team-comp */
+#matchHistoryContainer .match-team-comp-icon {
+    padding: 0 !important;
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+}
+
+#matchHistoryContainer .match .match-player-analysis > small {
+    background-color: lightcoral;
+    padding-bottom: 0.1rem;
+    
+}
+
+/* .match-player-analysis-small */
+#matchHistoryContainer .match .match-player-analysis-small {
+    margin-right: 2.5rem;
+    overflow: hidden;
+}
+
+#matchHistoryContainer .match .match-player-analysis-small > small {
+    background-color: lightcoral;
+    padding-bottom: 0.1rem;
+    width: fit-content;
+}
+
+/* .match-buttons */
+#matchHistoryContainer button {
+    border: 0;
+}
+
+#matchHistoryContainer .btn-review {
+    height: 24px;
+    width: 85px;
+    padding: 0;
+}
+
+#matchHistoryContainer .btn-review svg {
+    margin-top: 2px !important;
+}
+
+#matchHistoryContainer .btn-overview {
+    height: 36px;
+    width: 36px;
+    padding: 0;
+}
+
+#matchHistoryContainer .background-defeat .btn-overview {
+    background-color: #e840575e;
+}
+
+#matchHistoryContainer .background-win .btn-overview {
+    background-color: #2DEB9047;
+}
+
+#matchHistoryContainer .btn-review {
+    background-color: #ffc107c7;
+}
+
+#matchHistoryContainer .match .match-player-analysis-small {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 992px) and (max-width: 1399px) {
+    #personalInfoContainer {
+        max-width: 350px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+@media (max-width: 1399px) {
+    #matchHistoryContainer .match > div > div {
+        padding-left: 0 !important;
+        padding-right: 0.5rem;
+    }
+
+    #matchHistoryContainer .match > small {
+        display: block;
+        width: 75%;
+        border-bottom-color: inherit !important;
+    }
+
+    #matchHistoryContainer .match-info {
+        display: none !important;
+    }
+
+    #matchHistoryContainer .btn-review span {
+        display: none;
+    } 
+
+    #matchHistoryContainer .btn-review {
+        width: 36px !important;
+    }
+}
+
+@media (max-width: 1199px) {
+
+}
+
+@media (max-width: 991px) {
+    #matchHistoryContainer .match > small {
+        display: block;
+        width: 85%;
+        border-bottom-color: inherit !important;
+    }
+
+    #matchHistoryContainer {
+        padding-left: calc(var(--bs-gutter-x) * .5) !important;
+    }
+
+}
+
+@media (max-width: 575px) {
+    #matchHistoryContainer > div {
+        padding-left: 0.25rem !important;
+        padding-right: 0.25rem !important;
+    }
+
+    #matchHistoryContainer .match-player-champ .justify-content-between {
+        justify-content: space-around !important;
+    }
+
+    #matchHistoryContainer .match-player-champ .match-player-champ-sum-spell {
+        width: 26px;
+        height: 26px;
+    }
+
+    #matchHistoryContainer .match .match-player-analysis-small {
+        display: flex;
+        flex-direction: column;
+    }
+}

@@ -30,12 +30,10 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
                 api_request_account = functions.find_account(
                     summoner_name, summoner_tag
                 )  # Matches DB table 1
-                print("api_request_account:", api_request_account)
 
                 api_request_summoner = functions.find_summoner(
                     region, api_request_account["puuid"]
                 )  # Matches DB table 2
-                print("api_request_summoner:", api_request_summoner)
 
                 player = Player.add_to_db(
                     api_request_account["puuid"],
@@ -90,8 +88,5 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
         return render(
             request,
             "error.html",
-            {
-                "message": "RIOT API Error: "
-                + dictionary.dict_errors_riot_api(int(e.args[0]))
-            },
+            {"message": f"RIOT API Error: {e}"},
         )

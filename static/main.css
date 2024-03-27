@@ -9,6 +9,8 @@ html {
 }
 
 body {
+    width: 80% !important;
+    max-width: 1320px;
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
@@ -22,9 +24,35 @@ body {
 }
 
 .background-win {
-    background-color: #28344e;
+    background-color: #2cffa636;
 }
 
 .background-defeat {
     background-color: #59343b;
+}
+
+.decoration-win {
+    background-color: #2DEB90;
+}
+
+.decoration-defeat {
+    background-color: #e84057;
+}
+
+.truncate {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block;
+}
+
+@media (max-width: 575px) {
+    body {
+        width: 100% !important;
+    }
+    
+    main {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
 }
