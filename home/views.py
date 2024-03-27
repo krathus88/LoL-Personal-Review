@@ -10,6 +10,7 @@ def submit_summoner(request):
         region = request.GET["region"]
         summoner_name = request.GET["summoner_name"]
         summoner_tag = request.GET["summoner_tag"]
+
         return redirect(
             "summoner_detail",
             region=region,
@@ -21,7 +22,7 @@ def submit_summoner(request):
 def submit_summoner_header(request):
     if request.method == "GET":
         region = request.GET["region"]
-        summoner_name_tag = request.GET["summoner_name"]
+        summoner_name_tag = request.GET["summoner_name_tag"]
 
         # there is more than one # in summoner name
         if summoner_name_tag.count("#") > 1:

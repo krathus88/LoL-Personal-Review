@@ -3,38 +3,73 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'landingPage.css' %}?{% now "U" %}" />
 <main>
-    <form class="search-container container d-flex justify-content-center mt-5" role="search" method="GET" action="{% url 'submit_summoner' %}">
+    <!-- Form Desktop -->
+    <form class="container form-desktop d-flex flex-lg-row flex-column align-items-center justify-content-center mt-5" role="search" method="GET" action="{% url 'submit_summoner' %}">
     {% csrf_token %}
-        <div class="form-floating me-1" bis_skin_checked="1">
-            <select class="form-select" id="region" name="region" aria-label="Region" required>
-                <option>EUW</option>
-                <option>EUNE</option>
-                <option>NA</option>
-                <option>KR</option>
-                <option>JP</option>
-                <option>OCE</option>
-                <option>BR</option>
-                <option>LAS</option>
-                <option>LAN</option>
-                <option>RU</option>
-                <option>TR</option>
-                <option>SG</option>
-                <option>PH</option>
-                <option>TW</option>
-                <option>VN</option>
-                <option>TH</option>
-            </select>
-            <label for="floatingInput">Region</label>
-        </div>
-        <div class="form-floating " bis_skin_checked="1">
-            <input type="text" class="form-control rounded-start" id="floatingInputName" name="summoner_name" placeholder="Summoner Name" aria-label="Search Summoner Name" maxlength="16" required>
-            <label for="floatingInput">Summoner Name</label>
-        </div>
-        <div class="form-floating " bis_skin_checked="1">
-            <input type="text" class="form-control rounded-end" id="floatingInputTag" name="summoner_tag" placeholder="Tag" aria-label="Search Summoner Tag" maxlength="5" required oninput="this.value = this.value.toUpperCase()">
-            <label for="floatingInput">Tag</label>
+        <div class="search-container d-flex flex-row">
+            <div class="form-floating me-1" bis_skin_checked="1">
+                <select class="form-select" id="region" name="region" aria-label="Region" required>
+                    <option>EUW</option>
+                    <option>EUNE</option>
+                    <option>NA</option>
+                    <option>KR</option>
+                    <option>JP</option>
+                    <option>OCE</option>
+                    <option>BR</option>
+                    <option>LAS</option>
+                    <option>LAN</option>
+                    <option>RU</option>
+                    <option>TR</option>
+                    <option>SG</option>
+                    <option>PH</option>
+                    <option>TW</option>
+                    <option>VN</option>
+                    <option>TH</option>
+                </select>
+                <label for="region">Region</label>
+            </div>
+            <div class="form-floating form-desktop-name" bis_skin_checked="1">
+                <input type="text" class="form-control rounded-start" id="floatingInputName" name="summoner_name" placeholder="Name" aria-label="Search Summoner Name" maxlength="16" required>
+                <label for="floatingInputName">Name</label>
+            </div>
+            <div class="form-floating form-desktop-tag" bis_skin_checked="1">
+                <input type="text" class="form-control rounded-end" id="floatingInputTag" name="summoner_tag" oninput="this.value = this.value.toUpperCase()" placeholder="Tag" aria-label="Search Summoner Tag" maxlength="5" required>
+                <label for="floatingInputTag">Tag</label>
+            </div>
         </div>
         <button type="submit" class="btn fw-bold">Submit</button>
     </form>
+    <!-- Form Mobile -->
+    <form class="container form-mobile d-flex flex-column align-items-center justify-content-center mt-5" role="search" method="GET" action="{% url 'submit_summoner_header' %}">
+        {% csrf_token %}
+            <div class="search-container d-flex flex-row">
+                <div class="form-floating me-1" bis_skin_checked="1">
+                    <select class="form-select" id="region-mobile" name="region" aria-label="Region" required>
+                        <option>EUW</option>
+                        <option>EUNE</option>
+                        <option>NA</option>
+                        <option>KR</option>
+                        <option>JP</option>
+                        <option>OCE</option>
+                        <option>BR</option>
+                        <option>LAS</option>
+                        <option>LAN</option>
+                        <option>RU</option>
+                        <option>TR</option>
+                        <option>SG</option>
+                        <option>PH</option>
+                        <option>TW</option>
+                        <option>VN</option>
+                        <option>TH</option>
+                    </select>
+                    <label for="region-mobile">Region</label>
+                </div>
+                <div class="form-floating form-mobile" bis_skin_checked="1">
+                    <input type="text" class="form-control rounded" id="floatingInputNameTag" name="summoner_name_tag" placeholder="Name" aria-label="Search Summoner Name" maxlength="16" required>
+                    <label for="floatingInputNameTag">Name + Tag</label>
+                </div>
+            </div>
+            <button type="submit" class="btn fw-bold">Submit</button>
+        </form>
 </main>
 {% endblock %}

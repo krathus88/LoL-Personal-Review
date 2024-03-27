@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}{% endblock %}
+{% block title %}
+{% if ranked_info.0.tier == 'unranked' and ranked_info.1.tier == 'unranked' %}
+    {{ summoner_info.name }}#{{ summoner_info.tag }} - 
+{% elif ranked_info.0.tier == 'unranked' %}
+    {{ ranked_info.1.summonerName }}#{{ summoner_info.tag }} - 
+{% else %}
+    {{ ranked_info.0.summonerName }}#{{ summoner_info.tag }} - 
+{% endif %}{% endblock %}
 {% block content %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'summoner.css' %}?{% now "U" %}" />
