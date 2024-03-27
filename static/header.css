@@ -1,4 +1,4 @@
-#region {
+header #region {
     max-width: 95px;
     padding-right: 1.5rem;
 }
@@ -8,7 +8,7 @@ header nav {
     padding-bottom: 0px !important;
 }
 
-#themeSwitchMobile {
+header #themeSwitchMobile {
     display: none !important;
 }
 
@@ -21,13 +21,13 @@ header .form-select {
 }
 
 @media (max-width: 767px) {
-    #navbarCollapse {
+    header #navbarCollapse {
         padding-bottom: 0.5rem !important;
     }
-    #themeSwitchMobile {
+    header #themeSwitchMobile {
         display: flex !important;
     }
-    #themeSwitchDesktop {
+    header #themeSwitchDesktop {
         display: none !important;
     }
 }

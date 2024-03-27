@@ -53,8 +53,11 @@
     overflow: hidden;
 }
 
-.vertical-separator {
+#personalInfoContainer .vertical-separator {
     display: none;
+    border-left: 1px solid var(--bs-border-color); /* Customize separator style */
+    height: inherit; /* Set height to match the height of the flex items */
+    margin-bottom: 1rem;
 }
 
 
@@ -340,16 +343,12 @@
         display: block;
     }
 
-    .separator {
-        display: none;
+    #matchHistoryContainer .match {
+        height: 86px;
     }
 
     #matchHistoryContainer .match-info {
         display: none !important;
-    }
-
-    #matchHistoryContainer .match {
-        height: 86px;
     }
 
     #matchHistoryContainer .match-player-champ-info {
@@ -360,6 +359,10 @@
     #matchHistoryContainer .match-player-champ-sum-spell {
         height: 26px;
         width: 26px;
+    }
+
+    #matchHistoryContainer .match-player-stats .separator {
+        display: none;
     }
     
     #matchHistoryContainer .match-player-item-container {
@@ -406,11 +409,8 @@
         display: none;
     }
 
-    .vertical-separator {
+    #personalInfoContainer .vertical-separator {
         display: block;
-        border-left: 1px solid var(--bs-border-color); /* Customize separator style */
-        height: inherit; /* Set height to match the height of the flex items */
-        margin-bottom: 1rem;
     }
     
     #summonerRankedFlex {
@@ -444,7 +444,7 @@
         display: block;
     }
 
-    .vertical-separator {
+    #personalInfoContainer .vertical-separator {
         display: none;
     }
     
@@ -453,9 +453,9 @@
     }
 
     #summonerRankedFlex .league-rank-img-container {
-        order: 2;
         width: 160px;
         height: 160px;
+        order: 2;
     }
 
     #summonerRankedFlex .col {
@@ -469,7 +469,6 @@
     #matchHistoryContainer .match-player-items {
         display: none;
     }
-
 }
 
 @media (max-width: 625px) and (min-width: 576px) {
