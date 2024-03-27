@@ -397,6 +397,11 @@
 }
 
 @media (max-width: 991px) {
+    #personalInfoContainer .unranked-soloq {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
     #personalInfoContainer > div > div > hr {
         display: none;
     }
@@ -407,7 +412,7 @@
         height: inherit; /* Set height to match the height of the flex items */
         margin-bottom: 1rem;
     }
-
+    
     #summonerRankedFlex {
         align-items: center;
     }
@@ -431,10 +436,18 @@
 }
 
 @media (max-width: 767px) {
+    #personalInfoContainer .unranked-soloq {
+        padding-bottom: 0;
+    }
+
     #personalInfoContainer > div > div > hr {
         display: block;
     }
 
+    .vertical-separator {
+        display: none;
+    }
+    
     #summonerRankedFlex {
         padding-bottom: 0 !important;
     }

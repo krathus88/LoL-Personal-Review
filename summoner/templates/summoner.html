@@ -39,7 +39,7 @@
                     <div class="d-flex flex-lg-column flex-md-row flex-column justify-content-around">
                         <!-- Solo Queue -->
                         {% if ranked_info.0.tier == 'unranked' %}
-                        <p class="ps-3 fw-light">Ranked Solo: <small>Unranked</small></p>
+                        <p class="fw-light unranked-soloq ps-3">Ranked Solo: <small>Unranked</small></p>
                         {% else %}
                         <div class="row" id="summonerRankedSoloQ">
                             <div class="col-auto league-rank-img-container">
@@ -58,7 +58,7 @@
                         <hr>
                         <!-- Flex Queue -->
                         {% if ranked_info.1.tier == 'unranked' %}
-                        <p class="fw-light ps-3 pt-2 pb-3">Ranked Flex: <small>Unranked</small></p>
+                        <p class="fw-light unranked-flex ps-3 pt-2 pb-2">Ranked Flex: <small>Unranked</small></p>
                         {% else %}
                         <div class="row pb-2" id="summonerRankedFlex">
                             <div class="col-auto league-rank-img-container">
