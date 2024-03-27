@@ -34,9 +34,10 @@
     min-width: 300px;
 }
 
-#personalInfoContainer > div > hr {
+#personalInfoContainer > div > div > hr {
     margin-top: 0;
     margin-bottom: 0.5rem;
+    height: inherit;
 }
 
 #personalInfoContainer .league-rank-img-container {
@@ -49,6 +50,11 @@
 #personalInfoContainer .league-rank-img {
     height: 225%;
     object-fit: cover;
+    overflow: hidden;
+}
+
+.vertical-separator {
+    display: none;
 }
 
 
@@ -63,6 +69,8 @@
     font-size: 22px;
     margin-bottom: 0;
 }
+
+
 
 #summonerRankedSoloQ .win-rate {
     font-size: 13px;
@@ -332,6 +340,10 @@
         display: block;
     }
 
+    .separator {
+        display: none;
+    }
+
     #matchHistoryContainer .match-info {
         display: none !important;
     }
@@ -385,15 +397,66 @@
 }
 
 @media (max-width: 991px) {
+    #personalInfoContainer > div > div > hr {
+        display: none;
+    }
+
+    .vertical-separator {
+        display: block;
+        border-left: 1px solid var(--bs-border-color); /* Customize separator style */
+        height: inherit; /* Set height to match the height of the flex items */
+        margin-bottom: 1rem;
+    }
+
+    #summonerRankedFlex {
+        align-items: center;
+    }
+
+    #summonerRankedFlex > .col {
+        align-self: start;
+    }
+
+    #summonerRankedFlex h3 {
+        font-size: 19px;
+    }
+
+    #summonerRankedFlex .league-rank-img-container {
+        width: 120px;
+        height: 120px;
+    }
+
     #matchHistoryContainer .match-player-items {
         display: block;
     }
 }
 
 @media (max-width: 767px) {
+    #personalInfoContainer > div > div > hr {
+        display: block;
+    }
+
+    #summonerRankedFlex {
+        padding-bottom: 0 !important;
+    }
+
+    #summonerRankedFlex .league-rank-img-container {
+        order: 2;
+        width: 160px;
+        height: 160px;
+    }
+
+    #summonerRankedFlex .col {
+        text-align: right;
+    }
+
+    #summonerRankedFlex .col .me-3 {
+        margin-right: 0 !important;
+    }
+
     #matchHistoryContainer .match-player-items {
         display: none;
     }
+
 }
 
 @media (max-width: 625px) and (min-width: 576px) {
