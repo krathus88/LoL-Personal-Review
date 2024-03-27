@@ -86,7 +86,7 @@ def find_match_history(start_count, num_games, puuid):
         return api_result.json()
     else:
         # API call failed
-        raise Exception(api_result.status_code)
+        raise Exception(int(api_result.status_code))
 
 
 def find_match_data_general(matches):
