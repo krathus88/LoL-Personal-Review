@@ -58,6 +58,9 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
             organized_ranked_data = functions.organize_summoner_ranked_data(
                 api_request_ranked_data
             )
+            game_version = requests.get(
+                "https://ddragon.leagueoflegends.com/api/versions.json"
+            ).json()[0]
 
             # Fetch Match History
             match_history = functions.find_match_history("0", "10", player.puuid)
@@ -65,11 +68,8 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
             player_match_data = functions.filter_player_match_data(
                 matches_data, player.puuid
             )
-            win_rate = functions.calculate_winrate(organized_ranked_data)
 
-            game_version = requests.get(
-                "https://ddragon.leagueoflegends.com/api/versions.json"
-            ).json()[0]
+            win_rate = functions.calculate_winrate(organized_ranked_data)
 
             return render(
                 request,
