@@ -219,6 +219,10 @@
 
 
 /* .match-player-items */
+#matchHistoryContainer .match-player-items > div {
+    gap: 0.1rem;
+}
+
 #matchHistoryContainer .match-player-item-container {
     width: 32px;
     height: 32px;

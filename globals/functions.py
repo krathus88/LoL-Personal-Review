@@ -136,7 +136,6 @@ def organize_summoner_ranked_data(summoner_list):
     for input in summoner_list:
         if input["queueType"] == "RANKED_SOLO_5x5":
             solo_queue = input
-            print(solo_queue)
 
             solo_queue["winRate"] = round(
                 solo_queue["wins"] / (solo_queue["wins"] + solo_queue["losses"]) * 100
@@ -159,8 +158,13 @@ def filter_player_match_data(match_data, puuid):
     (by the given PUUID).
 
     Accepts multiple matches in a singe List."""
+
     runes_data = requests.get(
         "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perks.json"
+    ).json()
+
+    items_data = requests.get(
+        "https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json"
     ).json()
 
     player_data = []
@@ -209,11 +213,29 @@ def filter_player_match_data(match_data, puuid):
                             participant["perks"]["styles"][0]["selections"][0]["perk"],
                             runes_data,
                         ),
+                        "item1": filter_item(participant["item0"], items_data),
+                        "item2": filter_item(participant["item1"], items_data),
+                        "item3": filter_item(participant["item2"], items_data),
+                        "item4": filter_item(participant["item3"], items_data),
+                        "item5": filter_item(participant["item4"], items_data),
+                        "item6": filter_item(participant["item5"], items_data),
+                        "item7": filter_item(participant["item6"], items_data),
                         "win": participant["win"],  # bool
                     }
                 )
 
     return player_data
+
+
+def filter_item(item_id, items_data):
+    """Returns a String if item exists, else None
+
+    Filters each given item id into a full URL with the item's image."""
+
+    if item_id == 0:
+        return None
+    else:
+        return items_data[str(item_id)]["icon"]
 
 
 def filter_rune(rune_id, runes_data):

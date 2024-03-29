@@ -59,11 +59,6 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
                 api_request_ranked_data
             )
 
-            # Potentially to be removed ?
-            game_version = requests.get(
-                "https://ddragon.leagueoflegends.com/api/versions.json"
-            ).json()[0]
-
             # Fetch Match History
             match_history = functions.find_match_history("0", "10", player.puuid)
             matches_data = functions.find_match_data_general(match_history)

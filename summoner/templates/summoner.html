@@ -130,27 +130,41 @@
                                 <div class="col match-player-items">
                                     <div class="d-flex flex-row">
                                         <div class="match-player-item-container rounded">
-                                            <img class="match-player-item rounded" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/maps/particles/tft/item_icons/standard/guinsoos_rageblade.png" alt="Item Slot 1">
+                                            {% if player_match_data.item1 %}
+                                            <img class="match-player-item rounded" src="{{ player_match_data.item1 }}" alt="Item Slot 1">
+                                            {% endif %}
                                         </div>
                                         <div class="match-player-item-container rounded">
-
+                                            {% if player_match_data.item2 %}
+                                            <img class="match-player-item rounded" src="{{ player_match_data.item2 }}" alt="Item Slot 2">
+                                            {% endif %}
                                         </div>
                                         <div class="match-player-item-container rounded">
-
+                                            {% if player_match_data.item3 %}
+                                            <img class="match-player-item rounded" src="{{ player_match_data.item3 }}" alt="Item Slot 3">
+                                            {% endif %}
                                         </div>
                                         <div class="match-player-item-container rounded">
-
+                                            {% if player_match_data.item7 %}
+                                            <img class="match-player-item rounded" src="{{ player_match_data.item7 }}" alt="Trinket Slot">
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row">
                                         <div class="match-player-item-container rounded">
-
+                                            {% if player_match_data.item4 %}
+                                            <img class="match-player-item rounded" src="{{ player_match_data.item4 }}" alt="Item Slot 4">
+                                            {% endif %}
                                         </div>
                                         <div class="match-player-item-container rounded">
-
+                                            {% if player_match_data.item5 %}
+                                            <img class="match-player-item rounded" src="{{ player_match_data.item5 }}" alt="Item Slot 5">
+                                            {% endif %}
                                         </div>
                                         <div class="match-player-item-container rounded">
-
+                                            {% if player_match_data.item6 %}
+                                            <img class="match-player-item rounded" src="{{ player_match_data.item6 }}" alt="Item Slot 6">
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
