@@ -40,16 +40,21 @@ main .search-container .form-mobile {
 }
 
 @media (max-width: 991px) {
-    main .form-desktop {
-        background-color: inherit;
-        width: 100%;
-    }
-
     main .search-container {
         background-color: #31313c;
         border-radius: 50px; 
         padding: 10px 30px; 
         z-index: 100;
+    }
+    
+    main .form-desktop {
+        background-color: inherit;
+        width: 100%;
+    }
+
+    main .container button {
+        position: relative;
+        z-index: 1;
     }
 
     /* Add styling for the half-moon background on the button */
@@ -64,23 +69,18 @@ main .search-container .form-mobile {
         left: -62.5%;
         top: -152%;
     }
-
-    main .container button {
-        position: relative;
-        z-index: 1;
-    }
 }
 
 @media (max-width: 767px) {
+    main .search-container {
+        width: 100%;
+    }
+    
     main .form-desktop {
         display: none !important;
     }
 
     main .form-mobile {
         display: flex !important;
-    }
-
-    main .search-container {
-        width: 100%;
     }
 }

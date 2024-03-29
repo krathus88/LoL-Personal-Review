@@ -157,12 +157,23 @@ def filter_player_match_data(match_data, puuid):
                         "summoner2Id": dictionary.dict_summoner_spells[
                             participant["summoner2Id"]
                         ],
-                        "primaryRune": participant["perks"]["styles"][0]["style"],
+                        "primaryRune": filter_rune(
+                            participant["perks"]["styles"][0]["selections"][0]["perk"]
+                        ),
                         "win": participant["win"],  # bool
                     }
                 )
 
     return player_data
+
+
+def filter_rune(rune_id):
+    runes_data = requests.get(
+        "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perks.json"
+    ).json()
+    for rune in runes_data:
+        if rune["id"] == rune_id:
+            return rune["iconPath"].replace("/lol-game-data/assets/v1", "").lower()
 
 
 def time_elapsed(game_end_timestamp):
