@@ -57,7 +57,7 @@
                                 <small class="fw-light mb-3">Soloqueue</small>                                
                                 <small class="fw-light">LP: {{ ranked_info.0.leaguePoints }}</small>
                                 <small class="fw-light mb-1">Wins: <span class="font-color-win">{{ ranked_info.0.wins }}</span> - Defeats: <span class="font-color-defeat">{{ ranked_info.0.losses }}</span></small>
-                                <small class="fw-light win-rate">WR: {{ win_rate.0 }}%</small>
+                                <small class="fw-light win-rate">WR: {{ ranked_info.0.winRate }}%</small>
                             </div>
                         </div>
                         {% endif %}
@@ -80,7 +80,7 @@
                                 <div class="col d-flex flex-column">
                                     <small class="fw-light">Wins: <span class="font-color-win">{{ ranked_info.1.wins }}</span></small>
                                     <small class="fw-light mb-2">Defeats: <span class="font-color-defeat">{{ ranked_info.1.losses }}</span></small>
-                                    <small class="fw-light">WR: {{ win_rate.1 }}%</small>
+                                    <small class="fw-light">WR: {{ ranked_info.1.winRate }}%</small>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                                 <div class="col match-player-items">
                                     <div class="d-flex flex-row">
                                         <div class="match-player-item-container rounded">
-
+                                            <img class="match-player-item rounded" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/assets/maps/particles/tft/item_icons/standard/guinsoos_rageblade.png" alt="Item Slot 1">
                                         </div>
                                         <div class="match-player-item-container rounded">
 

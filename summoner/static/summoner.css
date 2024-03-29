@@ -228,6 +228,11 @@
     align-items: center; 
 }
 
+#matchHistoryContainer .match-player-item {
+    width: 100%;
+    height: auto;
+}
+
 /* .match-team-comp */
 #matchHistoryContainer .match-team-comp-icon {
     width: 32px;

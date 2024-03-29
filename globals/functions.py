@@ -107,6 +107,51 @@ def find_match_data_general(matches):
     return asyncio.run(main(urls))
 
 
+def organize_summoner_data(
+    region, summoner_name, summoner_tag, summoner_level, summoner_icon
+):
+    """Returns a Dictionary
+
+    Parses summoner information received from DB/Riot API
+    and converts it to a standard format."""
+
+    return {
+        "region": region,
+        "name": summoner_name,
+        "tag": summoner_tag,
+        "level": summoner_level,
+        "iconId": summoner_icon,
+    }
+
+
+def organize_summoner_ranked_data(summoner_list):
+    """Returns a List containing two dictionaries, [SoloQ, FlexQ]
+
+    Parses ranked information received from Riot API
+    and converts it to a standard format."""
+
+    solo_queue = {"tier": "unranked"}
+    flex_queue = {"tier": "unranked"}
+
+    for input in summoner_list:
+        if input["queueType"] == "RANKED_SOLO_5x5":
+            solo_queue = input
+            print(solo_queue)
+
+            solo_queue["winRate"] = round(
+                solo_queue["wins"] / (solo_queue["wins"] + solo_queue["losses"]) * 100
+            )
+
+        elif input["queueType"] == "RANKED_FLEX_SR":
+            flex_queue = input
+
+            flex_queue["winRate"] = round(
+                flex_queue["wins"] / (flex_queue["wins"] + flex_queue["losses"]) * 100
+            )
+
+    return [solo_queue, flex_queue]
+
+
 def filter_player_match_data(match_data, puuid):
     """Returns a List of Dictionaries
 
@@ -114,6 +159,9 @@ def filter_player_match_data(match_data, puuid):
     (by the given PUUID).
 
     Accepts multiple matches in a singe List."""
+    runes_data = requests.get(
+        "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perks.json"
+    ).json()
 
     player_data = []
     for match in match_data:
@@ -158,7 +206,8 @@ def filter_player_match_data(match_data, puuid):
                             participant["summoner2Id"]
                         ],
                         "primaryRune": filter_rune(
-                            participant["perks"]["styles"][0]["selections"][0]["perk"]
+                            participant["perks"]["styles"][0]["selections"][0]["perk"],
+                            runes_data,
                         ),
                         "win": participant["win"],  # bool
                     }
@@ -167,10 +216,13 @@ def filter_player_match_data(match_data, puuid):
     return player_data
 
 
-def filter_rune(rune_id):
-    runes_data = requests.get(
-        "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perks.json"
-    ).json()
+def filter_rune(rune_id, runes_data):
+    """Returns a String
+
+    Filters rune Id into half of a URL path. To be combined with:
+    https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/
+    """
+
     for rune in runes_data:
         if rune["id"] == rune_id:
             return rune["iconPath"].replace("/lol-game-data/assets/v1", "").lower()
@@ -207,72 +259,6 @@ def time_elapsed(game_end_timestamp):
         return f"{minutes} minutes"
 
 
-def organize_summoner_data(
-    region, summoner_name, summoner_tag, summoner_level, summoner_icon
-):
-    """Returns a Dictionary
-
-    Parses summoner information received from DB/Riot API
-    and converts it to a standard format."""
-
-    return {
-        "region": region,
-        "name": summoner_name,
-        "tag": summoner_tag,
-        "level": summoner_level,
-        "iconId": summoner_icon,
-    }
-
-
-def time_elapsed(game_end_timestamp):
-    """Returns a String
-
-    Calculates time elapsed since the match was played until today.
-
-    Only accepts UNIX timestamps in miliseconds"""
-    match_end_time = datetime.fromtimestamp(game_end_timestamp / 1000)
-
-    # Get current time
-    current_time = datetime.now()
-
-    # Calculate time difference
-    time_difference = current_time - match_end_time
-
-    # Calculate time difference in terms of months, days, hours, and minutes
-    months = time_difference.days // 30
-    days = time_difference.days % 30
-    hours = time_difference.seconds // 3600
-    minutes = (time_difference.seconds % 3600) // 60
-
-    # Determine the highest time unit
-    if months > 0:
-        return f"{months} months"
-    elif days > 0:
-        return f"{days} days"
-    elif hours > 0:
-        return f"{hours} hours"
-    else:
-        return f"{minutes} minutes"
-
-
-def organize_summoner_ranked_data(summoner_list):
-    """Returns a List containing two dictionaries, [SoloQ, FlexQ]
-
-    Parses ranked information received from Riot API
-    and converts it to a standard format."""
-
-    solo_queue = {"tier": "unranked"}
-    flex_queue = {"tier": "unranked"}
-
-    for input in summoner_list:
-        if input["queueType"] == "RANKED_SOLO_5x5":
-            solo_queue = input
-        elif input["queueType"] == "RANKED_FLEX_SR":
-            flex_queue = input
-
-    return [solo_queue, flex_queue]
-
-
 def calculate_kp(match, player_team, player_kills, player_assists):
     """Returns an Int
 
@@ -305,30 +291,6 @@ def calculate_kda(participant_data):
         kda = "Perfect"
 
     return kda
-
-
-def calculate_winrate(ranked_data):
-    """Returns a List, [SoloQ, FlexQ]
-
-    Calculates winrate for each ladder based off of ranked information."""
-
-    wr_solo_q = None
-    wr_flex_q = None
-
-    if not ranked_data[0]["tier"] == "unranked":
-        wr_solo_q = round(
-            ranked_data[0]["wins"]
-            / (ranked_data[0]["wins"] + ranked_data[0]["losses"])
-            * 100
-        )
-    if not ranked_data[1]["tier"] == "unranked":
-        wr_flex_q = round(
-            ranked_data[1]["wins"]
-            / (ranked_data[1]["wins"] + ranked_data[1]["losses"])
-            * 100
-        )
-
-    return [wr_solo_q, wr_flex_q]
 
 
 async def get(url, session):
