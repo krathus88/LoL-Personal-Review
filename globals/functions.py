@@ -97,6 +97,15 @@ def find_match_data_general(matches):
     Accepts multiple matches in a singe List."""
 
     urls = []
+
+    urls.append(
+        "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perks.json"
+    )
+
+    urls.append(
+        "https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json"
+    )
+
     api_url = os.getenv("API_URL").replace("[server]", "europe")
     for match in matches:
         endpoint_url = os.getenv("SUMMONER_MATCH_SEARCH_GENERAL").replace(
@@ -104,7 +113,9 @@ def find_match_data_general(matches):
         )
         urls.append(api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY"))
 
-    return asyncio.run(main(urls))
+    results = asyncio.run(main(urls))
+
+    return results[0], results[1], results[2:]
 
 
 def organize_summoner_data(
@@ -151,21 +162,13 @@ def organize_summoner_ranked_data(summoner_list):
     return [solo_queue, flex_queue]
 
 
-def filter_player_match_data(match_data, puuid):
+def filter_player_match_data(match_data, runes_data, items_data, puuid):
     """Returns a List of Dictionaries
 
     Provides GENERAL information about a given match for the player
     (by the given PUUID).
 
     Accepts multiple matches in a singe List."""
-
-    runes_data = requests.get(
-        "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perks.json"
-    ).json()
-
-    items_data = requests.get(
-        "https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json"
-    ).json()
 
     player_data = []
     for match in match_data:
