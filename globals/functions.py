@@ -310,7 +310,9 @@ def calculate_kda(participant_data):
     assists = participant_data["assists"]
 
     if deaths != 0:
-        kda = int((kills + assists) / deaths)
+        kda = (kills + assists) / deaths
+        kda = round(kda, 2)
+        kda = "%.2f:1" % kda
     else:
         kda = "Perfect"
 
