@@ -256,12 +256,11 @@ def time_elapsed(game_end_timestamp):
     Calculates time elapsed since the match was played until today.
 
     Only accepts UNIX timestamps in miliseconds"""
+
     match_end_time = datetime.fromtimestamp(game_end_timestamp / 1000)
 
-    # Get current time
     current_time = datetime.now()
 
-    # Calculate time difference
     time_difference = current_time - match_end_time
 
     # Calculate time difference in terms of months, days, hours, and minutes

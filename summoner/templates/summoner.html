@@ -95,121 +95,153 @@
                     <div class="rounded-1 d-flex flex-column gap-2">
                         <!-- Match -->
                         {% for player_match_data, match_data in matches_data %}
-                        <div class="match overflow-hidden position-relative d-flex flex-column justify-content-center pe-0 rounded-1 {% if player_match_data.win %}background-win{% else %}background-defeat{% endif %}">
-                            <small class="truncate border-bottom">{{ player_match_data.gameMode }} - {{ player_match_data.timeSinceGameEnd }} ago</small>
-                            <div class="d-flex flex-row align-items-center flex-nowrap mx-0">
-                                <div class="decoration {% if player_match_data.win %}decoration-win{% else %}decoration-defeat{% endif %}"></div>
-                                <!-- Match Information -->
-                                <div class="d-flex flex-column match-info ps-0">
-                                    <p class="truncate">{{ player_match_data.gameMode }}</p>
-                                    <small class="truncate fw-light">{{ player_match_data.timeSinceGameEnd }} ago</small>
-                                    <hr>
-                                    <small class="truncate fw-light">{{ player_match_data.gameDuration }}</small>
-                                </div>
-                                <!-- Player Champion -->
-                                <div class="col-auto d-flex flex-row match-player-champ">
-                                    <div class="match-player-champ-info text-center">
-                                        <div class="match-player-champ-rune-container">
-                                            <img class="match-player-champ-rune" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/{{ player_match_data.primaryRune }}" />
+                        <div class="match-container d-flex flex-column">
+                            <div class="match overflow-hidden position-relative d-flex flex-column justify-content-center pe-0 rounded-1 {% if player_match_data.win %}background-win{% else %}background-defeat{% endif %}">
+                                <small class="truncate border-bottom">{{ player_match_data.gameMode }} - {{ player_match_data.timeSinceGameEnd }} ago</small>
+                                <div class="d-flex flex-row align-items-center flex-nowrap mx-0">
+                                    <div class="decoration {% if player_match_data.win %}decoration-win{% else %}decoration-defeat{% endif %}"></div>
+                                    <!-- Match Information -->
+                                    <div class="d-flex flex-column match-info ps-0">
+                                        <p class="truncate">{{ player_match_data.gameMode }}</p>
+                                        <small class="truncate fw-light">{{ player_match_data.timeSinceGameEnd }} ago</small>
+                                        <hr>
+                                        <small class="truncate fw-light">{{ player_match_data.gameDuration }}</small>
+                                    </div>
+                                    <!-- Player Champion -->
+                                    <div class="col-auto d-flex flex-row match-player-champ">
+                                        <div class="match-player-champ-info text-center">
+                                            <div class="match-player-champ-rune-container">
+                                                <img class="match-player-champ-rune" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/{{ player_match_data.primaryRune }}" />
+                                            </div>
+                                            <img class="match-player-champ-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ player_match_data.championId }}.png" />
+                                            <p class="match-player-champ-level">{{ player_match_data.level }}</p>
                                         </div>
-                                        <img class="match-player-champ-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ player_match_data.championId }}.png" />
-                                        <p class="match-player-champ-level">{{ player_match_data.level }}</p>
+                                        <div class="ms-1 d-flex flex-column justify-content-between">
+                                            <img class="match-player-champ-sum-spell rounded-2" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/{{ player_match_data.summoner1Id }}.png" />
+                                            <img class="match-player-champ-sum-spell rounded-2" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/{{ player_match_data.summoner2Id }}.png" />
+                                        </div>
                                     </div>
-                                    <div class="ms-1 d-flex flex-column justify-content-between">
-                                        <img class="match-player-champ-sum-spell rounded-2" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/{{ player_match_data.summoner1Id }}.png" />
-                                        <img class="match-player-champ-sum-spell rounded-2" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/{{ player_match_data.summoner2Id }}.png" />
+                                    <!-- Player Stats -->
+                                    <div class="col-auto match-player-stats">
+                                        <small class="truncate">{{ player_match_data.cs }} CS <span class="separator">-</span><span class="font-color-defeat"> KP {{ player_match_data.killParticipation }}%</span></small>
+                                        <p class="truncate fw-bolder m-0">{{ player_match_data.kills }} / <span class="font-color-defeat">{{ player_match_data.deaths }}</span> / {{ player_match_data.assists }}</p>
+                                        <small class="truncate">{{ player_match_data.kda }} KDA</small>
                                     </div>
+                                    <!-- Player Items -->
+                                    <div class="col match-player-items">
+                                        <div class="d-flex flex-row">
+                                            <div class="match-player-item-container rounded">
+                                                {% if player_match_data.item1 %}
+                                                <img class="match-player-item rounded" src="{{ player_match_data.item1 }}" alt="Item Slot 1">
+                                                {% endif %}
+                                            </div>
+                                            <div class="match-player-item-container rounded">
+                                                {% if player_match_data.item2 %}
+                                                <img class="match-player-item rounded" src="{{ player_match_data.item2 }}" alt="Item Slot 2">
+                                                {% endif %}
+                                            </div>
+                                            <div class="match-player-item-container rounded">
+                                                {% if player_match_data.item3 %}
+                                                <img class="match-player-item rounded" src="{{ player_match_data.item3 }}" alt="Item Slot 3">
+                                                {% endif %}
+                                            </div>
+                                            <div class="match-player-item-container rounded">
+                                                {% if player_match_data.item7 %}
+                                                <img class="match-player-item rounded" src="{{ player_match_data.item7 }}" alt="Trinket Slot">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row">
+                                            <div class="match-player-item-container rounded">
+                                                {% if player_match_data.item4 %}
+                                                <img class="match-player-item rounded" src="{{ player_match_data.item4 }}" alt="Item Slot 4">
+                                                {% endif %}
+                                            </div>
+                                            <div class="match-player-item-container rounded">
+                                                {% if player_match_data.item5 %}
+                                                <img class="match-player-item rounded" src="{{ player_match_data.item5 }}" alt="Item Slot 5">
+                                                {% endif %}
+                                            </div>
+                                            <div class="match-player-item-container rounded">
+                                                {% if player_match_data.item6 %}
+                                                <img class="match-player-item rounded" src="{{ player_match_data.item6 }}" alt="Item Slot 6">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Team Compositions -->
+                                    <div class="col match-team-comp">
+                                        <div class="d-flex flex-row mx-0">
+                                            <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.0.championId }}.png" />
+                                            <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.1.championId }}.png" />
+                                            <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.2.championId }}.png" />
+                                            <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.3.championId }}.png" />
+                                            <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.4.championId }}.png" />
+                                        </div>
+                                        <div class="d-flex flex-row mx-0">
+                                            <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.5.championId }}.png" />
+                                            <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.6.championId }}.png" />
+                                            <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.7.championId }}.png" />
+                                            <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.8.championId }}.png" />
+                                            <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.9.championId }}.png" />
+                                        </div>
+                                    </div>
+                                    <!-- Player Analysis -->
+                                    <div class="col match-player-analysis pe-0">
+                                        <div class="match-player-analysis-text-container d-flex flex-column gap-1">
+                                            <small class="rounded-4 px-2">MVP</small>
+                                            <small class="rounded-4 px-2">Double Kill</small>
+                                        </div>
+                                    </div>
+                                    <!-- Button Review -->
+                                    <button type="button" class="btn btn-warning btn-review d-flex justify-content-center align-items-center">
+                                        <span class="ms-2">Review</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+                                            <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+                                        </svg>
+                                    </button>
+                                    <!-- Button Match Overview -->
+                                    <button type="button" class="btn btn-secondary btn-overview d-flex justify-content-center align-items-center ms-auto mt-auto" onclick="toggleMatchOverview(this)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down mt-1" viewBox="0 0 16 16">
+                                            <path d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"/>
+                                        </svg>
+                                    </button>
                                 </div>
-                                <!-- Player Stats -->
-                                <div class="col-auto match-player-stats">
-                                    <small class="truncate">{{ player_match_data.cs }} CS <span class="separator">-</span><span class="font-color-defeat"> KP {{ player_match_data.killParticipation }}%</span></small>
-                                    <p class="truncate fw-bolder m-0">{{ player_match_data.kills }} / <span class="font-color-defeat">{{ player_match_data.deaths }}</span> / {{ player_match_data.assists }}</p>
-                                    <small class="truncate">{{ player_match_data.kda }} KDA</small>
-                                </div>
-                                <!-- Player Items -->
-                                <div class="col match-player-items">
+                            </div>
+                            <!-- Hidden element -->
+                            <div class="match-overview rounded-1 mt-1">
+                                <div class="team-blue">
                                     <div class="d-flex flex-row">
-                                        <div class="match-player-item-container rounded">
-                                            {% if player_match_data.item1 %}
-                                            <img class="match-player-item rounded" src="{{ player_match_data.item1 }}" alt="Item Slot 1">
-                                            {% endif %}
-                                        </div>
-                                        <div class="match-player-item-container rounded">
-                                            {% if player_match_data.item2 %}
-                                            <img class="match-player-item rounded" src="{{ player_match_data.item2 }}" alt="Item Slot 2">
-                                            {% endif %}
-                                        </div>
-                                        <div class="match-player-item-container rounded">
-                                            {% if player_match_data.item3 %}
-                                            <img class="match-player-item rounded" src="{{ player_match_data.item3 }}" alt="Item Slot 3">
-                                            {% endif %}
-                                        </div>
-                                        <div class="match-player-item-container rounded">
-                                            {% if player_match_data.item7 %}
-                                            <img class="match-player-item rounded" src="{{ player_match_data.item7 }}" alt="Trinket Slot">
-                                            {% endif %}
-                                        </div>
+                                        
                                     </div>
+                                </div>
+                                <div class="team-red">
                                     <div class="d-flex flex-row">
-                                        <div class="match-player-item-container rounded">
-                                            {% if player_match_data.item4 %}
-                                            <img class="match-player-item rounded" src="{{ player_match_data.item4 }}" alt="Item Slot 4">
-                                            {% endif %}
-                                        </div>
-                                        <div class="match-player-item-container rounded">
-                                            {% if player_match_data.item5 %}
-                                            <img class="match-player-item rounded" src="{{ player_match_data.item5 }}" alt="Item Slot 5">
-                                            {% endif %}
-                                        </div>
-                                        <div class="match-player-item-container rounded">
-                                            {% if player_match_data.item6 %}
-                                            <img class="match-player-item rounded" src="{{ player_match_data.item6 }}" alt="Item Slot 6">
-                                            {% endif %}
-                                        </div>
+
                                     </div>
                                 </div>
-                                <!-- Team Compositions -->
-                                <div class="col match-team-comp">
-                                    <div class="d-flex flex-row mx-0">
-                                        <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.0.championId }}.png" />
-                                        <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.1.championId }}.png" />
-                                        <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.2.championId }}.png" />
-                                        <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.3.championId }}.png" />
-                                        <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.4.championId }}.png" />
-                                    </div>
-                                    <div class="d-flex flex-row mx-0">
-                                        <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.5.championId }}.png" />
-                                        <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.6.championId }}.png" />
-                                        <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.7.championId }}.png" />
-                                        <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.8.championId }}.png" />
-                                        <img class="match-team-comp-icon rounded-5" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ match_data.info.participants.9.championId }}.png" />
-                                    </div>
-                                </div>
-                                <!-- Player Analysis -->
-                                <div class="col match-player-analysis pe-0">
-                                    <div class="match-player-analysis-text-container d-flex flex-column gap-1">
-                                        <small class="rounded-4 px-2">MVP</small>
-                                        <small class="rounded-4 px-2">Double Kill</small>
-                                    </div>
-                                </div>
-                                <!-- Button Review -->
-                                <button type="button" class="btn btn-warning btn-review d-flex justify-content-center align-items-center">
-                                    <span class="ms-2">Review</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
-                                        <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
-                                    </svg>
-                                </button>
-                                <!-- Button Match Overview -->
-                                <button type="button" class="btn btn-secondary btn-overview d-flex justify-content-center align-items-center ms-auto mt-auto">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down mt-1" viewBox="0 0 16 16">
-                                        <path d="M3.204 5h9.592L8 10.481zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659"/>
-                                    </svg>
-                                </button>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
+                    {% block scripts %}
+                    <script>
+                        function toggleMatchOverview(button) {
+                            // Find the parent .match element
+                            var matchContainerElement = $(button).closest('.match-container');
+                            // Find the hidden element inside the .match element
+                            var hiddenElement = matchContainerElement.find('.match-overview');
+
+                            // Toggle the display of the hidden element
+                            if (hiddenElement.css('display') === 'none') {
+                                hiddenElement.css('display', 'flex');
+                            } else {
+                                hiddenElement.css('display', 'none');
+                            }
+                        }
+                    </script>
+                    {% endblock %}
                 </div>
             </div>
         </div>
