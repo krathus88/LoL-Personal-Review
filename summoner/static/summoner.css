@@ -210,6 +210,9 @@
 }
 
 /* .match-player-stats */
+#matchHistoryContainer .match-player-stats {
+  min-width: 97px;
+}
 
 /* .match-player-items */
 #matchHistoryContainer .match-player-items > div {
