@@ -97,7 +97,7 @@ dict_queue_id = {
     450: "ARAM",
     460: "3v3 Blind Pick",  # Deprecated | patch 9.23
     470: "3v3 Ranked Flex",  # Deprecated | patch 9.23
-    490: "Normal Quickplay",
+    490: "Quickplay",
     600: "Blood Hunt Assassin",
     610: "Dark Star: Singularity",
     700: "Clash: Summoner's Rift",
