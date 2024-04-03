@@ -20,6 +20,7 @@ def find_account(region, summoner_name, tag):
             .replace("[gameName]", summoner_name)
             .replace("[tagLine]", tag)
         )
+        print(api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY"))
         api_result = requests.get(
             api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
         )
