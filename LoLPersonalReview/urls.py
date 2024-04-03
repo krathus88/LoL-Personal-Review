@@ -1,5 +1,5 @@
 """
-URL configuration for LoLPersonalReview project.
+URL configuration for LolPersonalReview project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -16,28 +16,6 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
-from home import views as home_views
-from summoner import views as summoner_views
-
-urlpatterns = [
-    path("", home_views.home_page, name="home_page"),
-    path(
-        "submit_summoner_header/",
-        home_views.submit_summoner_header,
-        name="submit_summoner_header",
-    ),
-    path("submit_summoner/", home_views.submit_summoner, name="submit_summoner"),
-    path(
-        "summoner/<region>/<summoner_name>-<summoner_tag>",
-        summoner_views.summoner_detail,
-        name="summoner_detail",
-    ),
-    path(
-        "update_summoner_match",
-        summoner_views.update_summoner_match,
-        name="update_summoner_match",
-    ),
-    path("admin/", admin.site.urls),
-]
+urlpatterns = [path("admin/", admin.site.urls), path("api/", include("api.urls"))]
