@@ -6,13 +6,15 @@ from datetime import datetime
 from globals import dictionary, exceptions
 
 
-def find_account(summoner_name, tag):
+def find_account(region, summoner_name, tag):
     """Returns a Dictionary
 
     Gets Player's Account information (retrieves PUUID).
     """
     try:
-        api_url = os.getenv("API_URL").replace("[server]", "europe")
+        api_url = os.getenv("API_URL").replace(
+            "[server]", dictionary.dict_region[region]
+        )
         endpoint_url = (
             os.getenv("ACCOUNT_SEARCH")
             .replace("[gameName]", summoner_name)
@@ -66,13 +68,15 @@ def find_ranked_data(server, summoner_id):
         raise exceptions.RiotAPI(api_result.status_code)
 
 
-def find_match_history(start_count, num_games, puuid):
+def find_match_history(region, start_count, num_games, puuid):
     """Returns a List
 
     Provides the match history (matchIds) of a given summoner (by PUUID).
     Choose on what index to start and how many matches to filter."""
     try:
-        api_url = os.getenv("API_URL").replace("[server]", "europe")
+        api_url = os.getenv("API_URL").replace(
+            "[server]", dictionary.dict_region[region]
+        )
         endpoint_url = (
             os.getenv("SUMMONER_MATCH_HISTORY_SEARCH").replace(
                 "[encryptedPUUID]", puuid
@@ -88,7 +92,7 @@ def find_match_history(start_count, num_games, puuid):
         raise exceptions.RiotAPI(api_result.status_code)
 
 
-def find_match_data_general(matches):
+def find_match_data_general(region, matches):
     """Returns a List of Dictionaries
 
     Provides GENERAL information about a given match for all players.
@@ -105,7 +109,7 @@ def find_match_data_general(matches):
         "https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json"
     )
 
-    api_url = os.getenv("API_URL").replace("[server]", "europe")
+    api_url = os.getenv("API_URL").replace("[server]", dictionary.dict_region[region])
     for match in matches:
         endpoint_url = os.getenv("SUMMONER_MATCH_SEARCH_GENERAL").replace(
             "[match]", match

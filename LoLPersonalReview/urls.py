@@ -34,5 +34,10 @@ urlpatterns = [
         summoner_views.summoner_detail,
         name="summoner_detail",
     ),
+    path(
+        "update_summoner_match",
+        summoner_views.update_summoner_match,
+        name="update_summoner_match",
+    ),
     path("admin/", admin.site.urls),
 ]
