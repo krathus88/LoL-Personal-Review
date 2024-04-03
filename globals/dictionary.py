@@ -1,3 +1,22 @@
+dict_region = {
+    "EUW": "europe",
+    "EUNE": "europe",
+    "TR": "europe",
+    "RU": "europe",
+    "NA": "americas",
+    "BR": "americas",
+    "LAN": "americas",
+    "LAS": "americas",
+    "KR": "asia",
+    "JP": "asia",
+    "OCE": "sea",
+    "PH2": "sea",
+    "SG2": "sea",
+    "TH2": "sea",
+    "TW2": "sea",
+    "VN2": "sea",
+}
+
 dict_server = {
     "EUW": "euw1",
     "EUNE": "eun1",
@@ -16,6 +35,7 @@ dict_server = {
     "VN": "vn2",
     "TH": "th2",
 }
+
 
 dict_errors_riot_api = {
     400: "Bad request",

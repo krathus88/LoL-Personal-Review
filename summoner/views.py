@@ -29,7 +29,7 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
                 )
             else:  # if player NOT found in db
                 api_request_account = functions.find_account(
-                    summoner_name, summoner_tag
+                    region, summoner_name, summoner_tag
                 )  # Matches DB table 1
 
                 api_request_summoner = functions.find_summoner(
@@ -61,9 +61,11 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
             )
 
             # Fetch Match History
-            match_history = functions.find_match_history("0", "10", player.puuid)
+            match_history = functions.find_match_history(
+                region, "0", "10", player.puuid
+            )
             runes_data, items_data, matches_data = functions.find_match_data_general(
-                match_history
+                region, match_history
             )
             player_match_data = functions.filter_player_match_data(
                 matches_data, runes_data, items_data, player.puuid
