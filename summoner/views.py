@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Player, PlayerAdditionalInfo
-from globals import functions, dictionary
+from globals import functions, dictionary, exceptions
 import requests
 
 
@@ -42,7 +42,6 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
                     api_request_account["tagLine"],
                     api_request_summoner,
                 )
-
                 summoner_info = functions.organize_summoner_data(
                     region,
                     api_request_account["gameName"],
@@ -79,9 +78,11 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
                 },
             )
 
-    except Exception as e:
+    except exceptions.RiotAPI as e:
         return render(
             request,
             "error.html",
-            {"message": f"RIOT API Error: {e}"},
+            {
+                "message": f"RIOT API Error: {dictionary.dict_errors_riot_api[e.status_code]}"
+            },
         )

@@ -3,7 +3,7 @@ import aiohttp
 import asyncio
 import requests
 from datetime import datetime
-from globals import dictionary
+from globals import dictionary, exceptions
 
 
 def find_account(summoner_name, tag):
@@ -11,39 +11,38 @@ def find_account(summoner_name, tag):
 
     Gets Player's Account information (retrieves PUUID).
     """
-
-    api_url = os.getenv("API_URL").replace("[server]", "europe")
-    endpoint_url = (
-        os.getenv("ACCOUNT_SEARCH")
-        .replace("[gameName]", summoner_name)
-        .replace("[tagLine]", tag)
-    )
-    api_result = requests.get(
-        api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
-    )
-    if api_result.status_code == 200:
-        # API call successful
+    try:
+        api_url = os.getenv("API_URL").replace("[server]", "europe")
+        endpoint_url = (
+            os.getenv("ACCOUNT_SEARCH")
+            .replace("[gameName]", summoner_name)
+            .replace("[tagLine]", tag)
+        )
+        api_result = requests.get(
+            api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
+        )
+        api_result.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
         return api_result.json()
-    else:
-        # API call failed
-        raise Exception(api_result.status_code)
+    except requests.exceptions.RequestException as e:
+        raise exceptions.RiotAPI(api_result.status_code)
 
 
 def find_summoner(server, puuid):
     """Returns a Dictionary
 
     Gets Summoner's Account information"""
-    api_url = os.getenv("API_URL").replace("[server]", dictionary.dict_server[server])
-    endpoint_url = os.getenv("SUMMONER_SEARCH").replace("[encryptedPUUID]", puuid)
-    api_result = requests.get(
-        api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
-    )
-    if api_result.status_code == 200:
-        # API call successful
+    try:
+        api_url = os.getenv("API_URL").replace(
+            "[server]", dictionary.dict_server[server]
+        )
+        endpoint_url = os.getenv("SUMMONER_SEARCH").replace("[encryptedPUUID]", puuid)
+        api_result = requests.get(
+            api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
+        )
+        api_result.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
         return api_result.json()
-    else:
-        # API call failed
-        raise Exception(api_result.status_code)
+    except requests.exceptions.RequestException as e:
+        raise exceptions.RiotAPI(api_result.status_code)
 
 
 def find_ranked_data(server, summoner_id):
@@ -51,20 +50,20 @@ def find_ranked_data(server, summoner_id):
 
     Provides Ranked stats for a given player (by Id). Information must
     then be parsed by organize_summoner_ranked_data() to structure it correctly."""
-
-    api_url = os.getenv("API_URL").replace("[server]", dictionary.dict_server[server])
-    endpoint_url = os.getenv("RANKED_SEARCH").replace(
-        "[encryptedSummonerId]", summoner_id
-    )
-    api_result = requests.get(
-        api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
-    )
-    if api_result.status_code == 200:
-        # API call successful
+    try:
+        api_url = os.getenv("API_URL").replace(
+            "[server]", dictionary.dict_server[server]
+        )
+        endpoint_url = os.getenv("RANKED_SEARCH").replace(
+            "[encryptedSummonerId]", summoner_id
+        )
+        api_result = requests.get(
+            api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
+        )
+        api_result.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
         return api_result.json()
-    else:
-        # API call failed
-        raise Exception(api_result.status_code)
+    except requests.exceptions.RequestException as e:
+        raise exceptions.RiotAPI(api_result.status_code)
 
 
 def find_match_history(start_count, num_games, puuid):
@@ -72,21 +71,21 @@ def find_match_history(start_count, num_games, puuid):
 
     Provides the match history (matchIds) of a given summoner (by PUUID).
     Choose on what index to start and how many matches to filter."""
+    try:
+        api_url = os.getenv("API_URL").replace("[server]", "europe")
+        endpoint_url = (
+            os.getenv("SUMMONER_MATCH_HISTORY_SEARCH").replace(
+                "[encryptedPUUID]", puuid
+            )
+        ) + f"?start={start_count}&count={num_games}"
 
-    api_url = os.getenv("API_URL").replace("[server]", "europe")
-    endpoint_url = (
-        os.getenv("SUMMONER_MATCH_HISTORY_SEARCH").replace("[encryptedPUUID]", puuid)
-    ) + f"?start={start_count}&count={num_games}"
-
-    api_result = requests.get(
-        api_url + endpoint_url + "&api_key=" + os.getenv("API_KEY")
-    )
-    if api_result.status_code == 200:
-        # API call successful
+        api_result = requests.get(
+            api_url + endpoint_url + "&api_key=" + os.getenv("API_KEY")
+        )
+        api_result.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
         return api_result.json()
-    else:
-        # API call failed
-        raise Exception(int(api_result.status_code))
+    except requests.exceptions.RequestException as e:
+        raise exceptions.RiotAPI(api_result.status_code)
 
 
 def find_match_data_general(matches):
