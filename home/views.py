@@ -31,8 +31,10 @@ def submit_summoner_header(request):
         # there is no # in summoner name
         if summoner_name_tag.find("#") == -1:
             return redirect("home_page")
-        summoner_name, summoner_tag = summoner_name_tag.split("#")
 
+        summoner_name, summoner_tag = summoner_name_tag.split("#")
+        summoner_name = summoner_name.strip()
+        summoner_tag = summoner_tag.strip()
         # there is no summoner tag
         if len(summoner_tag) == 0:
             return redirect("home_page")
