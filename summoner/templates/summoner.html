@@ -209,16 +209,16 @@
                                     </button>
                                 </div>
                             </div>
-                            <!-- Hidden element -->
+                            <!-- Match Overview | Hidden by default -->
                             <div class="match-overview rounded-1 mt-1">
                                 <div class="team-blue">
                                     <div class="d-flex flex-row">
-                                        
+                                        <p></p>
                                     </div>
                                 </div>
                                 <div class="team-red">
                                     <div class="d-flex flex-row">
-
+                                        <p></p>
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +228,6 @@
                     {% block scripts %}
                     <script>
                         function toggleMatchOverview(button) {
-                            // Find the parent .match element
                             var matchContainerElement = $(button).closest('.match-container');
                             // Find the hidden element inside the .match element
                             var hiddenElement = matchContainerElement.find('.match-overview');
@@ -236,6 +235,25 @@
                             // Toggle the display of the hidden element
                             if (hiddenElement.css('display') === 'none') {
                                 hiddenElement.css('display', 'flex');
+                                
+                                $.ajax({
+                                    type: "GET",
+                                    url: "{% url 'update_summoner_match' %}",
+                                    success: function(response) {
+                                        console.log(response)
+                                        // Populate team blue elements
+                                        $('.team-blue p').html(response.team_blue_html);
+                                        
+                                        // Populate team red elements
+                                        $('.team-red p').html(response.team_red_html);
+
+                                        // Example: Update frontend with new information
+                                        // $('#element_id').text(response.example_key);
+                                    },
+                                    error: function(xhr, errmsg, err) {
+                                        console.log(xhr.status + ": " + xhr.responseText);
+                                    }
+                                });
                             } else {
                                 hiddenElement.css('display', 'none');
                             }

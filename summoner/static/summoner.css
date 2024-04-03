@@ -308,9 +308,30 @@
 
 #matchHistoryContainer .match-overview {
   display: none;
+  flex-direction: column;
   width: 100%;
   height: 300px;
   background-color: red;
+}
+
+#matchHistoryContainer .team-blue {
+  display: flex;
+  flex-direction: column;
+}
+
+#matchHistoryContainer .team-blue > div {
+  display: flex;
+  flex-direction: row;
+}
+
+#matchHistoryContainer .team-red {
+  display: flex;
+  flex-direction: column;
+}
+
+#matchHistoryContainer .team-red > div {
+  display: flex;
+  flex-direction: row;
 }
 
 @media (max-width: 1499px) {

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from .models import Player, PlayerAdditionalInfo
 from globals import functions, dictionary
 import requests
@@ -85,3 +86,14 @@ def summoner_detail(request, region, summoner_name, summoner_tag):
             "error.html",
             {"message": f"RIOT API Error: {e}"},
         )
+
+
+def update_summoner_match(request):
+    team_blue_html = "Hello"
+    team_red_html = "Bye"
+
+    new_information = {
+        "team_blue_html": team_blue_html,
+        "team_red_html": team_red_html,
+    }
+    return JsonResponse(new_information)
