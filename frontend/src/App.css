@@ -1,0 +1,60 @@
+body,
+html {
+    overflow-x: clip;
+}
+
+html {
+    background-image: url("./assets/images/dark-background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+body {
+    width: 80% !important;
+    max-width: 1320px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.font-color-win {
+    color: #2deb90;
+}
+
+.font-color-defeat {
+    color: #ff5859;
+}
+
+.background-win {
+    background-color: #2cffa636;
+}
+
+.background-defeat {
+    background-color: #59343b;
+}
+
+.decoration-win {
+    background-color: #2deb90;
+}
+
+.decoration-defeat {
+    background-color: #e84057;
+}
+
+.truncate {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: block;
+}
+
+@media (max-width: 575px) {
+    body {
+        width: 100% !important;
+    }
+
+    main {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+}

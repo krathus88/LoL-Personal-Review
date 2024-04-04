@@ -1,0 +1,134 @@
+#personalRating > div {
+    background-color: #31313c;
+    min-width: 300px;
+}
+
+#personalRating > div > div > hr {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    height: inherit;
+}
+
+#personalRating .league-rank-img-container {
+    overflow: hidden; /* Ensure the clipped portion is hidden */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+#personalRating .league-rank-img {
+    height: 200%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+#personalRating .vertical-separator {
+    display: none;
+    border-left: 1px solid var(--bs-border-color); /* Customize separator style */
+    height: inherit; /* Set height to match the height of the flex items */
+    margin-bottom: 1rem;
+}
+
+/* #summonerRankedSoloQ */
+
+#summonerRankedSoloQ .league-rank-img-container {
+    width: 160px;
+    height: 160px;
+    padding-right: 0px;
+}
+
+#summonerRankedSoloQ h3 {
+    font-size: 22px;
+    margin-bottom: 0;
+}
+
+#summonerRankedSoloQ .win-rate {
+    font-size: 13px;
+}
+
+/* #summonerRankedFlex */
+
+#summonerRankedFlex .league-rank-img-container {
+    margin-left: 0.75rem;
+    width: 80px;
+    height: 80px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#summonerRankedFlex h3 {
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+#summonerRankedFlex small {
+    font-size: 13px;
+}
+
+@media (max-width: 991px) {
+    #personalRating .unranked-soloq {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    #personalRating > div > div > hr {
+        display: none;
+    }
+
+    #personalRating .vertical-separator {
+        display: block;
+    }
+
+    /* #summonerRankedFlex */
+
+    #summonerRankedFlex {
+        align-items: center;
+    }
+
+    #summonerRankedFlex > .col {
+        align-self: start;
+    }
+
+    #summonerRankedFlex h3 {
+        font-size: 19px;
+    }
+
+    #summonerRankedFlex .league-rank-img-container {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+@media (max-width: 767px) {
+    #personalRating .unranked-soloq {
+        padding-bottom: 0;
+    }
+
+    #personalRating > div > div > hr {
+        display: block;
+    }
+
+    #personalRating .vertical-separator {
+        display: none;
+    }
+
+    /* #summonerRankedFlex */
+
+    #summonerRankedFlex {
+        padding-bottom: 0 !important;
+    }
+
+    #summonerRankedFlex .league-rank-img-container {
+        width: 160px;
+        height: 160px;
+        order: 2;
+    }
+
+    #summonerRankedFlex .col {
+        text-align: right;
+    }
+
+    #summonerRankedFlex .col .me-3 {
+        margin-right: 0 !important;
+    }
+}
