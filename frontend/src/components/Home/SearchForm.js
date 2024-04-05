@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { regions } from "../../utils/constants";
 import "./SearchForm.css";
 
@@ -19,16 +20,41 @@ function SearchForm() {
         };
     }, [isMobile]); // Add isMobile to the dependency array
 
-    const actionUrl = isMobile
-        ? "{% url 'submit_summoner_mobile' %}"
-        : "{% url 'submit_summoner_desktop' %}";
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        // Get form data
+        const formData = new FormData(event.target);
+        const region = formData.get("region");
+
+        const summonerName = isMobile
+            ? formData.get("summoner_name_tag")
+            : formData.get("summoner_name");
+        const summonerTag = isMobile ? "" : formData.get("summoner_tag");
+
+        try {
+            // Make API call using Axios
+            const response = await axios.get("/api/summoners/", {
+                params: {
+                    region: region,
+                    summoner_name: summonerName,
+                    summoner_tag: summonerTag,
+                },
+            });
+
+            // Handle response data here
+            console.log(response.data);
+        } catch (error) {
+            // Handle error
+            console.error("Error:", error);
+        }
+    };
 
     return (
         <form
             className="container form-summoner d-flex flex-lg-row flex-column align-items-center justify-content-center mt-5"
             role="search"
-            method="GET"
-            action={actionUrl}
+            onSubmit={handleSubmit}
         >
             <div className="search-container d-flex flex-row">
                 <div className="form-floating me-1" bis_skin_checked="1">
