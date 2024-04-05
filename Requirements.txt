@@ -3,5 +3,5 @@ py -m pip install Django==5.0.3
 pip install python-dotenv==1.0.1
 pip install psycopg[binary]==3.1.18
 pip install requests==2.31.0
-pip install aiohttp
-
+pip install aiohttp==3.9.3
+pip install django-ninja==1.1.0
