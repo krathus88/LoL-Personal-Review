@@ -1,7 +1,7 @@
 import React from "react";
 import "./Header.css";
 
-function SummonerHeader() {
+function SummonerHeader(props) {
     return (
         <div
             className="container-fluid row align-items-center flex-nowrap mb-3 py-2 rounded-3"
@@ -10,13 +10,18 @@ function SummonerHeader() {
             <div className="col-auto">
                 <img
                     className="profile-icon rounded-3"
-                    src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/1.jpg"
+                    src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${props.summonerInfo.iconId}.jpg`}
                     alt="Summoner Icon"
                 />
             </div>
             <div className="col truncate">
-                <h4 className="truncate">Summoner Name</h4>
-                <small className="truncate">Level: </small>
+                <h4 className="truncate">
+                    {props.summonerInfo.name}#{props.summonerInfo.tag} (
+                    {props.summonerInfo.region})
+                </h4>
+                <small className="truncate">
+                    Level: {props.summonerInfo.level}
+                </small>
             </div>
             <div className="col-auto">
                 <button type="button" className="btn btn-warning">

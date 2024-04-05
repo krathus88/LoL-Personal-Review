@@ -17,7 +17,10 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
         if region and summoner_name and summoner_tag:
             player = Player.find_db(region, summoner_name, summoner_tag)  # DB table 1
             summoner_info = None
+            puuid = None
             if player:  # if player found in db
+                puuid = player.puuid
+
                 player_additional_info = PlayerAdditionalInfo.find_db(
                     player.id
                 )  # DB table 2
@@ -37,6 +40,8 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
                 api_request_account = functions.find_account(
                     region, summoner_name, summoner_tag
                 )  # Matches DB table 1
+
+                puuid = api_request_account["puuid"]
 
                 api_request_summoner = functions.find_summoner(
                     region, api_request_account["puuid"]
@@ -66,6 +71,7 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
             )
 
             return {
+                "puuid": puuid,
                 "region": region,
                 "summoner_info": summoner_info,
                 "ranked_info": organized_ranked_data,
@@ -78,8 +84,8 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
         )
 
 
-@router.get("/match-history")
-def match_history(request, region: str, start: int, end: int, puuid: str):
+@router.get("/match-history/")
+def match_history(request, region: str, start: str, end: str, puuid: str):
     try:
         match_history = functions.find_match_history(region, start, end, puuid)
 
@@ -89,7 +95,7 @@ def match_history(request, region: str, start: int, end: int, puuid: str):
         player_match_data = functions.filter_player_match_data(
             matches_data, runes_data, items_data, puuid
         )
-
+        print(player_match_data)
         return {"player_matches_data": player_match_data, "matches_data": matches_data}
     except exceptions.RiotAPI as e:
         raise HttpError(

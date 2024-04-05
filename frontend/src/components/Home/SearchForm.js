@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { regions } from "../../utils/constants";
 import "./SearchForm.css";
 
 function SearchForm() {
+    const navigate = useNavigate();
+
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     useEffect(() => {
@@ -42,8 +45,11 @@ function SearchForm() {
                 },
             });
 
-            // Handle response data here
-            console.log(response.data);
+            // Assuming the API response contains the necessary information
+            const responseData = response.data;
+
+            // Redirect to the "/summoners" route
+            navigate("/summoners", { state: { responseData } });
         } catch (error) {
             // Handle error
             console.error("Error:", error);
