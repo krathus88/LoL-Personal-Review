@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { regions } from "../../utils/constants";
+import { getSummonerName } from "../../utils/functions";
 import "./SearchForm.css";
 
 function SearchForm() {
@@ -28,40 +28,27 @@ function SearchForm() {
 
         // Get form data
         const formData = new FormData(event.target);
-        const region = formData.get("region");
+        let region = formData.get("region");
 
-        const summonerName = isMobile
-            ? formData.get("summoner_name_tag")
-            : formData.get("summoner_name");
-        const summonerTag = isMobile ? "" : formData.get("summoner_tag");
+        let summonerNameTag = "";
 
-        try {
-            // Make API call using Axios
-            const response = await axios.get("/api/summoners/", {
-                params: {
-                    region: region,
-                    summoner_name: summonerName,
-                    summoner_tag: summonerTag,
-                },
-            });
-
-            // Assuming the API response contains the necessary information
-            const responseData = response.data;
-
-            // Redirect to the "/summoners" route
-            navigate("/summoners", { state: { responseData } });
-        } catch (error) {
-            // Handle error
-            console.error("Error:", error);
+        if (isMobile) {
+            summonerNameTag = getSummonerName(formData.get("summoner_name_tag"));
+        } else {
+            let summonerName = formData.get("summoner_name");
+            let summonerTag = formData.get("summoner_tag");
+            summonerNameTag = summonerName + "-" + summonerTag;
         }
+
+        // Redirect to the "/summoner" route
+        navigate(`/summoner/${region}/${summonerNameTag}`);
     };
 
     return (
         <form
             className="container form-summoner d-flex flex-lg-row flex-column align-items-center justify-content-center mt-5"
             role="search"
-            onSubmit={handleSubmit}
-        >
+            onSubmit={handleSubmit}>
             <div className="search-container d-flex flex-row">
                 <div className="form-floating me-1" bis_skin_checked="1">
                     <select
@@ -69,8 +56,7 @@ function SearchForm() {
                         id="region"
                         name="region"
                         aria-label="Region"
-                        required
-                    >
+                        required>
                         {regions.map((region) => (
                             <option key={region}>{region}</option>
                         ))}
@@ -81,8 +67,7 @@ function SearchForm() {
                     <div className="d-flex flex-row">
                         <div
                             className="form-floating form-desktop-name"
-                            bis_skin_checked="1"
-                        >
+                            bis_skin_checked="1">
                             <input
                                 type="text"
                                 className="form-control rounded-start"
@@ -97,8 +82,7 @@ function SearchForm() {
                         </div>
                         <div
                             className="form-floating form-desktop-tag"
-                            bis_skin_checked="1"
-                        >
+                            bis_skin_checked="1">
                             <input
                                 type="text"
                                 className="form-control rounded-end"
@@ -114,10 +98,7 @@ function SearchForm() {
                     </div>
                 )}
                 {isMobile && (
-                    <div
-                        className="form-floating form-mobile"
-                        bis_skin_checked="1"
-                    >
+                    <div className="form-floating form-mobile" bis_skin_checked="1">
                         <input
                             type="text"
                             className="form-control rounded"

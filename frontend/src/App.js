@@ -1,22 +1,23 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Common/Header";
-import Footer from "./components/Common/Footer";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
-import Summoners from "./pages/Summoners";
+import Summoner, { summonerLoader } from "./pages/Summoner";
 import "./App.css";
 
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Home />,
+    },
+    {
+        path: "/summoner/:region/:summonerNameTag",
+        element: <Summoner />,
+        loader: summonerLoader,
+    },
+]);
+
 function App() {
-    return (
-        <Router>
-            <Header />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/summoners" element={<Summoners />} />
-            </Routes>
-            <Footer />
-        </Router>
-    );
+    return <RouterProvider router={router} />;
 }
 
 export default App;
