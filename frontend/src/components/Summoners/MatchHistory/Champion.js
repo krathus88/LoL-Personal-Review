@@ -1,10 +1,6 @@
 import React from "react";
-import { dict_summoner_spells } from "../../../utils/constants";
 
 function Champion(props) {
-    const sumSpell1 = dict_summoner_spells[props.sum1Id];
-    const sumSpell2 = dict_summoner_spells[props.sum2Id];
-
     return (
         <div className="col-auto d-flex flex-row match-player-champ">
             <div className="match-player-champ-info text-center">
@@ -25,12 +21,12 @@ function Champion(props) {
             <div className="ms-1 d-flex flex-column justify-content-between">
                 <img
                     className="match-player-champ-sum-spell rounded-2"
-                    src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/${sumSpell1}.png`}
+                    src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/${props.sum1Id}.png`}
                     alt="Summoner Spell 1"
                 />
                 <img
                     className="match-player-champ-sum-spell rounded-2"
-                    src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/${sumSpell2}.png`}
+                    src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/data/spells/icons2d/${props.sum2Id}.png`}
                     alt="Summoner Spell 2"
                 />
             </div>

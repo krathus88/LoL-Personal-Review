@@ -1,22 +1,22 @@
 import React from "react";
 import TeamCompIcon from "./TeamCompIcon";
 
-function TeamComp() {
+function TeamComp(props) {
     return (
         <div className="col match-team-comp">
             <div className="d-flex flex-row mx-0">
-                <TeamCompIcon champId="1" />
-                <TeamCompIcon champId="2" />
-                <TeamCompIcon champId="3" />
-                <TeamCompIcon champId="4" />
-                <TeamCompIcon champId="5" />
+                <TeamCompIcon champ={props.playerChamps[0]} />
+                <TeamCompIcon champ={props.playerChamps[1]} />
+                <TeamCompIcon champ={props.playerChamps[2]} />
+                <TeamCompIcon champ={props.playerChamps[3]} />
+                <TeamCompIcon champ={props.playerChamps[4]} />
             </div>
             <div className="d-flex flex-row mx-0">
-                <TeamCompIcon champId="6" />
-                <TeamCompIcon champId="7" />
-                <TeamCompIcon champId="8" />
-                <TeamCompIcon champId="9" />
-                <TeamCompIcon champId="10" />
+                <TeamCompIcon champ={props.playerChamps[5]} />
+                <TeamCompIcon champ={props.playerChamps[6]} />
+                <TeamCompIcon champ={props.playerChamps[7]} />
+                <TeamCompIcon champ={props.playerChamps[8]} />
+                <TeamCompIcon champ={props.playerChamps[9]} />
             </div>
         </div>
     );

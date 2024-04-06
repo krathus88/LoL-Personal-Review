@@ -95,8 +95,13 @@ def match_history(request, region: str, start: str, end: str, puuid: str):
         player_match_data = functions.filter_player_match_data(
             matches_data, runes_data, items_data, puuid
         )
-        print(player_match_data)
-        return {"player_matches_data": player_match_data, "matches_data": matches_data}
+
+        combined_data = [
+            {"player_match": player_match, "match": match}
+            for player_match, match in zip(player_match_data, matches_data)
+        ]
+
+        return combined_data
     except exceptions.RiotAPI as e:
         raise HttpError(
             e.status_code,

@@ -87,7 +87,7 @@ function Header() {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/Summoners">
+                                <Link className="nav-link" to="/">
                                     Link
                                 </Link>
                             </li>
