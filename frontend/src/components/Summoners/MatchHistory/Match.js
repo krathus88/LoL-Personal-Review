@@ -7,46 +7,51 @@ import TeamComp from "./TeamComp";
 import Analysis from "./Analysis";
 import Overview from "./Overview";
 
-function Match() {
-    const playerWin = true;
-
+function Match(props) {
     return (
         <div className="match-container d-flex flex-column">
             <div
                 className={`match overflow-hidden position-relative d-flex flex-column justify-content-center pe-0 rounded-1 ${
-                    playerWin ? "background-win" : "background-defeat"
+                    props.playerData.win
+                        ? "background-win"
+                        : "background-defeat"
                 }`}
             >
                 <small className="truncate border-bottom">
-                    30 minutes - ago
+                    {props.playerData.gameMode} -{" "}
+                    {props.playerData.timeSinceGameEnd} ago
                 </small>
                 <div className="d-flex flex-row align-items-center flex-nowrap mx-0">
                     <div
                         className={`decoration ${
-                            playerWin ? "decoration-win" : "decoration-defeat"
+                            props.playerData.win
+                                ? "decoration-win"
+                                : "decoration-defeat"
                         }`}
                     ></div>
                     <MatchInfo
-                        gameModeId="490"
-                        gameEnd="30 minutes"
-                        gameDuration="25m 30s"
+                        gameMode={props.playerData.gameMode}
+                        gameEnd={props.playerData.timeSinceGameEnd}
+                        gameDuration={props.playerData.gameDuration}
                     />
                     <Champion
-                        champId="1"
-                        sum1Id="13"
-                        sum2Id="14"
-                        primaryRune="perk-images/styles/domination/hailofblades/hailofblades.png"
+                        champId={props.playerData.championId}
+                        sum1Id={props.playerData.summoner1Id}
+                        sum2Id={props.playerData.summoner2Id}
+                        primaryRune={props.playerData.primaryRune}
                     />
                     <Stats
-                        cs="999"
-                        kp="100"
-                        kills="99"
-                        deaths="99"
-                        assists="99"
-                        kda="123:1"
+                        cs={props.playerData.cs}
+                        kp={props.playerData.killParticipation}
+                        kills={props.playerData.kills}
+                        deaths={props.playerData.deaths}
+                        assists={props.playerData.assists}
+                        kda={props.playerData.kda}
                     />
-                    <Items itemId="11" />
-                    <TeamComp />
+                    <Items items={props.playerData.items} />
+                    <TeamComp
+                        playerChamps={props.matchData.info.participants}
+                    />
                     <Analysis />
                     <button
                         type="button"
@@ -88,7 +93,7 @@ function Match() {
                     </button>
                 </div>
             </div>
-            <Overview />
+            <Overview matchData={props.matchData} />
         </div>
     );
 }
