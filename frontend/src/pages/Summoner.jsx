@@ -1,4 +1,3 @@
-import React from "react";
 import { useLoaderData } from "react-router-dom";
 import SummonerHeader from "../components/Summoners/SummonerHeader";
 import PersonalRating from "../components/Summoners/PersonalRating/PersonalRating";
@@ -12,7 +11,6 @@ export const summonerLoader = async ({ params }) => {
     const { region, summonerNameTag } = params;
 
     let [summonerName, summonerTag] = summonerNameTag.split("-");
-    console.log(region, ", ", summonerName, ", ", summonerTag);
 
     try {
         const response = await axios.get("/api/summoners/", {
@@ -22,7 +20,6 @@ export const summonerLoader = async ({ params }) => {
                 summoner_tag: summonerTag,
             },
         });
-        console.log(response.data);
         return response.data;
     } catch (error) {
         return <Error />;
@@ -31,7 +28,6 @@ export const summonerLoader = async ({ params }) => {
 
 function Summoner() {
     const summonerData = useLoaderData();
-    console.log(summonerData);
 
     return (
         <>

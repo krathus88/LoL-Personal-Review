@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Match from "./Match";
@@ -27,7 +27,6 @@ function MatchHistory(props) {
                         },
                     })
                     .then((response) => {
-                        console.log(response.data);
                         setMatches(response.data);
                         setLoading(false);
                     })

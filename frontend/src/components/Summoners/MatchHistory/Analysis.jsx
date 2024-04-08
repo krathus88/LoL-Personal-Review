@@ -1,5 +1,3 @@
-import React from "react";
-
 function Analysis() {
     return (
         <div className="col match-player-analysis pe-0">

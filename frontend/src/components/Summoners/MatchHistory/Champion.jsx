@@ -1,5 +1,3 @@
-import React from "react";
-
 function Champion(props) {
     return (
         <div className="col-auto d-flex flex-row match-player-champ">

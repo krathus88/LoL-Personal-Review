@@ -1,5 +1,3 @@
-import React from "react";
-
 function FlexQueue(props) {
     const tier = props.rankFlex.tier.toLowerCase();
     const excludeTiers = ["challenger", "grandmaster", "master"];
@@ -27,9 +25,7 @@ function FlexQueue(props) {
                 <div className="col d-flex flex-column">
                     <small className="fw-light">
                         Wins:{" "}
-                        <span className="font-color-win">
-                            {props.rankFlex.wins}
-                        </span>
+                        <span className="font-color-win">{props.rankFlex.wins}</span>
                     </small>
                     <small className="fw-light mb-2">
                         Defeats:{" "}
@@ -37,9 +33,7 @@ function FlexQueue(props) {
                             {props.rankFlex.losses}
                         </span>
                     </small>
-                    <small className="fw-light">
-                        WR: {props.rankFlex.winRate}%
-                    </small>
+                    <small className="fw-light">WR: {props.rankFlex.winRate}%</small>
                 </div>
             </div>
         </div>

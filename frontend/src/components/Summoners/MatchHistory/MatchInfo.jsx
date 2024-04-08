@@ -1,5 +1,3 @@
-import React from "react";
-
 function MatchInfo(props) {
     return (
         <div className="d-flex flex-column match-info ps-0">

@@ -1,4 +1,3 @@
-import React from "react";
 import ItemsIcon from "./ItemsIcon";
 
 function Items(props) {
