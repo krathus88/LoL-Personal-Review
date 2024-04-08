@@ -5,3 +5,4 @@ pip install psycopg[binary]==3.1.18
 pip install requests==2.31.0
 pip install aiohttp==3.9.3
 pip install django-ninja==1.1.0
+pip install django-cors-headers==4.3.1
