@@ -15,10 +15,10 @@ def add(request, a: int, b: int):
 def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str):
     try:
         if region and summoner_name and summoner_tag:
-            player = Player.find_db(region, summoner_name, summoner_tag)  # DB table 1
+            player = Player.find(region, summoner_name, summoner_tag)  # DB table 1
             summoner_info = None
             if player:  # if player found in db
-                player_additional_info = PlayerAdditionalInfo.find_db(
+                player_additional_info = PlayerAdditionalInfo.find(
                     player.id
                 )  # DB table 2
 
@@ -42,13 +42,22 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
                     region, api_request_account["puuid"]
                 )  # Matches DB table 2
 
-                player = Player.add_to_db(
-                    api_request_account["puuid"],
-                    region,
-                    api_request_account["gameName"],
-                    api_request_account["tagLine"],
-                    api_request_summoner,
+                # add player to DB
+                player = Player.objects.create(
+                    puuid=api_request_account["puuid"],
+                    region=region,
+                    summoner_name=api_request_account["gameName"],
+                    summoner_tag=api_request_account["tagLine"],
                 )
+
+                PlayerAdditionalInfo.objects.create(
+                    id=player.id,
+                    summoner_id=api_request_summoner["id"],
+                    account_id=api_request_summoner["accountId"],
+                    level=api_request_summoner["summonerLevel"],
+                    summoner_icon=api_request_summoner["profileIconId"],
+                )
+
                 summoner_info = functions.organize_summoner_data(
                     region,
                     api_request_account["gameName"],
