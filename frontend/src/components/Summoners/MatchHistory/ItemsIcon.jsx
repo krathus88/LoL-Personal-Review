@@ -1,5 +1,3 @@
-import React from "react";
-
 function ItemsIcon(props) {
     return (
         <div className="match-player-item-container rounded">

@@ -1,5 +1,3 @@
-import React from "react";
-
 function Errors() {
     return (
         <div className="container col-6 pt-2 pb-3 rounded-4">

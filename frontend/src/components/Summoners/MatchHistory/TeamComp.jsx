@@ -1,4 +1,3 @@
-import React from "react";
 import TeamCompIcon from "./TeamCompIcon";
 
 function TeamComp(props) {

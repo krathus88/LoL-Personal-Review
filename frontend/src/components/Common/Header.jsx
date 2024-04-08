@@ -1,6 +1,4 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { regions } from "../../utils/constants";
 import { getSummonerName } from "../../utils/functions";
 import "./Header.css";
