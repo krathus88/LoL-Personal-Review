@@ -1,12 +1,11 @@
 import React from "react";
-import "./Header.css";
+import "./SummonerHeader.css";
 
 function SummonerHeader(props) {
     return (
         <div
             className="container-fluid row align-items-center flex-nowrap mb-3 py-2 rounded-3"
-            id="summonerHeader"
-        >
+            id="summonerHeader">
             <div className="col-auto">
                 <img
                     className="profile-icon rounded-3"
@@ -19,9 +18,7 @@ function SummonerHeader(props) {
                     {props.summonerInfo.name}#{props.summonerInfo.tag} (
                     {props.summonerInfo.region})
                 </h4>
-                <small className="truncate">
-                    Level: {props.summonerInfo.level}
-                </small>
+                <small className="truncate">Level: {props.summonerInfo.level}</small>
             </div>
             <div className="col-auto">
                 <button type="button" className="btn btn-warning">
@@ -33,8 +30,7 @@ function SummonerHeader(props) {
                             height="24"
                             fill="currentColor"
                             className="bi bi-arrow-repeat"
-                            viewBox="0 0 16 16"
-                        >
+                            viewBox="0 0 16 16">
                             <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9" />
                             <path
                                 fillRule="evenodd"

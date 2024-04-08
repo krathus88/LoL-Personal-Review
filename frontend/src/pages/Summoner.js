@@ -6,11 +6,13 @@ import MatchHistory from "../components/Summoners/MatchHistory/MatchHistory";
 import axios from "axios";
 import Header from "../components/Common/Header";
 import Footer from "../components/Common/Footer";
+import Error from "./Error";
 
 export const summonerLoader = async ({ params }) => {
     const { region, summonerNameTag } = params;
 
     let [summonerName, summonerTag] = summonerNameTag.split("-");
+    console.log(region, ", ", summonerName, ", ", summonerTag);
 
     try {
         const response = await axios.get("/api/summoners/", {
@@ -20,11 +22,10 @@ export const summonerLoader = async ({ params }) => {
                 summoner_tag: summonerTag,
             },
         });
-
+        console.log(response.data);
         return response.data;
     } catch (error) {
-        console.error("Error fetching summoner data:", error);
-        return null;
+        return <Error />;
     }
 };
 
