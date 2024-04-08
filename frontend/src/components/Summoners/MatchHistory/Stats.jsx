@@ -1,5 +1,3 @@
-import React from "react";
-
 function Stats(props) {
     return (
         <div className="col-auto match-player-stats">

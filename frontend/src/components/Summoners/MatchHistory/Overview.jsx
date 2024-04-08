@@ -1,5 +1,3 @@
-import React from "react";
-
 function Overview() {
     return (
         <div className="match-overview rounded-1 mt-1">

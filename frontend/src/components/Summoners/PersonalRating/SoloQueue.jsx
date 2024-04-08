@@ -1,5 +1,3 @@
-import React from "react";
-
 function SoloQueue(props) {
     const tier = props.rankSoloQ.tier.toLowerCase();
     const excludeTiers = ["challenger", "grandmaster", "master"];
@@ -19,18 +17,11 @@ function SoloQueue(props) {
                     {!excludeTiers.includes(tier) && props.rankSoloQ.rank}
                 </h3>
                 <small className="fw-light mb-3">Soloqueue</small>
-                <small className="fw-light">
-                    LP: {props.rankSoloQ.leaguePoints}
-                </small>
+                <small className="fw-light">LP: {props.rankSoloQ.leaguePoints}</small>
                 <small className="fw-light mb-1">
-                    Wins:{" "}
-                    <span className="font-color-win">
-                        {props.rankSoloQ.wins}
-                    </span>{" "}
+                    Wins: <span className="font-color-win">{props.rankSoloQ.wins}</span>{" "}
                     - Defeats:{" "}
-                    <span className="font-color-defeat">
-                        {props.rankSoloQ.losses}
-                    </span>
+                    <span className="font-color-defeat">{props.rankSoloQ.losses}</span>
                 </small>
                 <small className="fw-light win-rate">
                     WR: {props.rankSoloQ.winRate}%
