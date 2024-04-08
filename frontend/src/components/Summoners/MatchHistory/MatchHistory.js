@@ -1,9 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Match from "./Match";
 import "./MatchHistory.css";
+import Loading from "../../Common/Loading";
 
 function MatchHistory(props) {
+    const navigate = useNavigate();
+
     const [matches, setMatches] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -12,32 +16,39 @@ function MatchHistory(props) {
     useEffect(() => {
         if (count.current !== 0) {
             // Function to fetch data from the API
-            const fetchData = async () => {
-                try {
-                    const response = await axios.get(
-                        "/api/summoners/match-history/",
-                        {
-                            params: {
-                                region: props.region,
-                                start: "0",
-                                end: "10",
-                                puuid: props.puuid,
-                            },
+            const fetchData = () => {
+                axios
+                    .get("/api/summoners/match-history/", {
+                        params: {
+                            region: props.region,
+                            start: "0",
+                            end: "10",
+                            puuid: props.puuid,
+                        },
+                    })
+                    .then((response) => {
+                        console.log(response.data);
+                        setMatches(response.data);
+                        setLoading(false);
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            console.error("Server Error:", error.response.status);
+                            navigate("/error");
+                        } else if (error.request) {
+                            console.error("Network Error:", error.request);
+                            navigate("/error");
+                        } else {
+                            console.error("Error:", error.message);
+                            navigate("/error");
                         }
-                    );
-                    console.log(response.data);
-                    setMatches(response.data); // Assuming response.data is an array of match data
-                    setLoading(false); // Set loading to false once data is fetched
-                } catch (error) {
-                    console.error("Error fetching data: ", error);
-                    setLoading(false); // Set loading to false in case of error
-                }
+                    });
             };
 
             fetchData(); // Call the fetchData function when the component mounts
         }
         count.current++;
-    }, [props.region, props.puuid]); // Empty dependency array to run the effect only once when the component mounts
+    }, [props.region, props.puuid, navigate]); // Empty dependency array to run the effect only once when the component mounts
 
     return (
         <div className="col" id="matchHistoryContainer">
@@ -45,15 +56,13 @@ function MatchHistory(props) {
                 <p className="border-bottom ps-2 fw-light">Recent Games</p>
                 <div className="rounded-1 d-flex flex-column gap-2">
                     {loading ? (
-                        // Render a loading indicator while data is being fetched
-                        <p>Loading...</p>
+                        <Loading />
                     ) : (
                         // Render the Match components once data is fetched
                         matches.map((combinedMatch, index) => (
                             <div
                                 key={index}
-                                className="match-container d-flex flex-column"
-                            >
+                                className="match-container d-flex flex-column">
                                 <Match
                                     playerData={combinedMatch.player_match}
                                     matchData={combinedMatch.match}

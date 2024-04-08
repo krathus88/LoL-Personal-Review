@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { regions } from "../../utils/constants";
 import { getSummonerName } from "../../utils/functions";
-import "./SearchForm.css";
+import "./Home.css";
 
 function SearchForm() {
     const navigate = useNavigate();

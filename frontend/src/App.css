@@ -15,6 +15,7 @@ body {
     max-width: 1320px;
     padding-left: 0px !important;
     padding-right: 0px !important;
+    font-family: "Roboto", sans-serif;
 }
 
 .font-color-win {
@@ -46,6 +47,19 @@ body {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
     display: block;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(45deg);
+    }
+    100% {
+        transform: rotate(405deg);
+    }
+}
+
+.spin-animation {
+    animation: spin 1.5s linear infinite;
 }
 
 @media (max-width: 575px) {
