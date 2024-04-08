@@ -50,13 +50,13 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
                 # add player to DB
                 player = Player.objects.create(
                     puuid=api_request_account["puuid"],
-                    region=region,
+                    server=region,
                     summoner_name=api_request_account["gameName"],
                     summoner_tag=api_request_account["tagLine"],
                 )
 
                 PlayerAdditionalInfo.objects.create(
-                    id=player.id,
+                    id=player,
                     summoner_id=api_request_summoner["id"],
                     account_id=api_request_summoner["accountId"],
                     level=api_request_summoner["summonerLevel"],
@@ -80,7 +80,7 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
             )
 
             return {
-                "puuid": puuid,
+                "puuid": player.puuid,
                 "region": region,
                 "summoner_info": summoner_info,
                 "ranked_info": organized_ranked_data,
@@ -89,7 +89,6 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
     except exceptions.RiotAPI as e:
         raise HttpError(
             e.status_code,
-            f"RIOT API Error: {dictionary.dict_errors_riot_api[e.status_code]}",
         )
 
 
@@ -118,7 +117,6 @@ def match_history(request, region: str, start: str, end: str, puuid: str):
     except exceptions.RiotAPI as e:
         raise HttpError(
             e.status_code,
-            f"RIOT API Error: {dictionary.dict_errors_riot_api[e.status_code]}",
         )
 
 
