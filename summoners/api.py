@@ -1,4 +1,6 @@
+from django.views.decorators.cache import cache_page
 from ninja import Router
+from ninja.decorators import decorate_view
 from ninja.errors import HttpError
 from .models import Player, PlayerAdditionalInfo
 from globals import functions, dictionary, exceptions
@@ -17,6 +19,7 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
         if region and summoner_name and summoner_tag:
             player = Player.find(region, summoner_name, summoner_tag)  # DB table 1
             summoner_info = None
+            puuid = None
             if player:  # if player found in db
                 player_additional_info = PlayerAdditionalInfo.find(
                     player.id
@@ -37,6 +40,8 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
                 api_request_account = functions.find_account(
                     region, summoner_name, summoner_tag
                 )  # Matches DB table 1
+
+                puuid = api_request_account["puuid"]
 
                 api_request_summoner = functions.find_summoner(
                     region, api_request_account["puuid"]
@@ -75,6 +80,7 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
             )
 
             return {
+                "puuid": puuid,
                 "region": region,
                 "summoner_info": summoner_info,
                 "ranked_info": organized_ranked_data,
@@ -87,8 +93,9 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
         )
 
 
-@router.get("/match-history")
-def match_history(request, region: str, start: int, end: int, puuid: str):
+@router.get("/match-history/")
+@decorate_view(cache_page(15 * 60))  # Cache response for 15 minutes
+def match_history(request, region: str, start: str, end: str, puuid: str):
     try:
         match_history = functions.find_match_history(region, start, end, puuid)
 
@@ -99,7 +106,15 @@ def match_history(request, region: str, start: int, end: int, puuid: str):
             matches_data, runes_data, items_data, puuid
         )
 
-        return {"player_matches_data": player_match_data, "matches_data": matches_data}
+        combined_data = [
+            {"player_match": player_match, "match": match}
+            for player_match, match in zip(player_match_data, matches_data)
+            if player_match is not None
+            and match
+            is not None  # Makes it so it doesnt return value on only one of the variables
+        ]
+
+        return combined_data
     except exceptions.RiotAPI as e:
         raise HttpError(
             e.status_code,
