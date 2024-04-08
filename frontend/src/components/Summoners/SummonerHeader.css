@@ -1,0 +1,25 @@
+#summonerHeader {
+    background-color: #31313c;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    height: 80px;
+}
+
+#summonerHeader .profile-icon {
+    width: 64px;
+    height: 64px;
+    object-fit: fill;
+}
+
+#summonerHeader .col {
+    padding-left: 0;
+}
+
+#summonerHeader h4 {
+    margin-bottom: 0;
+}
+
+#summonerHeader small {
+    margin-bottom: 0;
+}

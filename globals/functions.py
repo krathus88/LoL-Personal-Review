@@ -220,13 +220,15 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                             participant["perks"]["styles"][0]["selections"][0]["perk"],
                             runes_data,
                         ),
-                        "item1": filter_item(participant["item0"], items_data),
-                        "item2": filter_item(participant["item1"], items_data),
-                        "item3": filter_item(participant["item2"], items_data),
-                        "item4": filter_item(participant["item3"], items_data),
-                        "item5": filter_item(participant["item4"], items_data),
-                        "item6": filter_item(participant["item5"], items_data),
-                        "item7": filter_item(participant["item6"], items_data),
+                        "items": {
+                            "item1": filter_item(participant["item0"], items_data),
+                            "item2": filter_item(participant["item1"], items_data),
+                            "item3": filter_item(participant["item2"], items_data),
+                            "item4": filter_item(participant["item3"], items_data),
+                            "item5": filter_item(participant["item4"], items_data),
+                            "item6": filter_item(participant["item5"], items_data),
+                            "item7": filter_item(participant["item6"], items_data),
+                        },
                         "win": participant["win"],  # bool
                     }
                 )
