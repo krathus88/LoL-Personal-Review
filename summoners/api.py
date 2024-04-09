@@ -14,12 +14,12 @@ def add(request, a: int, b: int):
 
 
 @router.get("/")
+@decorate_view(cache_page(5 * 60))  # Cache response for 5 minutes
 def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str):
     try:
         if region and summoner_name and summoner_tag:
             player = Player.find(region, summoner_name, summoner_tag)  # DB table 1
             summoner_info = None
-            puuid = None
             if player:  # if player found in db
                 player_additional_info = PlayerAdditionalInfo.find(
                     player.id
@@ -40,8 +40,6 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
                 api_request_account = functions.find_account(
                     region, summoner_name, summoner_tag
                 )  # Matches DB table 1
-
-                puuid = api_request_account["puuid"]
 
                 api_request_summoner = functions.find_summoner(
                     region, api_request_account["puuid"]

@@ -15,7 +15,6 @@ function MatchHistory(props) {
 
     useEffect(() => {
         if (count.current !== 0) {
-            // Function to fetch data from the API
             const fetchData = () => {
                 axios
                     .get("/api/summoners/match-history/", {
@@ -43,11 +42,16 @@ function MatchHistory(props) {
                         }
                     });
             };
-
             fetchData(); // Call the fetchData function when the component mounts
         }
+
         count.current++;
-    }, [props.region, props.puuid, navigate]); // Empty dependency array to run the effect only once when the component mounts
+
+        return () => {
+            setMatches([]);
+            setLoading(true);
+        };
+    }, [props.puuid]);
 
     return (
         <div className="col" id="matchHistoryContainer">

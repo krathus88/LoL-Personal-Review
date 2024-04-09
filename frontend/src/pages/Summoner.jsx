@@ -1,13 +1,11 @@
+import { useEffect } from "react";
 import { useLoaderData } from "react-router-dom";
+import axios from "axios";
 import SummonerHeader from "../components/Summoners/SummonerHeader";
 import PersonalRating from "../components/Summoners/PersonalRating/PersonalRating";
 import MatchHistory from "../components/Summoners/MatchHistory/MatchHistory";
-import axios from "axios";
-import Header from "../components/Common/Header";
-import Footer from "../components/Common/Footer";
-import Error from "./Error";
 
-export const summonerLoader = async ({ params }) => {
+export const SummonerLoader = async ({ params }) => {
     const { region, summonerNameTag } = params;
 
     let [summonerName, summonerTag] = summonerNameTag.split("-");
@@ -22,28 +20,25 @@ export const summonerLoader = async ({ params }) => {
         });
         return response.data;
     } catch (error) {
-        return <Error />;
+        throw error; // Re-throw the error to let React Router handle it
     }
 };
 
 function Summoner() {
     const summonerData = useLoaderData();
 
+    useEffect(() => {
+        document.title = `${summonerData.summoner_info.name}#${summonerData.summoner_info.tag} - LoL PR`;
+    }, [summonerData]);
+
     return (
-        <>
-            <Header />
-            <main className="container-fluid mt-2">
-                <SummonerHeader summonerInfo={summonerData.summoner_info} />
-                <div className="d-flex flex-lg-row flex-column gap-3">
-                    <PersonalRating rankedInfo={summonerData.ranked_info} />
-                    <MatchHistory
-                        region={summonerData.region}
-                        puuid={summonerData.puuid}
-                    />
-                </div>
-            </main>
-            <Footer />
-        </>
+        <main className="container-fluid mt-2">
+            <SummonerHeader summonerInfo={summonerData.summoner_info} />
+            <div className="d-flex flex-lg-row flex-column gap-3">
+                <PersonalRating rankedInfo={summonerData.ranked_info} />
+                <MatchHistory region={summonerData.region} puuid={summonerData.puuid} />
+            </div>
+        </main>
     );
 }
 

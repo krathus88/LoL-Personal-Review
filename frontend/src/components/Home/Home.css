@@ -1,59 +1,55 @@
-main .form-summoner {
+main #form-summoner {
     background-color: #31313c;
     width: fit-content;
     border-radius: 50px;
     padding: 10px 30px;
 }
 
-main #region {
+main #form-summoner #region {
     width: 95px;
 }
 
-main .search-container .form-desktop-name {
+main #form-summoner .search-container .form-desktop-name {
     width: 125%;
 }
 
-main .search-container .form-desktop-tag {
+main #form-summoner .search-container .form-desktop-tag {
     width: 75%;
 }
 
-main .form-select {
+main #form-summoner .form-select {
     border: none;
 }
 
-main .form-control {
+main #form-summoner .form-control {
     border: none;
     border-radius: 0;
 }
 
-main .search-container .form-mobile {
+main #form-summoner .search-container .form-mobile {
     width: 100%;
 }
 
 @media (max-width: 991px) {
-    main .form-summoner {
-        background-color: inherit;
-    }
-
-    main .search-container {
-        background-color: #31313c;
-        border-radius: 50px;
-        padding: 10px 30px;
-        z-index: 100;
-    }
-
-    main .form-summoner {
+    main #form-summoner {
         background-color: inherit;
         width: 100%;
     }
 
-    main .container button {
-        position: relative;
+    main #form-summoner .search-container {
+        background-color: #31313c;
+        border-radius: 50px;
+        padding: 10px 30px;
         z-index: 1;
     }
 
+    main #form-summoner button {
+        position: relative;
+        z-index: 0;
+    }
+
     /* Add styling for the half-moon background on the button */
-    main .container button::before {
+    main #form-summoner button::before {
         content: "";
         position: absolute;
         width: 225%;
@@ -67,7 +63,7 @@ main .search-container .form-mobile {
 }
 
 @media (max-width: 767px) {
-    main .search-container {
+    main #form-summoner .search-container {
         width: 100%;
     }
 }

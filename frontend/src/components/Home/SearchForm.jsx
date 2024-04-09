@@ -21,7 +21,7 @@ function SearchForm() {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, [isMobile]); // Add isMobile to the dependency array
+    }, []); // Add isMobile to the dependency array
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -47,6 +47,7 @@ function SearchForm() {
     return (
         <form
             className="container form-summoner d-flex flex-lg-row flex-column align-items-center justify-content-center mt-5"
+            id="form-summoner"
             role="search"
             onSubmit={handleSubmit}>
             <div className="search-container d-flex flex-row">
@@ -57,8 +58,10 @@ function SearchForm() {
                         name="region"
                         aria-label="Region"
                         required>
-                        {regions.map((region) => (
-                            <option key={region}>{region}</option>
+                        {regions.map((region, index) => (
+                            <option key={index} value={region}>
+                                {region}
+                            </option>
                         ))}
                     </select>
                     <label htmlFor="region">Region</label>
