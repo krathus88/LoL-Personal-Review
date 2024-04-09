@@ -140,8 +140,10 @@ function Header() {
                                 name="region"
                                 aria-label="Region Header"
                                 required>
-                                {regions.map((region) => (
-                                    <option key={region}>{region}</option>
+                                {regions.map((region, index) => (
+                                    <option key={index} value={region}>
+                                        {region}
+                                    </option>
                                 ))}
                             </select>
                             <input

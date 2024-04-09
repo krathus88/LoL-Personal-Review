@@ -8,7 +8,7 @@ import Overview from "./Overview";
 
 function Match(props) {
     return (
-        <div className="match-container d-flex flex-column">
+        <>
             <div
                 className={`match overflow-hidden position-relative d-flex flex-column justify-content-center pe-0 rounded-1 ${
                     props.playerData.win ? "background-win" : "background-defeat"
@@ -83,7 +83,7 @@ function Match(props) {
                 </div>
             </div>
             <Overview matchData={props.matchData} />
-        </div>
+        </>
     );
 }
 

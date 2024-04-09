@@ -1,12 +1,14 @@
 body,
-html {
+html,
+body > div {
     overflow-x: clip;
 }
 
 html {
     background-image: url("./assets/images/dark-background.jpg");
-    background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     background-attachment: fixed;
 }
 
@@ -16,6 +18,44 @@ body {
     padding-left: 0px !important;
     padding-right: 0px !important;
     font-family: "Roboto", sans-serif;
+    position: relative;
+}
+
+.error-popup-container {
+    position: absolute;
+    left: 0;
+    animation: slideIn 1s forwards; /* Define the animation */
+    z-index: 100;
+    width: 100%;
+}
+
+.error-popup {
+    background-color: #ff5859;
+    width: fit-content;
+}
+
+@keyframes slideIn {
+    from {
+        top: -10%; /* Start from the top of the screen */
+    }
+    to {
+        top: 4%; /* End at 10% from the top */
+    }
+}
+
+.error-popup > p {
+    margin-bottom: 0.1rem;
+}
+
+.error-popup > button {
+    width: 38px;
+    border-radius: inherit;
+    background-color: inherit;
+    border: none;
+}
+
+.error-popup > button > svg {
+    margin-top: 0.1rem;
 }
 
 .font-color-win {
