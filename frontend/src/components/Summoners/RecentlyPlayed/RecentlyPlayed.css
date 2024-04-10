@@ -1,0 +1,25 @@
+#recentlyPlayed > div {
+    background-color: #31313c;
+    min-width: 300px;
+}
+
+#recentlyPlayed .played-with-container {
+    background-color: #0000008a;
+}
+
+#recentlyPlayed .played-with-name-container {
+    width: 65%;
+    text-decoration: none;
+    color: inherit;
+}
+
+#recentlyPlayed .played-with-icon {
+    width: 32px;
+    height: 32px;
+}
+
+@media (max-width: 991px) {
+    #recentlyPlayed .played-with-container {
+        flex: 0 0 calc(50% - 4px); /* Set width to fit 2 items per row */
+    }
+}
