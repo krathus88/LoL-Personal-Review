@@ -22,7 +22,9 @@ function PlayerPlayedWith(props) {
                 <small className="truncate">{props.summonerName}</small>
             </Link>
             <small>{props.playedWith.games_played}</small>
-            <small className={winClass}>{props.playedWith.winrate}%</small>
+            <div className="col-2 text-center">
+                <small className={winClass}>{props.playedWith.winrate}%</small>
+            </div>
         </div>
     );
 }

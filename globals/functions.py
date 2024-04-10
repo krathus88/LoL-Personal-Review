@@ -124,7 +124,7 @@ def recently_played_with(puuid, matches):
     """Returns a Dictionary
 
     Returns the recently played with players."""
-    
+
     players_stats = {}
 
     for match in matches:
@@ -156,7 +156,12 @@ def recently_played_with(puuid, matches):
             stats["winrate"] = round((stats["wins"] / stats["games_played"]) * 100)
             players_stats_filtered[name_tag] = stats
 
-    return players_stats_filtered
+    # Sort players_stats_filtered by games_played in descending order
+    sorted_stats = dict(
+        sorted(players_stats_filtered.items(), key=lambda item: item[1]["games_played"], reverse=True)
+    )
+
+    return sorted_stats
 
 
 def organize_summoner_data(
@@ -245,6 +250,7 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                             participant["assists"],
                         ),
                         "kda": calculate_kda(participant),
+                        "largestMultiKill": dictionary.dict_multikill[participant["largestMultiKill"]],
                         "cs": participant["totalMinionsKilled"]
                         + participant["neutralMinionsKilled"],
                         "summoner1Id": dictionary.dict_summoner_spells[

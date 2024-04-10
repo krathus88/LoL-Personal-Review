@@ -157,3 +157,14 @@ dict_queue_id = {
     2010: "Tutorial 2",
     2020: "Tutorial 3",
 }
+
+
+dict_multikill = {
+    0: None,
+    1: None,
+    2: "Double Kill",
+    3: "Triple Kill",
+    4: "Quadra Kill",
+    5: "PENTAKILL",
+    6: "HEXAKILL",
+}

@@ -87,7 +87,7 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
 
 
 @router.get("/match-history/")
-@decorate_view(cache_page(15 * 60))  # Cache response for 15 minutes
+@decorate_view(cache_page(5 * 60))  # Cache response for 15 minutes
 def match_history(request, region: str, start: str, end: str, puuid: str):
     try:
         match_history = functions.find_match_history(region, start, end, puuid)
@@ -108,8 +108,6 @@ def match_history(request, region: str, start: str, end: str, puuid: str):
         ]
 
         recently_played = functions.recently_played_with(puuid, matches_data)
-
-        print(recently_played)
 
         return {"matches": combined_data, "recently_played": recently_played}
     except exceptions.RiotAPI as e:
