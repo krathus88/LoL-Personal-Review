@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Player(models.Model):
-    puuid = models.CharField(max_length=78, unique=True)
+    puuid = models.CharField(max_length=78)
     server = models.CharField(max_length=4)
     summoner_name = models.CharField(max_length=16)
     summoner_tag = models.CharField(max_length=5)

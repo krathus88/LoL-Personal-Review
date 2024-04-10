@@ -8,11 +8,6 @@ from globals import functions, dictionary, exceptions
 router = Router()
 
 
-@router.get("/add")
-def add(request, a: int, b: int):
-    return {"result": a + b}
-
-
 @router.get("/")
 @decorate_view(cache_page(5 * 60))  # Cache response for 5 minutes
 def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str):
@@ -87,6 +82,7 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
     except exceptions.RiotAPI as e:
         raise HttpError(
             e.status_code,
+            "Riot API error occurred.",  # Default message
         )
 
 
@@ -119,6 +115,7 @@ def match_history(request, region: str, start: str, end: str, puuid: str):
     except exceptions.RiotAPI as e:
         raise HttpError(
             e.status_code,
+            "Riot API error occurred.",  # Default message
         )
 
 
