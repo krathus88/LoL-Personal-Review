@@ -1,15 +1,14 @@
 import { useRouteError } from "react-router-dom";
 
-function ErrorPopup() {
-    const error = useRouteError();
-
+function ErrorPopup(props) {
+    console.log("in");
     return (
         <div className="error-popup-container text-center">
             <div className="error-popup container d-flex flex-row align-items-center rounded-2 pe-0 mt-1">
-                <p>Status 404 | Error Message</p>
+                <p>{props.message}</p>
                 <button
                     className="ms-2 d-flex justify-content-center"
-                    onClick={error.toggleErrorPopup}>
+                    onClick={props.onClose}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="28"
