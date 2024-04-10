@@ -2,6 +2,7 @@ import os
 import aiohttp
 import asyncio
 import requests
+from requests.exceptions import HTTPError
 from datetime import datetime
 from globals import dictionary, exceptions
 
@@ -9,8 +10,7 @@ from globals import dictionary, exceptions
 def find_account(region, summoner_name, tag):
     """Returns a Dictionary
 
-    Gets Player's Account information (retrieves PUUID).
-    """
+    Gets Player's Account information (retrieves PUUID)."""
     try:
         api_url = os.getenv("API_URL").replace(
             "[server]", dictionary.dict_region[region]
@@ -20,14 +20,13 @@ def find_account(region, summoner_name, tag):
             .replace("[gameName]", summoner_name)
             .replace("[tagLine]", tag)
         )
-        print(api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY"))
         api_result = requests.get(
             api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
         )
-        api_result.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
+        api_result.raise_for_status()
         return api_result.json()
-    except requests.exceptions.RequestException as e:
-        raise exceptions.RiotAPI(api_result.status_code)
+    except HTTPError as http_err:
+        raise exceptions.RiotAPI(http_err.response.status_code)
 
 
 def find_summoner(server, puuid):
@@ -42,10 +41,10 @@ def find_summoner(server, puuid):
         api_result = requests.get(
             api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
         )
-        api_result.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
+        api_result.raise_for_status()
         return api_result.json()
-    except requests.exceptions.RequestException as e:
-        raise exceptions.RiotAPI(api_result.status_code)
+    except HTTPError as http_err:
+        raise exceptions.RiotAPI(http_err.response.status_code)
 
 
 def find_ranked_data(server, summoner_id):
@@ -63,10 +62,10 @@ def find_ranked_data(server, summoner_id):
         api_result = requests.get(
             api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
         )
-        api_result.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
+        api_result.raise_for_status()
         return api_result.json()
-    except requests.exceptions.RequestException as e:
-        raise exceptions.RiotAPI(api_result.status_code)
+    except HTTPError as http_err:
+        raise exceptions.RiotAPI(http_err.response.status_code)
 
 
 def find_match_history(region, start_count, num_games, puuid):
@@ -83,14 +82,13 @@ def find_match_history(region, start_count, num_games, puuid):
                 "[encryptedPUUID]", puuid
             )
         ) + f"?start={start_count}&count={num_games}"
-
         api_result = requests.get(
             api_url + endpoint_url + "&api_key=" + os.getenv("API_KEY")
         )
-        api_result.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
+        api_result.raise_for_status()
         return api_result.json()
-    except requests.exceptions.RequestException as e:
-        raise exceptions.RiotAPI(api_result.status_code)
+    except HTTPError as http_err:
+        raise exceptions.RiotAPI(http_err.response.status_code)
 
 
 def find_match_data_general(region, matches):
