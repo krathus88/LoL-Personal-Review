@@ -111,7 +111,11 @@ def match_history(request, region: str, start: str, end: str, puuid: str):
             is not None  # Makes it so it doesnt return value on only one of the variables
         ]
 
-        return combined_data
+        recently_played = functions.recently_played_with(puuid, matches_data)
+
+        print(recently_played)
+
+        return {"matches": combined_data, "recently_played": recently_played}
     except exceptions.RiotAPI as e:
         raise HttpError(
             e.status_code,
