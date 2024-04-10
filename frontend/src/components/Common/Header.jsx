@@ -1,10 +1,15 @@
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { regions } from "../../utils/constants";
 import { getSummonerName } from "../../utils/functions";
+import ErrorPopup from "./ErrorPopup";
 import "./Header.css";
 
 function Header() {
     const navigate = useNavigate();
+
+    const inputRefHeader = useRef(null);
+    const [error, setError] = useState(null);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -12,14 +17,30 @@ function Header() {
         // Get form data
         const formData = new FormData(event.target);
         let region = formData.get("region");
-        let summonerNameTag = getSummonerName(formData.get("summoner_name_tag"));
+        let { summonerNameTag, errorMessage } = getSummonerName(
+            formData.get("summoner_name_tag")
+        );
+
+        if (errorMessage) {
+            inputRefHeader.current.style.borderColor = "red";
+            inputRefHeader.current.style.boxShadow = "0 0 10px #ea868f";
+            setError(errorMessage);
+            return;
+        }
 
         // Redirect to the "/summoner" route
         navigate(`/summoner/${region}/${summonerNameTag}`);
     };
 
+    const handleCloseError = () => {
+        inputRefHeader.current.style.borderColor = "";
+        inputRefHeader.current.style.boxShadow = "";
+        setError(null);
+    };
+
     return (
         <header>
+            {error && <ErrorPopup message={error} onClose={handleCloseError} />}
             <nav className="navbar navbar-expand-md border-bottom">
                 <div className="container-fluid" bis_skin_checked="1">
                     <Link className="navbar-brand" to="/">
@@ -147,6 +168,7 @@ function Header() {
                                 ))}
                             </select>
                             <input
+                                ref={inputRefHeader}
                                 id="summonerSearch"
                                 type="text"
                                 name="summoner_name_tag"
