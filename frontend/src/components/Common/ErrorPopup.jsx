@@ -1,7 +1,4 @@
-import { useRouteError } from "react-router-dom";
-
 function ErrorPopup(props) {
-    console.log("in");
     return (
         <div className="error-popup-container text-center">
             <div className="error-popup container d-flex flex-row align-items-center rounded-2 pe-0 mt-1">
