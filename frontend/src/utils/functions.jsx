@@ -28,3 +28,24 @@ export function getSummonerName(summonerNameTag) {
 
     return { summonerNameTag: `${summonerName}-${summonerTag}` };
 }
+
+export function getMultiKill(multiKill) {
+    switch (multiKill) {
+        case 0:
+            return null;
+        case 1:
+            return null;
+        case 2:
+            return "Double Kill";
+        case 3:
+            return "Triple Kill";
+        case 4:
+            return "Quadra Kill";
+        case 5:
+            return "PENTAKILL";
+        case 6:
+            return "HEXAKILL";
+        default:
+            return "MULTIKILL";
+    }
+}

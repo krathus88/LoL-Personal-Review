@@ -164,11 +164,15 @@
     overflow: hidden; /* Hide overflow */
 }
 
-#matchHistoryContainer .match-player-analysis-text-container small {
-    background-color: lightcoral;
+#matchHistoryContainer .match-player-analysis-text-container > small {
+    background-color: #eb9c00;
     padding-bottom: 0.1rem;
     overflow: hidden; /* Hide overflow */
     width: max-content;
+}
+
+#matchHistoryContainer .match-player-analysis .multikill {
+    background-color: #e84057;
 }
 
 /* .match-buttons */

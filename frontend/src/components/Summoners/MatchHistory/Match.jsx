@@ -45,7 +45,7 @@ function Match(props) {
                     />
                     <Items items={props.playerData.items} />
                     <TeamComp playerChamps={props.matchData.info.participants} />
-                    <Analysis />
+                    <Analysis multiKill={props.playerData.largestMultiKill} />
                     <button
                         type="button"
                         className="btn btn-warning btn-review d-flex justify-content-center align-items-center">
