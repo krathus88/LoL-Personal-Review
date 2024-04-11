@@ -138,6 +138,50 @@ def find_match_data_general(region, matches):
     return results[0], results[1], results[2:]
 
 
+def recently_played_with(puuid, matches):
+    """Returns a Dictionary
+
+    Returns the recently played with players."""
+
+    players_stats = {}
+
+    for match in matches:
+        player_index = match["metadata"]["participants"].index(puuid)
+        player_team = match["info"]["participants"][player_index]["teamId"]
+
+        for participant in match["info"]["participants"]:
+            if participant["puuid"] != puuid and participant["teamId"] == player_team:
+                name_tag = (
+                    f"{participant["riotIdGameName"]}#{participant["riotIdTagline"]}"
+                )
+                # Update games played together
+                if name_tag in players_stats:
+                    players_stats[name_tag]["games_played"] += 1
+                else:
+                    players_stats[name_tag] = {
+                        "profileIcon": participant["profileIcon"],
+                        "games_played": 1,
+                        "wins": 0,
+                    }
+                # Update wins and defeats
+                if participant["win"]:
+                    players_stats[name_tag]["wins"] += 1
+
+    # Calculate winrate and remove entries with less than 2 games played
+    players_stats_filtered = {}
+    for name_tag, stats in players_stats.items():
+        if stats["games_played"] >= 2:
+            stats["winrate"] = round((stats["wins"] / stats["games_played"]) * 100)
+            players_stats_filtered[name_tag] = stats
+
+    # Sort players_stats_filtered by games_played in descending order
+    sorted_stats = dict(
+        sorted(players_stats_filtered.items(), key=lambda item: item[1]["games_played"], reverse=True)
+    )
+
+    return sorted_stats
+
+
 def organize_summoner_data(
     region, summoner_name, summoner_tag, summoner_level, summoner_icon
 ):
@@ -224,6 +268,7 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                             participant["assists"],
                         ),
                         "kda": calculate_kda(participant),
+                        "largestMultiKill": dictionary.dict_multikill[participant["largestMultiKill"]],
                         "cs": participant["totalMinionsKilled"]
                         + participant["neutralMinionsKilled"],
                         "summoner1Id": dictionary.dict_summoner_spells[
@@ -248,6 +293,8 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                         "win": participant["win"],  # bool
                     }
                 )
+
+                break
 
     return player_data
 
