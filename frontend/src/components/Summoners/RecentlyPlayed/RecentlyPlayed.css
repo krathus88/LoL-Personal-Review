@@ -4,7 +4,7 @@
 }
 
 #recentlyPlayed .played-with-container {
-    background-color: #0000008a;
+    background-color: #19191e;
     backface-visibility: hidden;
     transition: transform 0.2s ease; /* Add transition effect */
 }
