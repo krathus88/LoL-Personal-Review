@@ -8,10 +8,6 @@ header nav {
     padding-bottom: 0px !important;
 }
 
-header #themeSwitchMobile {
-    display: none !important;
-}
-
 header .form-control {
     border-radius: 0;
 }
@@ -23,11 +19,5 @@ header .form-select {
 @media (max-width: 767px) {
     header #navbarCollapse {
         padding-bottom: 0.5rem !important;
-    }
-    header #themeSwitchMobile {
-        display: flex !important;
-    }
-    header #themeSwitchDesktop {
-        display: none !important;
     }
 }

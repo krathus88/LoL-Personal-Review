@@ -1,10 +1,10 @@
-import MatchInfo from "./MatchInfo";
-import Champion from "./Champion";
-import Stats from "./Stats";
-import Items from "./Items";
-import TeamComp from "./TeamComp";
 import Analysis from "./Analysis";
+import Champion from "./Champion";
+import Items from "./Items";
+import MatchInfo from "./MatchInfo";
 import Overview from "./Overview";
+import Stats from "./Stats";
+import TeamComp from "./TeamComp";
 
 function Match(props) {
     return (
