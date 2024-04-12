@@ -164,7 +164,11 @@ def recently_played_with(puuid, matches):
 
     # Sort players_stats_filtered by games_played in descending order
     sorted_stats = dict(
-        sorted(players_stats_filtered.items(), key=lambda item: item[1]["games_played"], reverse=True)
+        sorted(
+            players_stats_filtered.items(),
+            key=lambda item: (item[1]["games_played"], item[1]["winrate"]),
+            reverse=True
+        )
     )
 
     return sorted_stats
