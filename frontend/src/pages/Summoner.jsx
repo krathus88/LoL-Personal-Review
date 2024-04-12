@@ -1,51 +1,45 @@
 import axios from "axios";
-import { createContext, useEffect, useRef, useState } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useLoaderData } from "react-router-dom";
+import { setProgress } from "../app/Slices/ProgressSlice";
+import { setRegion } from "../app/Slices/regionSlice";
 import MatchHistory from "../components/Summoners/MatchHistory/MatchHistory";
 import PersonalRating from "../components/Summoners/PersonalRating/PersonalRating";
 import RecentlyPlayed from "../components/Summoners/RecentlyPlayed/RecentlyPlayed";
 import SummonerHeader from "../components/Summoners/SummonerHeader/SummonerHeader";
-
-export const RegionContext = createContext();
 
 export const SummonerLoader = async ({ params }) => {
     const { region, summonerNameTag } = params;
 
     let [summonerName, summonerTag] = summonerNameTag.split("-");
 
-    try {
-        const response = await axios.get("/api/summoners/", {
-            params: {
-                region: region,
-                summoner_name: summonerName,
-                summoner_tag: summonerTag,
-            },
-        });
+    const response = await axios.get("/api/summoners/", {
+        params: {
+            region: region,
+            summoner_name: summonerName,
+            summoner_tag: summonerTag,
+        },
+    });
 
-        return response.data;
-    } catch (error) {
-        throw error; // Re-throw the error to let React Router handle it
-    }
+    return response.data;
 };
 
 function Summoner() {
+    const dispatch = useDispatch();
+
     const summonerData = useLoaderData();
 
     const [loading, setLoading] = useState(true);
     const [matches, setMatches] = useState([]);
     const [playedWith, setPlayedWith] = useState([]);
 
-    const { region } = useParams();
-
-    // Change Page Title
-    useEffect(() => {
-        document.title = `${summonerData.summoner_info.name}#${summonerData.summoner_info.tag} - LoL PR`;
-    }, [summonerData]);
-
     // Handles Match History Component
     const count = useRef(0); // DELETE FOR PRODUCTION
 
     useEffect(() => {
+        document.title = `${summonerData.summoner_info.name}#${summonerData.summoner_info.tag} - LoL PR`;
+
         if (count.current !== 0) {
             const fetchData = () => {
                 axios
@@ -72,6 +66,8 @@ function Summoner() {
                         }
                     });
             };
+            dispatch(setRegion(summonerData.region));
+            dispatch(setProgress(100));
 
             fetchData(); // Call the fetchData function when the component mounts
         }
@@ -90,9 +86,7 @@ function Summoner() {
             <div className="d-flex flex-lg-row flex-column gap-3">
                 <div className="d-flex flex-column gap-3">
                     <PersonalRating rankedInfo={summonerData.ranked_info} />
-                    <RegionContext.Provider value={region}>
-                        <RecentlyPlayed loading={loading} playedWith={playedWith} />
-                    </RegionContext.Provider>
+                    <RecentlyPlayed loading={loading} playedWith={playedWith} />
                 </div>
                 <MatchHistory loading={loading} matches={matches} />
             </div>

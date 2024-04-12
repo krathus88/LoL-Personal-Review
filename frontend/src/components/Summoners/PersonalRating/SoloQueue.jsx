@@ -6,7 +6,7 @@ function SoloQueue(props) {
         <div className="row" id="summonerRankedSoloQ">
             <div className="col-auto league-rank-img-container">
                 <img
-                    className="league-rank-img"
+                    className="league-rank-img user-select-none"
                     src={`https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${props.rankSoloQ.tier.toLowerCase()}.png`}
                     alt={`Solo Queue Tier ${props.rankSoloQ.tier}`}
                 />

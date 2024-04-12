@@ -5,12 +5,26 @@
 
 #recentlyPlayed .played-with-container {
     background-color: #0000008a;
+    backface-visibility: hidden;
+    transition: transform 0.2s ease; /* Add transition effect */
+}
+
+#recentlyPlayed .played-with-container:hover {
+    transform: scale(1.015); /* Increase scale on hover */
 }
 
 #recentlyPlayed .played-with-name-container {
     width: 65%;
+}
+
+#recentlyPlayed .played-with-name-container > a {
+    width: fit-content;
     text-decoration: none;
     color: inherit;
+}
+
+#recentlyPlayed .played-with-name-container > a:hover small {
+    text-decoration: underline;
 }
 
 #recentlyPlayed .played-with-icon {

@@ -1,21 +1,33 @@
-import { useContext, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setProgress } from "../../app/Slices/ProgressSlice";
+import { selectIsMobile } from "../../app/Slices/isMobileSlice";
 import { regions } from "../../utils/constants";
 import { getSummonerName } from "../../utils/functions";
 import ErrorPopup from "../Common/ErrorPopup";
-import { IsMobileContext } from "../Common/Layout";
 import "./Home.css";
 
 function SearchForm() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const isMobile = useContext(IsMobileContext);
+    const isMobile = useSelector(selectIsMobile);
 
     const inputRefMobile = useRef(null);
     const [error, setError] = useState(null);
 
+    // Closes error prompt if component unrenders
+    useEffect(() => {
+        return () => {
+            handleCloseError();
+        };
+    }, []);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        dispatch(setProgress(25));
 
         // Get form data
         const formData = new FormData(event.target);
@@ -40,6 +52,8 @@ function SearchForm() {
             let summonerTag = formData.get("summoner_tag");
             summonerNameTag = summonerName + "-" + summonerTag;
         }
+
+        dispatch(setProgress(60));
 
         // Redirect to the "/summoner" route
         navigate(`/summoner/${region}/${summonerNameTag}`);
