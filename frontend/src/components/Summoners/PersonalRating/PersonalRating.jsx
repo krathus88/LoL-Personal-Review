@@ -1,6 +1,6 @@
-import SoloQueue from "./SoloQueue";
 import FlexQueue from "./FlexQueue";
 import "./PersonalRating.css";
+import SoloQueue from "./SoloQueue";
 
 function PersonalRating(props) {
     return (

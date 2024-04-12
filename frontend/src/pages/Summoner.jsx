@@ -1,10 +1,10 @@
-import { useEffect, useState, useRef, createContext, useContext } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
 import axios from "axios";
-import SummonerHeader from "../components/Summoners/SummonerHeader/SummonerHeader";
-import PersonalRating from "../components/Summoners/PersonalRating/PersonalRating";
+import { createContext, useEffect, useRef, useState } from "react";
+import { useLoaderData, useParams } from "react-router-dom";
 import MatchHistory from "../components/Summoners/MatchHistory/MatchHistory";
+import PersonalRating from "../components/Summoners/PersonalRating/PersonalRating";
 import RecentlyPlayed from "../components/Summoners/RecentlyPlayed/RecentlyPlayed";
+import SummonerHeader from "../components/Summoners/SummonerHeader/SummonerHeader";
 
 export const RegionContext = createContext();
 
