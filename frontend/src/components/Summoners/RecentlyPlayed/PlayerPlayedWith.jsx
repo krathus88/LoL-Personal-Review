@@ -1,26 +1,37 @@
-import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { RegionContext } from "../../../pages/Summoner";
+import { setProgress } from "../../../app/Slices/ProgressSlice";
+import { selectRegion } from "../../../app/Slices/regionSlice";
 
 function PlayerPlayedWith(props) {
-    const region = useContext(RegionContext);
+    const region = useSelector(selectRegion);
     const summonerName = props.summonerName.replace("#", "-");
 
     const winClass =
         props.playedWith.winrate >= 50 ? "font-color-win" : "font-color-defeat";
 
+    const dispatch = useDispatch();
+
+    const handleLinkClick = () => {
+        dispatch(setProgress(60));
+    };
+
     return (
         <div className="played-with-container d-flex flex-row align-items-center justify-content-between rounded-4 pe-3 truncate">
-            <Link
-                to={`/summoner/${region}/${summonerName}`}
-                className="played-with-name-container d-flex gap-1 align-items-center">
-                <img
-                    className="played-with-icon rounded-4"
-                    src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${props.playedWith.profileIcon}.jpg`}
-                    alt="Summoner Icon"
-                />
-                <small className="truncate">{props.summonerName}</small>
-            </Link>
+            <div className="played-with-name-container">
+                <Link
+                    to={`/summoner/${region}/${summonerName}`}
+                    onClick={handleLinkClick}
+                    className="d-flex gap-1 align-items-center">
+                    <img
+                        className="played-with-icon user-select-none rounded-4"
+                        src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${props.playedWith.profileIcon}.jpg`}
+                        alt="Summoner Icon"
+                    />
+                    <small className="truncate">{props.summonerName}</small>
+                </Link>
+            </div>
+
             <small>{props.playedWith.games_played}</small>
             <div className="col-2 text-center">
                 <small className={winClass}>{props.playedWith.winrate}%</small>

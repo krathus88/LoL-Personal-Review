@@ -1,22 +1,27 @@
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { setProgress } from "../../../app/Slices/ProgressSlice";
+import { selectIsMobile } from "../../../app/Slices/isMobileSlice";
 import { regions } from "../../../utils/constants";
 import { getSummonerName } from "../../../utils/functions";
 import ErrorPopup from "../ErrorPopup";
-import { IsMobileContext } from "../Layout";
 import "./Header.css";
 import ThemeSwitch from "./ThemeSwitch";
 
 function Header() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const isMobile = useContext(IsMobileContext);
+    const isMobile = useSelector(selectIsMobile);
 
     const inputRefHeader = useRef(null);
     const [error, setError] = useState(null);
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
+
+        dispatch(setProgress(25));
 
         // Get form data
         const formData = new FormData(event.target);
@@ -31,6 +36,10 @@ function Header() {
             setError(errorMessage);
             return;
         }
+
+        handleCloseError();
+
+        dispatch(setProgress(60));
 
         // Redirect to the "/summoner" route
         navigate(`/summoner/${region}/${summonerNameTag}`);
@@ -53,7 +62,7 @@ function Header() {
                             width="50"
                             height="50"
                             fill="currentColor"
-                            className="bi bi-person-square"
+                            className="bi bi-person-square user-select-none"
                             viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                             <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
