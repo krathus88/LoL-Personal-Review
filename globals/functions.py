@@ -137,7 +137,10 @@ def find_match_data_general(region, matches):
 
     results = asyncio.run(main(urls))
 
-    return results[0], results[1], results[2:]
+    # Filter out None entries
+    filtered_results = [result for result in results if result is not None]
+
+    return filtered_results[0], filtered_results[1], filtered_results[2:]
 
 
 def recently_played_with(puuid, matches):
@@ -152,6 +155,9 @@ def recently_played_with(puuid, matches):
         player_team = match["info"]["participants"][player_index]["teamId"]
 
         for participant in match["info"]["participants"]:
+            if "riotIdGameName" not in participant:  # Check if "riotIdGameName" is present
+                continue
+
             if participant["puuid"] != puuid and participant["teamId"] == player_team:
                 name_tag = (
                     f"{participant["riotIdGameName"]}#{participant["riotIdTagline"]}"
@@ -178,7 +184,11 @@ def recently_played_with(puuid, matches):
 
     # Sort players_stats_filtered by games_played in descending order
     sorted_stats = dict(
-        sorted(players_stats_filtered.items(), key=lambda item: item[1]["games_played"], reverse=True)
+        sorted(
+            players_stats_filtered.items(),
+            key=lambda item: (item[1]["games_played"], item[1]["winrate"]),
+            reverse=True
+        )
     )
 
     return sorted_stats
@@ -309,7 +319,7 @@ def filter_item(item_id, items_data):
     if item_id == 0:
         return None
     else:
-        return items_data[str(item_id)]["icon"]
+        return items_data.get(str(item_id), {}).get("icon")
 
 
 def filter_rune(rune_id, runes_data):
@@ -337,13 +347,16 @@ def time_elapsed(game_end_timestamp):
 
     time_difference = current_time - match_end_time
 
-    # Calculate time difference in terms of months, days, hours, and minutes
+    # Calculate time difference in terms of years, months, days, hours and minutes
+    years = time_difference.days // 365
     months = time_difference.days // 30
     days = time_difference.days % 30
     hours = time_difference.seconds // 3600
     minutes = (time_difference.seconds % 3600) // 60
 
     # Determine the highest time unit
+    if years > 0:
+        return f"{years} years"
     if months > 0:
         return f"{months} months"
     elif days > 0:

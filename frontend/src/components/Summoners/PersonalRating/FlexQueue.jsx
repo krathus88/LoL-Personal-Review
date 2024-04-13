@@ -6,7 +6,7 @@ function FlexQueue(props) {
         <div className="row pb-2" id="summonerRankedFlex">
             <div className="col-auto league-rank-img-container">
                 <img
-                    className="league-rank-img"
+                    className="league-rank-img user-select-none"
                     src={`https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${props.rankFlex.tier.toLowerCase()}.png`}
                     alt={`Flex Queue Tier ${props.rankFlex.tier}`}
                 />

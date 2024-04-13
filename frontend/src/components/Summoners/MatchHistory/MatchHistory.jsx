@@ -1,5 +1,5 @@
-import Match from "./Match";
 import Loading from "../../Common/Loading";
+import Match from "./Match";
 import "./MatchHistory.css";
 
 function MatchHistory(props) {
