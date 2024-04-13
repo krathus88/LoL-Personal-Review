@@ -1,33 +1,33 @@
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setProgress } from "../../app/Slices/ProgressSlice";
+import { selectIsMobile } from "../../app/Slices/isMobileSlice";
 import { regions } from "../../utils/constants";
 import { getSummonerName } from "../../utils/functions";
 import ErrorPopup from "../Common/ErrorPopup";
 import "./Home.css";
 
 function SearchForm() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const isMobile = useSelector(selectIsMobile);
 
     const inputRefMobile = useRef(null);
     const [error, setError] = useState(null);
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
+    // Closes error prompt if component unrenders
     useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-
-        // Set up resize event listener
-        window.addEventListener("resize", handleResize);
-
-        // Clean up event listener on component unmount
         return () => {
-            window.removeEventListener("resize", handleResize);
+            handleCloseError();
         };
-    }, []); // Add isMobile to the dependency array
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        dispatch(setProgress(25));
 
         // Get form data
         const formData = new FormData(event.target);
@@ -52,6 +52,8 @@ function SearchForm() {
             let summonerTag = formData.get("summoner_tag");
             summonerNameTag = summonerName + "-" + summonerTag;
         }
+
+        dispatch(setProgress(60));
 
         // Redirect to the "/summoner" route
         navigate(`/summoner/${region}/${summonerNameTag}`);

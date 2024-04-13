@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./components/Common/Layout";
+import Error from "./pages/Error";
 import Home from "./pages/Home";
 import Summoner, { SummonerLoader } from "./pages/Summoner";
-import Error from "./pages/Error";
-import Layout from "./components/Common/Layout";
 
 const router = createBrowserRouter([
     {
@@ -17,8 +17,8 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "/summoner/:region/:summonerNameTag",
-                        element: <Summoner />,
                         loader: SummonerLoader,
+                        element: <Summoner />,
                     },
                 ],
             },
