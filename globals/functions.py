@@ -6,7 +6,7 @@ from requests.exceptions import HTTPError
 from datetime import datetime
 from globals import dictionary, exceptions
 
-
+ 
 def find_account(region, summoner_name, tag):
     """Returns a Dictionary
 
@@ -29,7 +29,7 @@ def find_account(region, summoner_name, tag):
         raise exceptions.RiotAPI(http_err.response.status_code)
 
 
-def find_account_puuid(puuid):
+def find_account_puuid(puuid,region):
     """Returns a Dictionary
 
     Gets Player's Account information (retrieves PUUID)."""
@@ -37,10 +37,12 @@ def find_account_puuid(puuid):
         api_url = os.getenv("API_URL").replace(
             "[server]", dictionary.dict_region[region]
         )
-        endpoint_url = os.getenv("ACCOUNT_SEARCH_PUUID").replace("[puuid]", puuid)
+        
+        endpoint_url =os.getenv("ACCOUNT_SEARCH_PUUID").replace("[puuid]", puuid)
         api_result = requests.get(
             api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
         )
+        
         api_result.raise_for_status()
         return api_result.json()
     except HTTPError as http_err:
