@@ -18,6 +18,15 @@ class Player(models.Model):
         except cls.DoesNotExist:
             return None
 
+    @classmethod
+    def find_puuid(cls, puuid):
+        try:
+            return cls.objects.get(
+                puuid=puuid,
+            )
+        except cls.DoesNotExist:
+            return None
+
 
 class PlayerAdditionalInfo(models.Model):
     id = models.OneToOneField(Player, on_delete=models.CASCADE, primary_key=True)
