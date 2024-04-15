@@ -20,17 +20,19 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
                     player.id
                 )  # DB table 2
 
-                summoner_info = functions.organize_summoner_data(
-                    player.server,
-                    player.summoner_name,
-                    player.summoner_tag,
-                    player_additional_info.level,
-                    player_additional_info.summoner_icon,
-                )
+                summoner_info = {
+                    "puuid": player.puuid,
+                    "region": player.server,
+                    "name": player.summoner_name,
+                    "tag": player.summoner_tag,
+                    "level": player_additional_info.level,
+                    "iconId": player_additional_info.summoner_icon,
+                }
 
                 api_request_ranked_data = functions.find_ranked_data(
                     region, player_additional_info.summoner_id
                 )
+
             else:  # if player NOT found in db
                 api_request_account = functions.find_account(
                     region, summoner_name, summoner_tag
@@ -41,7 +43,7 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
                 )  # Matches DB table 2
 
                 # add player to DB
-                player = Player.objects.create(
+                Player.objects.create(
                     puuid=api_request_account["puuid"],
                     server=region,
                     summoner_name=api_request_account["gameName"],
@@ -56,13 +58,14 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
                     summoner_icon=api_request_summoner["profileIconId"],
                 )
 
-                summoner_info = functions.organize_summoner_data(
-                    region,
-                    api_request_account["gameName"],
-                    api_request_account["tagLine"],
-                    api_request_summoner["summonerLevel"],
-                    api_request_summoner["profileIconId"],
-                )
+                summoner_info = {
+                    "puuid": api_request_account["puuid"],
+                    "region": region,
+                    "name": api_request_account["gameName"],
+                    "tag": api_request_account["tagLine"],
+                    "level": api_request_summoner["summonerLevel"],
+                    "iconId": api_request_summoner["profileIconId"],
+                }
 
                 api_request_ranked_data = functions.find_ranked_data(
                     region, api_request_summoner["id"]
@@ -73,8 +76,6 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
             )
 
             return {
-                "puuid": player.puuid,
-                "region": region,
                 "summoner_info": summoner_info,
                 "ranked_info": organized_ranked_data,
             }
@@ -147,10 +148,11 @@ def update_button(
         player_info.save()
 
         summoner_info = {
-            "summoner_name": player.summoner_name,
-            "summoner_tag": player.summoner_tag,
+            "region": region,
+            "name": player.summoner_name,
+            "tag": player.summoner_tag,
             "level": player_info.level,
-            "summoner_icon": player_info.summoner_icon,
+            "iconId": player_info.summoner_icon,
         }
 
         api_request_ranked_data = functions.find_ranked_data(

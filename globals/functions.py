@@ -194,23 +194,6 @@ def recently_played_with(puuid, matches):
     return sorted_stats
 
 
-def organize_summoner_data(
-    region, summoner_name, summoner_tag, summoner_level, summoner_icon
-):
-    """Returns a Dictionary
-
-    Parses summoner information received from DB/Riot API
-    and converts it to a standard format."""
-
-    return {
-        "region": region,
-        "name": summoner_name,
-        "tag": summoner_tag,
-        "level": summoner_level,
-        "iconId": summoner_icon,
-    }
-
-
 def organize_summoner_ranked_data(summoner_list):
     """Returns a List containing two dictionaries, [SoloQ, FlexQ]
 
