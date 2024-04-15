@@ -88,10 +88,10 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
 
 
 @router.get("/match-history/")
-@decorate_view(cache_page(5 * 60))  # Cache response for 15 minutes
-def match_history(request, region: str, start: str, end: str, puuid: str):
+@decorate_view(cache_page(5 * 60))  # Cache response for 5 minutes
+def match_history(request, region: str, start: str, num_games: str, puuid: str):
     try:
-        match_history = functions.find_match_history(region, start, end, puuid)
+        match_history = functions.find_match_history(region, start, num_games, puuid)
 
         runes_data, items_data, matches_data = functions.find_match_data_general(
             region, match_history
@@ -107,6 +107,10 @@ def match_history(request, region: str, start: str, end: str, puuid: str):
             and match
             is not None  # Makes it so it doesnt return value on only one of the variables
         ]
+
+        # If adding more data to the match history
+        if int(num_games) < 10:
+            return {"matches": combined_data}
 
         recently_played = functions.recently_played_with(puuid, matches_data)
 
@@ -128,6 +132,7 @@ def update_button(
     try:
         api_request_account = functions.find_account_puuid(puuid, region)
         player = Player.find_puuid(puuid)
+
         # check for rename
         if (
             api_request_account["gameName"] != player.summoner_tag
@@ -148,6 +153,7 @@ def update_button(
         player_info.save()
 
         summoner_info = {
+            "puuid": player.puuid,
             "region": region,
             "name": player.summoner_name,
             "tag": player.summoner_tag,
@@ -185,8 +191,10 @@ def update_button(
         ]
 
         return {
-            "summoner_info": summoner_info,
-            "ranked_info": ranked_data,
+            "summoner_data": {
+                "ranked_info": ranked_data,
+                "summoner_info": summoner_info,
+            },
             "matches": combined_data,
         }
     except exceptions.RiotAPI as e:
