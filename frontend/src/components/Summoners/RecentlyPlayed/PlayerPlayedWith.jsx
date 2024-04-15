@@ -4,13 +4,14 @@ import { setProgress } from "../../../app/Slices/ProgressSlice";
 import { selectRegion } from "../../../app/Slices/regionSlice";
 
 function PlayerPlayedWith(props) {
+    const dispatch = useDispatch();
+
     const region = useSelector(selectRegion);
+
     const summonerName = props.summonerName.replace("#", "-");
 
     const winClass =
         props.playedWith.winrate >= 50 ? "font-color-win" : "font-color-defeat";
-
-    const dispatch = useDispatch();
 
     const handleLinkClick = () => {
         dispatch(setProgress(60));
