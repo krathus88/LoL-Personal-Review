@@ -1,6 +1,9 @@
 import "./SummonerHeader.css";
 
 function SummonerHeader(props) {
+    const updateButtonClick = async () => {
+        props.onUpdate();
+    };
     return (
         <div
             className="container-fluid row align-items-center flex-nowrap mb-3 py-2 rounded-3"
@@ -20,7 +23,11 @@ function SummonerHeader(props) {
                 <small className="truncate">Level: {props.summonerInfo.level}</small>
             </div>
             <div className="col-auto">
-                <button type="button" className="btn btn-warning">
+                <button
+                    type="button"
+                    className="btn btn-warning"
+                    onClick={updateButtonClick}
+                    disabled={props.loading}>
                     Update
                     <span>
                         <svg
