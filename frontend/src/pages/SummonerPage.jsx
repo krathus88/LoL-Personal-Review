@@ -27,11 +27,17 @@ export const SummonerLoader = async ({ params }) => {
 function SummonerPage() {
     const dispatch = useDispatch();
 
-    const summonerData = useLoaderData();
+    const summonerDataLoader = useLoaderData();
 
+    const [summonerData, setSummonerData] = useState(summonerDataLoader);
     const [loading, setLoading] = useState(true);
+    const [extraMatchLoading, setExtraMatchLoading] = useState(false);
     const [matches, setMatches] = useState([]);
     const [playedWith, setPlayedWith] = useState([]);
+
+    useEffect(() => {
+        setSummonerData(summonerDataLoader);
+    }, [summonerDataLoader]);
 
     // Handles Match History Component
     const count = useRef(0); // DELETE FOR PRODUCTION
@@ -53,24 +59,47 @@ function SummonerPage() {
         };
     }, [summonerData.summoner_info.puuid]);
 
-    const fetchMatchHistoryData = async () => {
+    const fetchMatchHistoryData = async (start, numGames) => {
+        if (numGames) {
+            setExtraMatchLoading(true);
+        }
+
         const responseData = await fetchData("get", "/api/summoners/match-history/", {
             region: summonerData.summoner_info.region,
-            start: "0",
-            end: "10",
+            start: start || "0",
+            num_games: numGames || "10",
             puuid: summonerData.summoner_info.puuid,
         });
 
-        setMatches(responseData.matches);
-        setPlayedWith(responseData.recently_played);
-        setLoading(false);
+        setMatches((matches) => [...matches, ...responseData.matches]);
+
+        if (responseData.recently_played) {
+            setPlayedWith(responseData.recently_played);
+            setLoading(false);
+        } else {
+            setExtraMatchLoading(false);
+        }
+    };
+
+    const updateInfo = async () => {
+        const responseData = await fetchData("patch", "/api/summoners/", {
+            region: summonerData.summoner_info.region,
+            lastMatch: matches[0].match.metadata.matchId,
+            puuid: summonerData.summoner_info.puuid,
+        });
+
+        // Insert new matches at the start of the existing matches array
+        const updatedMatches = [...responseData.matches, ...matches];
+        setMatches(updatedMatches);
+
+        setSummonerData(responseData.summoner_data);
     };
 
     return (
         <main className="container-fluid mt-2">
             <SummonerHeader
                 summonerInfo={summonerData.summoner_info}
-                match={matches[0]}
+                onUpdate={updateInfo}
                 loading={loading}
             />
             <div className="d-flex flex-lg-row flex-column gap-3">
@@ -80,8 +109,9 @@ function SummonerPage() {
                 </div>
                 <MatchHistory
                     loading={loading}
+                    extraMatchLoading={extraMatchLoading}
                     matches={matches}
-                    fetchMatchHistoryData={fetchMatchHistoryData}
+                    onShowMore={fetchMatchHistoryData}
                 />
             </div>
         </main>
