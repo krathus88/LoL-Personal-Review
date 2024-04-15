@@ -43,7 +43,7 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
                 )  # Matches DB table 2
 
                 # add player to DB
-                Player.objects.create(
+                player = Player.objects.create(
                     puuid=api_request_account["puuid"],
                     server=region,
                     summoner_name=api_request_account["gameName"],
