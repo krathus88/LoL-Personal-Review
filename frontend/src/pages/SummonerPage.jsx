@@ -42,7 +42,7 @@ function SummonerPage() {
 
         if (count.current !== 0) {
             dispatch(setProgress(100));
-            dispatch(setRegion(summonerData.region));
+            dispatch(setRegion(summonerData.summoner_info.region));
 
             fetchData(); // Call the fetchData function when the component mounts
         }
@@ -59,10 +59,10 @@ function SummonerPage() {
         axios
             .get("/api/summoners/match-history/", {
                 params: {
-                    region: summonerData.region,
+                    region: summonerData.summoner_info.region,
                     start: "0",
                     end: "10",
-                    puuid: summonerData.puuid,
+                    puuid: summonerData.summoner_info.puuid,
                 },
             })
             .then((response) => {
