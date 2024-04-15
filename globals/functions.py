@@ -236,10 +236,7 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
         for participant in match["info"]["participants"]:
             if participant["puuid"] == puuid:
                 # Calculates game duration
-                game_duration = (
-                    match["info"]["gameEndTimestamp"]
-                    - match["info"]["gameStartTimestamp"]
-                ) / 1000  # Timestamp is in milliseconds
+                game_duration = match["info"]["gameDuration"]
                 minutes = int(game_duration // 60)
                 seconds = int(game_duration % 60)
 
@@ -263,6 +260,7 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                             participant["assists"],
                         ),
                         "kda": calculate_kda(participant),
+                        "performace_score": game_performance(minutes, participant),
                         "largestMultiKill": dictionary.dict_multikill[participant["largestMultiKill"]],
                         "cs": participant["totalMinionsKilled"]
                         + participant["neutralMinionsKilled"],
@@ -399,3 +397,13 @@ async def main(urls):
     async with aiohttp.ClientSession() as session:
         ret = await asyncio.gather(*(get(url, session) for url in urls))
     return ret
+
+
+def game_performance(game_time, participant_data):
+    gold_minutes= participant_data["goldEarned"]/game_time
+    damage_minutes= participant_data["totalDamageDealt"]/game_time
+    level_minutes=participant_data["champLevel"]/game_time
+    kills_assists_minutes= (participant_data["kills"] + participant_data["assists"])/game_time
+    deaths_minutes= participant_data["deaths"]/game_time
+    score=0.336 - (1.437 * deaths_minutes) + (0.000117 * gold_minutes) + (0.443 * kills_assists_minutes) + (0.264 * level_minutes) + (0.000013 * damage_minutes)
+    return score*10
