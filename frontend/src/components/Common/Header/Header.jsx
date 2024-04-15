@@ -8,10 +8,13 @@ import { getSummonerName } from "../../../utils/functions";
 import ErrorPopup from "../ErrorPopup";
 import "./Header.css";
 import ThemeSwitch from "./ThemeSwitch";
+import { useParams } from "react-router-dom";
 
 function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { region, summonerNameTag } = useParams();
 
     const isMobile = useSelector(selectIsMobile);
 
@@ -21,13 +24,14 @@ function Header() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        dispatch(setProgress(25));
-
         // Get form data
         const formData = new FormData(event.target);
-        let region = formData.get("region");
-        let { summonerNameTag, errorMessage } = getSummonerName(
-            formData.get("summoner_name_tag")
+        let regionForm = formData.get("region");
+        let { summonerNameTagForm, errorMessage } = getSummonerName(
+            formData.get("summoner_name_tag"),
+            regionForm,
+            summonerNameTag,
+            region
         );
 
         if (errorMessage) {
@@ -42,7 +46,7 @@ function Header() {
         dispatch(setProgress(60));
 
         // Redirect to the "/summoner" route
-        navigate(`/summoner/${region}/${summonerNameTag}`);
+        navigate(`/summoner/${regionForm}/${summonerNameTagForm}`);
     };
 
     const handleCloseError = () => {

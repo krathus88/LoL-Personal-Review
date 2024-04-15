@@ -8,21 +8,20 @@ import MatchHistory from "../components/Summoners/MatchHistory/MatchHistory";
 import PersonalRating from "../components/Summoners/PersonalRating/PersonalRating";
 import RecentlyPlayed from "../components/Summoners/RecentlyPlayed/RecentlyPlayed";
 import SummonerHeader from "../components/Summoners/SummonerHeader/SummonerHeader";
+import { fetchData } from "../utils/functions";
 
 export const SummonerLoader = async ({ params }) => {
     const { region, summonerNameTag } = params;
 
     let [summonerName, summonerTag] = summonerNameTag.split("-");
 
-    const response = await axios.get("/api/summoners/", {
-        params: {
-            region: region,
-            summoner_name: summonerName,
-            summoner_tag: summonerTag,
-        },
+    const responseData = await fetchData("get", "/api/summoners/", {
+        region: region,
+        summoner_name: summonerName,
+        summoner_tag: summonerTag,
     });
 
-    return response.data;
+    return responseData;
 };
 
 function SummonerPage() {
@@ -44,46 +43,36 @@ function SummonerPage() {
             dispatch(setProgress(100));
             dispatch(setRegion(summonerData.summoner_info.region));
 
-            fetchData(); // Call the fetchData function when the component mounts
+            fetchMatchHistoryData(); // Call the fetchData function when the component mounts
         }
-
         count.current++;
 
         return () => {
             setMatches([]);
             setLoading(true);
         };
-    }, [summonerData.puuid]);
+    }, [summonerData.summoner_info.puuid]);
 
-    const fetchData = () => {
-        axios
-            .get("/api/summoners/match-history/", {
-                params: {
-                    region: summonerData.summoner_info.region,
-                    start: "0",
-                    end: "10",
-                    puuid: summonerData.summoner_info.puuid,
-                },
-            })
-            .then((response) => {
-                setMatches(response.data.matches);
-                setPlayedWith(response.data.recently_played);
-                setLoading(false);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    console.error("Server Error:", error.response.status);
-                } else if (error.request) {
-                    console.error("Network Error:", error.request);
-                } else {
-                    console.error("Error:", error.message);
-                }
-            });
+    const fetchMatchHistoryData = async () => {
+        const responseData = await fetchData("get", "/api/summoners/match-history/", {
+            region: summonerData.summoner_info.region,
+            start: "0",
+            end: "10",
+            puuid: summonerData.summoner_info.puuid,
+        });
+
+        setMatches(responseData.matches);
+        setPlayedWith(responseData.recently_played);
+        setLoading(false);
     };
 
     return (
         <main className="container-fluid mt-2">
-            <SummonerHeader summonerInfo={summonerData.summoner_info} />
+            <SummonerHeader
+                summonerInfo={summonerData.summoner_info}
+                match={matches[0]}
+                loading={loading}
+            />
             <div className="d-flex flex-lg-row flex-column gap-3">
                 <div className="d-flex flex-column gap-3">
                     <PersonalRating rankedInfo={summonerData.ranked_info} />
@@ -92,7 +81,7 @@ function SummonerPage() {
                 <MatchHistory
                     loading={loading}
                     matches={matches}
-                    fetchData={fetchData}
+                    fetchMatchHistoryData={fetchMatchHistoryData}
                 />
             </div>
         </main>
