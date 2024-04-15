@@ -20,7 +20,7 @@ function ProgressBarLoading() {
         width: `${progress}%`,
         transition:
             progress < 100
-                ? progress > 0 && "width 10s cubic-bezier(.05,1,.26,1)"
+                ? progress > 0 && "width 10s cubic-bezier(.05, 1, .25, 1)"
                 : progress > 0 && "width 0.2s ease-in",
     };
 

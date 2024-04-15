@@ -25,7 +25,7 @@ export const SummonerLoader = async ({ params }) => {
     return response.data;
 };
 
-function Summoner() {
+function SummonerPage() {
     const dispatch = useDispatch();
 
     const summonerData = useLoaderData();
@@ -41,33 +41,8 @@ function Summoner() {
         document.title = `${summonerData.summoner_info.name}#${summonerData.summoner_info.tag} - LoL PR`;
 
         if (count.current !== 0) {
-            const fetchData = () => {
-                axios
-                    .get("/api/summoners/match-history/", {
-                        params: {
-                            region: summonerData.region,
-                            start: "0",
-                            end: "10",
-                            puuid: summonerData.puuid,
-                        },
-                    })
-                    .then((response) => {
-                        setMatches(response.data.matches);
-                        setPlayedWith(response.data.recently_played);
-                        setLoading(false);
-                    })
-                    .catch((error) => {
-                        if (error.response) {
-                            console.error("Server Error:", error.response.status);
-                        } else if (error.request) {
-                            console.error("Network Error:", error.request);
-                        } else {
-                            console.error("Error:", error.message);
-                        }
-                    });
-            };
-            dispatch(setRegion(summonerData.region));
             dispatch(setProgress(100));
+            dispatch(setRegion(summonerData.region));
 
             fetchData(); // Call the fetchData function when the component mounts
         }
@@ -80,6 +55,32 @@ function Summoner() {
         };
     }, [summonerData.puuid]);
 
+    const fetchData = () => {
+        axios
+            .get("/api/summoners/match-history/", {
+                params: {
+                    region: summonerData.region,
+                    start: "0",
+                    end: "10",
+                    puuid: summonerData.puuid,
+                },
+            })
+            .then((response) => {
+                setMatches(response.data.matches);
+                setPlayedWith(response.data.recently_played);
+                setLoading(false);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.error("Server Error:", error.response.status);
+                } else if (error.request) {
+                    console.error("Network Error:", error.request);
+                } else {
+                    console.error("Error:", error.message);
+                }
+            });
+    };
+
     return (
         <main className="container-fluid mt-2">
             <SummonerHeader summonerInfo={summonerData.summoner_info} />
@@ -88,10 +89,14 @@ function Summoner() {
                     <PersonalRating rankedInfo={summonerData.ranked_info} />
                     <RecentlyPlayed loading={loading} playedWith={playedWith} />
                 </div>
-                <MatchHistory loading={loading} matches={matches} />
+                <MatchHistory
+                    loading={loading}
+                    matches={matches}
+                    fetchData={fetchData}
+                />
             </div>
         </main>
     );
 }
 
-export default Summoner;
+export default SummonerPage;

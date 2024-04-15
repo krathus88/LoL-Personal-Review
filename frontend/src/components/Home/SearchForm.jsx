@@ -6,7 +6,6 @@ import { selectIsMobile } from "../../app/Slices/isMobileSlice";
 import { regions } from "../../utils/constants";
 import { getSummonerName } from "../../utils/functions";
 import ErrorPopup from "../Common/ErrorPopup";
-import "./Home.css";
 
 function SearchForm() {
     const dispatch = useDispatch();
