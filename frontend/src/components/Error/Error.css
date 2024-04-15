@@ -1,0 +1,9 @@
+#errorContainer {
+    background-color: #31313c;
+    padding-top: 0.75rem;
+    padding-bottom: 0.5rem;
+}
+
+.error-text {
+    white-space: pre-line;
+}

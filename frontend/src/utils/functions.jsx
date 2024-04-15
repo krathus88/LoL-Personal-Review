@@ -1,4 +1,4 @@
-export function getSummonerName(summonerNameTag) {
+export const getSummonerName = (summonerNameTag) => {
     // Check if summonerNameTag contains more than one "#" character
     if (summonerNameTag.split("#").length > 2) {
         return {
@@ -27,4 +27,4 @@ export function getSummonerName(summonerNameTag) {
     }
 
     return { summonerNameTag: `${summonerName}-${summonerTag}` };
-}
+};

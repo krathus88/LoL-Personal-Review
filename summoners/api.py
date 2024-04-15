@@ -92,7 +92,6 @@ def match_history(request, region: str, start: str, end: str, puuid: str):
     try:
         match_history = functions.find_match_history(region, start, end, puuid)
 
-        print(match_history)
         runes_data, items_data, matches_data = functions.find_match_data_general(
             region, match_history
         )
@@ -107,8 +106,6 @@ def match_history(request, region: str, start: str, end: str, puuid: str):
             and match
             is not None  # Makes it so it doesnt return value on only one of the variables
         ]
-
-        print(len(matches_data))
 
         recently_played = functions.recently_played_with(puuid, matches_data)
 

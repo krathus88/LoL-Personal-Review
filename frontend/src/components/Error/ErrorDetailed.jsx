@@ -1,21 +1,29 @@
 import { useRouteError } from "react-router-dom";
+import { dict_errors_riot_api } from "../../utils/constants";
 
-function Errors() {
+function ErrorDetailed() {
     const error = useRouteError();
-    console.log(error);
+
+    // Set custom statusText if written
+    const statusText =
+        dict_errors_riot_api[error.response.status] !== error.response.statusText
+            ? dict_errors_riot_api[error.response.status]
+            : null;
+
     return (
-        <div className="container col-6 pt-2 pb-3 rounded-4">
+        <>
             {error.response ? (
                 <>
                     <h1>{error.response.status}</h1>
                     <hr />
                     <p>{error.response.statusText}</p>
+                    <p>{statusText}</p>
                 </>
             ) : (
                 <p>Oops! Looks like something went wrong...</p>
             )}
-        </div>
+        </>
     );
 }
 
-export default Errors;
+export default ErrorDetailed;
