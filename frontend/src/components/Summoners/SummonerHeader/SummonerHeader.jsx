@@ -1,10 +1,19 @@
 import "./SummonerHeader.css";
+import { useEffect, useState } from "react";
 
 function SummonerHeader(props) {
+    const [timeElapsed, setTimeElapsed] = useState(
+        localStorage.getItem("lastButtonDisabledTime")
+    );
+
     const updateButtonClick = async () => {
         const button = document.getElementById("updateButton");
         const span = button.querySelector("span");
         const svg = button.querySelector("svg");
+
+        // Disable the button to prevent multiple clicks
+        button.disabled = true;
+
         svg.classList.add("spin-update-animation");
 
         try {
@@ -14,7 +23,6 @@ function SummonerHeader(props) {
             button.classList.add("success");
             svg.classList.remove("spin-update-animation");
         } catch (error) {
-            // If onUpdate throws an error, you can handle it here
             button.classList.add("fail");
             svg.classList.remove("spin-update-animation");
         } finally {
@@ -22,9 +30,29 @@ function SummonerHeader(props) {
                 button.classList.remove("success");
                 button.classList.remove("fail");
                 button.insertAdjacentHTML("afterbegin", "<span>Update</span>");
-            }, 1000); // Delay for 1 second
+            }, 1000);
+
+            localStorage.setItem("lastButtonDisabledTime", Date.now());
+            setTimeElapsed(localStorage.getItem("lastButtonDisabledTime"));
         }
     };
+
+    // Check if the button needs to be re-enabled on component mount
+    useEffect(() => {
+        const lastDisabledTime = localStorage.getItem("lastButtonDisabledTime");
+        if (lastDisabledTime) {
+            const elapsedTime = Date.now() - parseInt(lastDisabledTime);
+
+            const button = document.getElementById("updateButton");
+            button.disabled = true;
+
+            // If the elapsed time is less than 2 minutes, set a timeout to re-enable the button
+            setTimeout(() => {
+                button.disabled = false;
+                localStorage.removeItem("lastButtonDisabledTime");
+            }, 120000 - elapsedTime);
+        }
+    }, [timeElapsed]);
     return (
         <div
             className="container-fluid row align-items-center flex-nowrap mb-3 py-2 rounded-3"
@@ -49,7 +77,7 @@ function SummonerHeader(props) {
                     id="updateButton"
                     className="btn btn-warning text-center"
                     onClick={updateButtonClick}
-                    disabled={props.loading}>
+                    disabled={props.loading && timeElapsed === null}>
                     <span>Update</span>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
