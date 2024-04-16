@@ -230,68 +230,66 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
     (by the given PUUID).
 
     Accepts multiple matches in a singe List."""
-
-    player_data = []
+    matches_data = []
     for match in match_data:
         if match == None:
             continue
+        players_data = []
+        # Calculates game duration
+        game_duration = match["info"]["gameDuration"]
+        minutes = int(game_duration // 60)
+        seconds = int(game_duration % 60)
         for participant in match["info"]["participants"]:
-            if participant["puuid"] == puuid:
-                # Calculates game duration
-                game_duration = match["info"]["gameDuration"]
-                minutes = int(game_duration // 60)
-                seconds = int(game_duration % 60)
+            players_data.append(
+                {
+                    "puuid": participant["puuid"],
+                    "championId": participant["championId"],
+                    "level": participant["champLevel"],
+                    "kills": participant["kills"],
+                    "deaths": participant["deaths"],
+                    "assists": participant["assists"],
+                    "killParticipation": calculate_kp(
+                        match,
+                        participant["teamId"],
+                        participant["kills"],
+                        participant["assists"],
+                    ),
+                    "kda": calculate_kda(participant),
+                    "performace_score": game_performance(minutes, participant),
+                    "largestMultiKill": dictionary.dict_multikill[participant["largestMultiKill"]],
+                    "cs": participant["totalMinionsKilled"]
+                    + participant["neutralMinionsKilled"],
+                    "summoner1Id": dictionary.dict_summoner_spells[
+                        participant["summoner1Id"]
+                    ],
+                    "summoner2Id": dictionary.dict_summoner_spells[
+                        participant["summoner2Id"]
+                    ],
+                    "primaryRune": filter_rune(
+                        participant["perks"]["styles"][0]["selections"][0]["perk"],
+                        runes_data,
+                    ),
+                    "items": {
+                        "item1": filter_item(participant["item0"], items_data),
+                        "item2": filter_item(participant["item1"], items_data),
+                        "item3": filter_item(participant["item2"], items_data),
+                        "item4": filter_item(participant["item3"], items_data),
+                        "item5": filter_item(participant["item4"], items_data),
+                        "item6": filter_item(participant["item5"], items_data),
+                        "item7": filter_item(participant["item6"], items_data),
+                    },
+                    "win": participant["win"],  # bool
+                }
+            )
+        matches_data.append({
+                "gameMode": dictionary.dict_queue_id[match["info"]["queueId"]],
+                "gameDuration": f"{minutes}m {seconds}s",
+                "timeSinceGameEnd": time_elapsed(
+                 match["info"]["gameEndTimestamp"]),
+                "players_data" : players_data,
+        })
 
-                player_data.append(
-                    {
-                        "puuid": participant["puuid"],
-                        "gameMode": dictionary.dict_queue_id[match["info"]["queueId"]],
-                        "gameDuration": f"{minutes}m {seconds}s",
-                        "timeSinceGameEnd": time_elapsed(
-                            match["info"]["gameEndTimestamp"]
-                        ),
-                        "championId": participant["championId"],
-                        "level": participant["champLevel"],
-                        "kills": participant["kills"],
-                        "deaths": participant["deaths"],
-                        "assists": participant["assists"],
-                        "killParticipation": calculate_kp(
-                            match,
-                            participant["teamId"],
-                            participant["kills"],
-                            participant["assists"],
-                        ),
-                        "kda": calculate_kda(participant),
-                        "performace_score": game_performance(minutes, participant),
-                        "largestMultiKill": dictionary.dict_multikill[participant["largestMultiKill"]],
-                        "cs": participant["totalMinionsKilled"]
-                        + participant["neutralMinionsKilled"],
-                        "summoner1Id": dictionary.dict_summoner_spells[
-                            participant["summoner1Id"]
-                        ],
-                        "summoner2Id": dictionary.dict_summoner_spells[
-                            participant["summoner2Id"]
-                        ],
-                        "primaryRune": filter_rune(
-                            participant["perks"]["styles"][0]["selections"][0]["perk"],
-                            runes_data,
-                        ),
-                        "items": {
-                            "item1": filter_item(participant["item0"], items_data),
-                            "item2": filter_item(participant["item1"], items_data),
-                            "item3": filter_item(participant["item2"], items_data),
-                            "item4": filter_item(participant["item3"], items_data),
-                            "item5": filter_item(participant["item4"], items_data),
-                            "item6": filter_item(participant["item5"], items_data),
-                            "item7": filter_item(participant["item6"], items_data),
-                        },
-                        "win": participant["win"],  # bool
-                    }
-                )
-
-                break
-
-    return player_data
+    return matches_data
 
 
 def filter_item(item_id, items_data):
