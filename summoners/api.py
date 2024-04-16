@@ -96,15 +96,14 @@ def match_history(request, region: str, start: str, num_games: str, puuid: str):
         runes_data, items_data, matches_data = functions.find_match_data_general(
             region, match_history
         )
-        player_match_data = functions.filter_player_match_data(
+        matches_data_clean = functions.filter_player_match_data(
             matches_data, runes_data, items_data, puuid
         )
 
         combined_data = [
-            {"player_match": player_match, "match": match}
-            for player_match, match in zip(player_match_data, matches_data)
-            if player_match is not None
-            and match
+            {"match": match}
+            for match in zip(matches_data_clean)
+            if match
             is not None  # Makes it so it doesnt return value on only one of the variables
         ]
 
@@ -178,15 +177,14 @@ def update_button(
             region, match_history[:new_matches]
         )
 
-        player_match_data = functions.filter_player_match_data(
+        matches_data_clean = functions.filter_player_match_data(
             matches_data, runes_data, items_data, puuid
         )
 
         combined_data = [
-            {"player_match": player_match, "match": match}
-            for player_match, match in zip(player_match_data, matches_data)
-            if player_match is not None
-            and match
+            {"match": match}
+            for match in zip(matches_data_clean)
+            if match
             is not None  # Makes it so it doesnt return value on only one of the variables
         ]
 
