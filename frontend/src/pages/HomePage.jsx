@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setProgress } from "../app/Slices/ProgressSlice";
+import { setProgress } from "../app/Slices/progressSlice";
 import SearchForm from "../components/Home/SearchForm";
 import "../components/Home/Home.css";
 

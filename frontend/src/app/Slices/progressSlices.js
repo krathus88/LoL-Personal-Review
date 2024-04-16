@@ -7,7 +7,10 @@ export const progressSlice = createSlice({
     },
     reducers: {
         setProgress: (state, action) => {
-            state.width = action.payload;
+            return {
+                ...state,
+                width: action.payload,
+            };
         },
     },
 });
