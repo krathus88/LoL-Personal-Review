@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const regionSlice = createSlice({
+export const RegionSlice = createSlice({
     name: "region",
     initialState: "",
     reducers: {
@@ -10,8 +10,8 @@ export const regionSlice = createSlice({
     },
 });
 
-export const { setRegion } = regionSlice.actions;
+export const { setRegion } = RegionSlice.actions;
 
 export const selectRegion = (state) => state.region;
 
-export default regionSlice.reducer;
+export default RegionSlice.reducer;
