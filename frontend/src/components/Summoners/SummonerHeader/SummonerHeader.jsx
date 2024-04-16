@@ -3,13 +3,26 @@ import "./SummonerHeader.css";
 function SummonerHeader(props) {
     const updateButtonClick = async () => {
         const button = document.getElementById("updateButton");
+        const span = button.querySelector("span");
         const svg = button.querySelector("svg");
         svg.classList.add("spin-update-animation");
 
         try {
+            span.remove();
             await props.onUpdate();
-        } finally {
+
+            button.classList.add("success");
             svg.classList.remove("spin-update-animation");
+        } catch (error) {
+            // If onUpdate throws an error, you can handle it here
+            button.classList.add("fail");
+            svg.classList.remove("spin-update-animation");
+        } finally {
+            setTimeout(() => {
+                button.classList.remove("success");
+                button.classList.remove("fail");
+                button.insertAdjacentHTML("afterbegin", "<span>Update</span>");
+            }, 1000); // Delay for 1 second
         }
     };
     return (
@@ -34,10 +47,10 @@ function SummonerHeader(props) {
                 <button
                     type="button"
                     id="updateButton"
-                    className="btn btn-warning"
+                    className="btn btn-warning text-center"
                     onClick={updateButtonClick}
                     disabled={props.loading}>
-                    Update
+                    <span>Update</span>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"

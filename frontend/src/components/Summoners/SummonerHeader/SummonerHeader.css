@@ -23,3 +23,37 @@
 #summonerHeader small {
     margin-bottom: 0;
 }
+
+#summonerHeader #updateButton {
+    /* Existing styles... */
+    width: 100px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#summonerHeader #updateButton.success {
+    background-color: #2deb90;
+    border-color: #2deb90;
+}
+
+#summonerHeader #updateButton.fail {
+    background-color: #e84057;
+    border-color: #e84057;
+}
+
+#summonerHeader #updateButton .spin-update-animation {
+    animation: spin-update 0.85s cubic-bezier(0.49, 0.03, 0.51, 0.99) infinite;
+}
+
+@keyframes spin-update {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

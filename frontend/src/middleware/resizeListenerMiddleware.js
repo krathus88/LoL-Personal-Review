@@ -1,4 +1,4 @@
-import { setIsMobile } from "../../app/Slices/IsMobileSlice";
+import { setIsMobile } from "../app/Slices/IsMobileSlice";
 
 const resizeListenerMiddleware = (store) => {
     const handleResize = () => {
