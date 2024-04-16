@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const summonerSlice = createSlice({
+export const SummonerSlice = createSlice({
     name: "summoner",
     initialState: {
         summonerInfo: {},
@@ -21,9 +21,9 @@ export const summonerSlice = createSlice({
     },
 });
 
-export const { setSummonerData } = summonerSlice.actions;
+export const { setSummonerData } = SummonerSlice.actions;
 
 export const selectSummonerInfo = (state) => state.summoner.summonerInfo;
 export const selectRankedInfo = (state) => state.summoner.rankedInfo;
 
-export default summonerSlice.reducer;
+export default SummonerSlice.reducer;

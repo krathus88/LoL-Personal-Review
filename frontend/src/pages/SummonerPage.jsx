@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLoaderData } from "react-router-dom";
-import { setProgress } from "../app/Slices/progressSlice";
-import { setRegion } from "../app/Slices/regionSlice";
+import { setProgress } from "../app/Slices/ProgressSlice";
+import { setRegion } from "../app/Slices/RegionSlice";
 import MatchHistory from "../components/Summoners/MatchHistory/MatchHistory";
 import PersonalRating from "../components/Summoners/PersonalRating/PersonalRating";
 import RecentlyPlayed from "../components/Summoners/RecentlyPlayed/RecentlyPlayed";

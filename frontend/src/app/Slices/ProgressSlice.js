@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const progressSlice = createSlice({
+export const ProgressSlice = createSlice({
     name: "progress",
     initialState: {
         width: 0,
@@ -15,8 +15,8 @@ export const progressSlice = createSlice({
     },
 });
 
-export const { setProgress } = progressSlice.actions;
+export const { setProgress } = ProgressSlice.actions;
 
 export const selectProgress = (state) => state.progress.width;
 
-export default progressSlice.reducer;
+export default ProgressSlice.reducer;

@@ -1,16 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import resizeListenerMiddleware from "../components/middleware/resizeListenerMiddleware";
-import isMobileReducer from "./Slices/isMobileSlice";
-import regionReducer from "./Slices/regionSlice";
-import progressReducer from "./Slices/progressSlice";
-import summonerReducer from "./Slices/summonerSlice";
+import IsMobileReducer from "./Slices/IsMobileSlice";
+import RegionReducer from "./Slices/RegionSlice";
+import ProgressReducer from "./Slices/ProgressSlice";
+import SummonerReducer from "./Slices/SummonerSlice";
 
 export default configureStore({
     reducer: {
-        isMobile: isMobileReducer,
-        progress: progressReducer,
-        region: regionReducer,
-        summoner: summonerReducer,
+        isMobile: IsMobileReducer,
+        progress: ProgressReducer,
+        region: RegionReducer,
+        summoner: SummonerReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(resizeListenerMiddleware),

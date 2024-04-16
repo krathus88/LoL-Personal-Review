@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setProgress } from "../../../app/Slices/progressSlice";
-import { selectRegion } from "../../../app/Slices/regionSlice";
+import { setProgress } from "../../../app/Slices/ProgressSlice";
+import { selectRegion } from "../../../app/Slices/RegionSlice";
 
 function PlayerPlayedWith(props) {
     const dispatch = useDispatch();
