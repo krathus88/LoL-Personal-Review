@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import resizeListenerMiddleware from "../components/middleware/resizeListenerMiddleware";
+import resizeListenerMiddleware from "../middleware/resizeListenerMiddleware";
 import IsMobileReducer from "./Slices/IsMobileSlice";
 import RegionReducer from "./Slices/RegionSlice";
 import ProgressReducer from "./Slices/ProgressSlice";
