@@ -70,8 +70,16 @@ body {
     background-color: #2cffa636;
 }
 
+.background-win:hover {
+    background-color: #2cffa640;
+}
+
 .background-defeat {
     background-color: #59343b;
+}
+
+.background-defeat:hover {
+    background-color: #643a42;
 }
 
 .decoration-win {

@@ -25,7 +25,7 @@ export const dict_errors_riot_api = {
     405: "Method Not Allowed", // Method not allowed
     415: "Unsupported Media Type", // Unsupported media type
     429: "Rate Limit Exceeded", // Rate limit exceeded
-    500: "Internal Server Error", // Internal server error
+    500: "Did you turn on your backend server?", // Internal server error
     502: "Bad Gateway", // Bad gateway
     503: "Service Unavailable", // Service unavailable
     504: "Gateway Timeout", // Gateway timeout

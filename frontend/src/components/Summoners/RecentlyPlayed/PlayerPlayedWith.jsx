@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { setProgress } from "../../../app/Slices/ProgressSlice";
-import { selectRegion } from "../../../app/Slices/regionSlice";
+import { selectRegion } from "../../../app/Slices/RegionSlice";
 
 function PlayerPlayedWith(props) {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ function PlayerPlayedWith(props) {
 
     return (
         <div className="played-with-container d-flex flex-row align-items-center justify-content-between rounded-4 pe-3 truncate">
-            <div className="played-with-name-container">
+            <div className="played-with-name-container truncate">
                 <Link
                     to={`/summoner/${region}/${summonerName}`}
                     onClick={handleLinkClick}
@@ -29,7 +29,7 @@ function PlayerPlayedWith(props) {
                         src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${props.playedWith.profileIcon}.jpg`}
                         alt="Summoner Icon"
                     />
-                    <small className="truncate">{props.summonerName}</small>
+                    <small>{props.summonerName}</small>
                 </Link>
             </div>
 
