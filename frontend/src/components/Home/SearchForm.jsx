@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setProgress } from "../../app/Slices/ProgressSlice";
+import { setProgress } from "../../app/Slices/progressSlice";
 import { selectIsMobile } from "../../app/Slices/isMobileSlice";
 import { regions } from "../../utils/constants";
 import { getSummonerName } from "../../utils/functions";
@@ -60,11 +60,6 @@ function SearchForm() {
 
     const handleCloseError = () => {
         setError(null);
-
-        if (isMobile) {
-            inputRefMobile.current.style.borderColor = "";
-            inputRefMobile.current.style.boxShadow = "";
-        }
     };
 
     return (

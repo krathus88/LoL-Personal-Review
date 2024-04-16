@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setProgress } from "../../../app/Slices/ProgressSlice";
+import { setProgress } from "../../../app/Slices/progressSlice";
 import { selectIsMobile } from "../../../app/Slices/isMobileSlice";
 import { regions } from "../../../utils/constants";
 import { getSummonerName } from "../../../utils/functions";
@@ -47,12 +47,6 @@ function Header() {
 
         // Redirect to the "/summoner" route
         navigate(`/summoner/${regionForm}/${summonerNameTagForm}`);
-    };
-
-    const handleCloseError = () => {
-        inputRefHeader.current.style.borderColor = "";
-        inputRefHeader.current.style.boxShadow = "";
-        setError(null);
     };
 
     return (

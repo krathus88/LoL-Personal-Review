@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProgress, setProgress } from "../../app/Slices/ProgressSlice";
+import { selectProgress, setProgress } from "../../app/Slices/progressSlice";
 import "./ProgressBarLoading.css";
 
 function ProgressBarLoading() {
@@ -12,7 +12,7 @@ function ProgressBarLoading() {
             // If progress reaches 100%, reset it to 0 after animation finishes
             setTimeout(() => {
                 dispatch(setProgress(0));
-            }, 200); // Adjust delay time according to your animation duration
+            }, 225); // Adjust delay time according to your animation duration
         }
     }, [progress]);
 

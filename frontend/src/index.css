@@ -112,3 +112,16 @@ body {
         padding-right: 0.5rem !important;
     }
 }
+
+@keyframes spin-update {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spin-update-animation {
+    animation: spin-update 0.85s cubic-bezier(0.49, 0.03, 0.51, 0.99) infinite;
+}

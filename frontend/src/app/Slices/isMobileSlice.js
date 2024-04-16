@@ -7,7 +7,10 @@ export const isMobileSlice = createSlice({
     },
     reducers: {
         setIsMobile: (state, action) => {
-            state.value = action.payload;
+            return {
+                ...state,
+                value: action.payload,
+            };
         },
     },
 });

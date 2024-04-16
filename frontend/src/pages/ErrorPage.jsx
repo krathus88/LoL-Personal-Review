@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setProgress } from "../app/Slices/ProgressSlice";
+import { setProgress } from "../app/Slices/progressSlice";
 import Error from "../components/Error/Error";
 
 function ErrorPage() {
