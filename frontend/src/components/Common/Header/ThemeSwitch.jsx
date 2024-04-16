@@ -2,20 +2,16 @@ import { useEffect, useState } from "react";
 
 function ThemeSwitch() {
     const [theme, setTheme] = useState(() => {
-        // Check local storage for theme preference
         const storedTheme = localStorage.getItem("theme");
-        return storedTheme ? storedTheme : "dark"; // Default to dark theme if not found
+        return storedTheme ? storedTheme : "dark";
     });
 
     useEffect(() => {
-        // Update HTML attribute when theme changes
         document.documentElement.setAttribute("data-bs-theme", theme);
-        // Store theme preference in local storage
         localStorage.setItem("theme", theme);
     }, [theme]);
 
     const toggleTheme = () => {
-        // Toggle between dark and light themes
         setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
     };
 
