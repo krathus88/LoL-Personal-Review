@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProgress, setProgress } from "../../app/Slices/progressSlice";
+import { selectProgress, setProgress } from "../../app/Slices/ProgressSlice";
 import "./ProgressBarLoading.css";
 
 function ProgressBarLoading() {

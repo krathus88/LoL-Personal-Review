@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const isMobileSlice = createSlice({
+export const IsMobileSlice = createSlice({
     name: "isMobile",
     initialState: {
         value: window.innerWidth <= 768,
@@ -15,8 +15,8 @@ export const isMobileSlice = createSlice({
     },
 });
 
-export const { setIsMobile } = isMobileSlice.actions;
+export const { setIsMobile } = IsMobileSlice.actions;
 
 export const selectIsMobile = (state) => state.isMobile.value;
 
-export default isMobileSlice.reducer;
+export default IsMobileSlice.reducer;
