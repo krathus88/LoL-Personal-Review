@@ -13,7 +13,7 @@ function Match(props) {
                 className={`match overflow-hidden position-relative d-flex flex-column justify-content-center pe-0 rounded-1 ${
                     props.playerData.win ? "background-win" : "background-defeat"
                 }`}>
-                <small className="truncate border-bottom">
+                <small className="border-bottom">
                     {props.playerData.gameMode} - {props.playerData.timeSinceGameEnd}{" "}
                     ago
                 </small>

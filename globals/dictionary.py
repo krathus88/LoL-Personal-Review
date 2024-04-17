@@ -128,6 +128,7 @@ dict_queue_id = {
     830: "Co-op vs. AI Intro",
     840: "Co-op vs. AI Beginner",
     850: "Co-op vs. AI Intermediate",
+    890: "New: Intermediate",
     900: "ARURF",
     910: "Ascension",
     920: "Legend of the Poro King",
