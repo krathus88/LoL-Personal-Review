@@ -100,20 +100,15 @@ def match_history(request, region: str, start: str, num_games: str, puuid: str):
             matches_data, runes_data, items_data, puuid
         )
 
-        combined_data = [
-            {"match": match}
-            for match in zip(matches_data_clean)
-            if match
-            is not None  # Makes it so it doesnt return value on only one of the variables
-        ]
+        functions.sort_performance(matches_data_clean)
 
         # If adding more data to the match history
         if int(num_games) < 10:
-            return {"matches": combined_data}
+            return {"matches": matches_data_clean}
 
         recently_played = functions.recently_played_with(puuid, matches_data)
 
-        return {"matches": combined_data, "recently_played": recently_played}
+        return {"matches": matches_data_clean, "recently_played": recently_played}
     except exceptions.RiotAPI as e:
         raise HttpError(
             e.status_code,
