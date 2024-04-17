@@ -75,7 +75,7 @@ function SummonerHeader(props) {
                 <button
                     type="button"
                     id="updateButton"
-                    className="btn btn-warning text-center"
+                    className="btn btn-primary text-center"
                     onClick={updateButtonClick}
                     disabled={props.loading && timeElapsed === null}>
                     <span>Update</span>

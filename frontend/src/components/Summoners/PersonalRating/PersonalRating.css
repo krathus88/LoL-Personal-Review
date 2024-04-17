@@ -38,7 +38,7 @@
 }
 
 #summonerRankedSoloQ h3 {
-    font-size: 22px;
+    font-size: 19px;
     margin-bottom: 0;
 }
 
@@ -46,10 +46,14 @@
     font-size: 13px;
 }
 
+#summonerRankedSoloQ .league-rank-container > .col > div {
+    display: flex;
+    flex-direction: row;
+}
+
 /* #summonerRankedFlex */
 
 #summonerRankedFlex .league-rank-img-container {
-    margin-left: 0.75rem;
     width: 80px;
     height: 80px;
     padding-left: 0px;
@@ -63,6 +67,37 @@
 
 #summonerRankedFlex small {
     font-size: 13px;
+}
+
+#summonerRankedFlex > .league-rank-container {
+    display: flex;
+    flex-direction: row;
+}
+
+#summonerRankedFlex .league-rank-container > .col-auto {
+    margin-left: 0.5rem;
+}
+
+#summonerRankedFlex > .league-rank-container > .col {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.5rem;
+}
+
+#summonerRankedFlex > .league-rank-container > .col > div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.38rem;
+}
+
+#summonerRankedFlex > .league-rank-container .wd-separator {
+    display: none;
+}
+
+@media (min-width: 991px) {
+    #personalRating > div {
+        max-width: 350px;
+    }
 }
 
 @media (max-width: 991px) {
@@ -79,23 +114,54 @@
         display: block;
     }
 
-    /* #summonerRankedFlex */
-
+    #summonerRankedSoloQ,
     #summonerRankedFlex {
         align-items: center;
     }
 
-    #summonerRankedFlex > .col {
-        align-self: start;
+    #summonerRankedSoloQ .league-rank-img-container,
+    #summonerRankedFlex .league-rank-img-container {
+        width: 130px;
+        height: 130px;
     }
 
+    #summonerRankedSoloQ .league-rank-container,
+    #summonerRankedFlex .league-rank-container {
+        margin-left: 0.5rem;
+    }
+
+    #summonerRankedSoloQ h3,
     #summonerRankedFlex h3 {
         font-size: 19px;
     }
 
-    #summonerRankedFlex .league-rank-img-container {
-        width: 120px;
-        height: 120px;
+    #summonerRankedSoloQ small,
+    #summonerRankedFlex small {
+        font-size: 13px;
+    }
+
+    #summonerRankedSoloQ .wd-separator,
+    #summonerRankedFlex .wd-separator {
+        display: none;
+    }
+
+    #summonerRankedSoloQ > .league-rank-container > .col > div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* #summonerRankedFlex */
+
+    #summonerRankedFlex .league-rank-container {
+        flex-direction: column;
+        align-self: start;
+    }
+
+    #summonerRankedFlex > .league-rank-container > .col > div {
+        margin-bottom: 0;
+    }
+    #summonerRankedFlex > .league-rank-container > .col {
+        display: block;
     }
 }
 
@@ -126,9 +192,10 @@
 
     #summonerRankedFlex .col {
         text-align: right;
+        margin-right: 0.5rem;
     }
 
-    #summonerRankedFlex .col .me-3 {
-        margin-right: 0 !important;
+    #summonerRankedFlex .col > div {
+        align-items: end;
     }
 }

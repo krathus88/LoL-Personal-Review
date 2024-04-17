@@ -14,8 +14,9 @@
 
 #matchHistoryContainer .match > small {
     display: none;
-    font-size: 11px;
-    padding-bottom: 0.1rem;
+    font-size: 12px !important;
+    padding-bottom: 0;
+    margin-bottom: -0.1rem;
     border-bottom-color: #5c7e77 !important;
     width: 70%;
 }
@@ -149,7 +150,7 @@
 
 /* .match-player-analysis */
 #matchHistoryContainer .match-player-analysis {
-    height: 46.2px;
+    height: 50.9px;
     margin-right: 2.5rem !important;
     position: relative;
     overflow: hidden;
