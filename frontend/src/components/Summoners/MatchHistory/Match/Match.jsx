@@ -2,11 +2,21 @@ import Analysis from "./Analysis";
 import Champion from "./Champion";
 import Items from "./Items";
 import MatchInfo from "./MatchInfo";
-import Overview from "./Overview";
 import Stats from "./Stats";
 import TeamComp from "./TeamComp";
+import "./Match.css";
+import { useState, Suspense, lazy } from "react";
+import Loading from "../../../Common/Loading";
+
+const MatchOverview = lazy(() => import("../MatchOverview/MatchOverview"));
 
 function Match(props) {
+    const [overviewOpen, setOverviewOpen] = useState(false);
+
+    const toggleOverview = () => {
+        setOverviewOpen(!overviewOpen);
+    };
+
     return (
         <>
             <div
@@ -69,6 +79,7 @@ function Match(props) {
                     </button>
                     <button
                         type="button"
+                        onClick={toggleOverview}
                         className="btn btn-secondary btn-overview d-flex justify-content-center align-items-center ms-auto mt-auto">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +93,9 @@ function Match(props) {
                     </button>
                 </div>
             </div>
-            <Overview matchData={props.matchData} />
+            <Suspense fallback=<Loading />>
+                {overviewOpen && <MatchOverview matchData={props.matchData} />}
+            </Suspense>
         </>
     );
 }

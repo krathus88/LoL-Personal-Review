@@ -8,7 +8,6 @@ export const SummonerSlice = createSlice({
     },
     reducers: {
         setSummonerData: (state, action) => {
-            console.log(action.payload);
             if (action.payload) {
                 return {
                     ...state,
