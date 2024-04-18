@@ -1,5 +1,5 @@
 import Loading from "../../Common/Loading";
-import Match from "./Match";
+import Match from "./Match/Match";
 import "./MatchHistory.css";
 
 function MatchHistory(props) {
@@ -17,7 +17,6 @@ function MatchHistory(props) {
                     {props.loading ? (
                         <Loading />
                     ) : (
-                        // Render the Match components once data is fetched
                         <>
                             {props.matches.map((combinedMatch, index) => (
                                 <div
@@ -33,7 +32,7 @@ function MatchHistory(props) {
                                 <Loading />
                             ) : (
                                 <button
-                                    className="match-container d-flex flex-column rounded-1 py-2"
+                                    className="d-flex flex-column rounded-1 py-2"
                                     onClick={handleShowMore}>
                                     Show More
                                 </button>

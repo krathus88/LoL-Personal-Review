@@ -8,7 +8,7 @@ function Queue(props) {
                 <img
                     className="league-rank-img user-select-none"
                     src={`https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${props.queue.tier.toLowerCase()}.png`}
-                    alt={`Flex Queue Tier ${props.queue.tier}`}
+                    alt={`${props.queueName} Tier ${props.queue.tier}`}
                 />
             </div>
             <div className="col league-rank-container truncate">
@@ -17,26 +17,19 @@ function Queue(props) {
                         {props.queue.tier}{" "}
                         {!excludeTiers.includes(tier) && props.queue.rank}
                     </h3>
-                    <small className="fw-light mb-2">Ranked Flex</small>
+                    <small className="fw-light mb-2">{props.queueName}</small>
                     <small className="fw-light">LP: {props.queue.leaguePoints}</small>
                 </div>
-                <div className="col">
-                    <div className="fw-light">
-                        <small className="d-flex flex-row">
-                            Wins:&nbsp;
-                            <span className="font-color-win">{props.queue.wins}</span>
-                        </small>
-                        <small className="wd-separator">&nbsp;-&nbsp;</small>
-                        <small className="d-flex flex-row">
-                            Defeats:&nbsp;
-                            <span className="font-color-defeat">
-                                {props.queue.losses}
-                            </span>
-                        </small>
-                    </div>
-                    <small className="fw-light win-rate mb-1">
-                        WR: {props.queue.winRate}%
+                <div className="col d-flex flex-column fw-light">
+                    <small className="d-flex flex-row">
+                        Wins:&nbsp;
+                        <span className="font-color-win">{props.queue.wins}</span>
                     </small>
+                    <small className="d-flex flex-row">
+                        Defeats:&nbsp;
+                        <span className="font-color-defeat">{props.queue.losses}</span>
+                    </small>
+                    <small className="win-rate mb-1">WR: {props.queue.winRate}%</small>
                 </div>
             </div>
         </div>

@@ -12,7 +12,11 @@ function PersonalRating(props) {
                             Ranked Solo: <small>Unranked</small>
                         </p>
                     ) : (
-                        <Queue id="summonerRankedSoloQ" queue={props.rankedInfo[0]} />
+                        <Queue
+                            id="summonerRankedSoloQ"
+                            queueName="Soloqueue"
+                            queue={props.rankedInfo[0]}
+                        />
                     )}
                     <div className="vertical-separator"></div>
                     <hr />
@@ -21,7 +25,11 @@ function PersonalRating(props) {
                             Ranked Flex: <small>Unranked</small>
                         </p>
                     ) : (
-                        <Queue id="summonerRankedFlex" queue={props.rankedInfo[1]} />
+                        <Queue
+                            id="summonerRankedFlex"
+                            queueName="Ranked Flex"
+                            queue={props.rankedInfo[1]}
+                        />
                     )}
                 </div>
             </div>

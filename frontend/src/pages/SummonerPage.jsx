@@ -9,7 +9,7 @@ import RecentlyPlayed from "../components/Summoners/RecentlyPlayed/RecentlyPlaye
 import SummonerHeader from "../components/Summoners/SummonerHeader/SummonerHeader";
 import { fetchData } from "../utils/functions";
 
-export const SummonerLoader = async ({ params }) => {
+export async function loader({ params }) {
     const { region, summonerNameTag } = params;
 
     let [summonerName, summonerTag] = summonerNameTag.split("-");
@@ -21,9 +21,9 @@ export const SummonerLoader = async ({ params }) => {
     });
 
     return responseData;
-};
+}
 
-function SummonerPage() {
+export function Component() {
     const dispatch = useDispatch();
 
     const summonerDataLoader = useLoaderData();
@@ -117,4 +117,4 @@ function SummonerPage() {
     );
 }
 
-export default SummonerPage;
+Component.displayName = "SummonerPage";

@@ -29,6 +29,10 @@
     margin-bottom: 1rem;
 }
 
+#personalRating .win-rate {
+    margin-top: 0.4rem;
+}
+
 /* #summonerRankedSoloQ */
 
 #summonerRankedSoloQ .league-rank-img-container {
@@ -79,28 +83,24 @@
 }
 
 #summonerRankedFlex > .league-rank-container > .col {
-    display: flex;
-    flex-direction: column;
     margin-left: 0.5rem;
 }
 
-#summonerRankedFlex > .league-rank-container > .col > div {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 0.38rem;
-}
-
-#summonerRankedFlex > .league-rank-container .wd-separator {
-    display: none;
-}
-
-@media (min-width: 991px) {
+@media (min-width: 992px) {
     #personalRating > div {
         max-width: 350px;
+    }
+
+    #summonerRankedSoloQ .league-rank-container .col-auto > small {
+        margin-bottom: 0.5rem;
     }
 }
 
 @media (max-width: 991px) {
+    #personalRating .league-rank-container .col-auto > small {
+        margin-bottom: 0.25rem;
+    }
+
     #personalRating .unranked-soloq {
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
@@ -114,40 +114,26 @@
         display: block;
     }
 
-    #summonerRankedSoloQ,
-    #summonerRankedFlex {
-        align-items: center;
+    #personalRating .league-rank-img-container {
+        width: 135px;
+        height: 135px;
     }
 
-    #summonerRankedSoloQ .league-rank-img-container,
-    #summonerRankedFlex .league-rank-img-container {
-        width: 130px;
-        height: 130px;
-    }
-
-    #summonerRankedSoloQ .league-rank-container,
-    #summonerRankedFlex .league-rank-container {
+    #personalRating .league-rank-container {
         margin-left: 0.5rem;
     }
 
-    #summonerRankedSoloQ h3,
-    #summonerRankedFlex h3 {
+    #personalRating h3 {
         font-size: 19px;
     }
 
-    #summonerRankedSoloQ small,
-    #summonerRankedFlex small {
+    #personalRating small {
         font-size: 13px;
     }
 
-    #summonerRankedSoloQ .wd-separator,
-    #summonerRankedFlex .wd-separator {
-        display: none;
-    }
-
-    #summonerRankedSoloQ > .league-rank-container > .col > div {
-        display: flex;
-        flex-direction: column;
+    #summonerRankedSoloQ,
+    #summonerRankedFlex {
+        align-items: center;
     }
 
     /* #summonerRankedFlex */
@@ -155,13 +141,16 @@
     #summonerRankedFlex .league-rank-container {
         flex-direction: column;
         align-self: start;
+        margin-left: 0;
+    }
+    #summonerRankedFlex .league-rank-img-container {
+        order: 2;
     }
 
-    #summonerRankedFlex > .league-rank-container > .col > div {
-        margin-bottom: 0;
-    }
-    #summonerRankedFlex > .league-rank-container > .col {
-        display: block;
+    #summonerRankedFlex .col {
+        text-align: right;
+        margin-right: 0.5rem;
+        align-items: end;
     }
 }
 
@@ -178,6 +167,11 @@
         display: none;
     }
 
+    #personalRating .league-rank-img-container {
+        width: 160px;
+        height: 160px;
+    }
+
     /* #summonerRankedFlex */
 
     #summonerRankedFlex {
@@ -185,17 +179,12 @@
     }
 
     #summonerRankedFlex .league-rank-img-container {
-        width: 160px;
-        height: 160px;
         order: 2;
     }
 
     #summonerRankedFlex .col {
         text-align: right;
         margin-right: 0.5rem;
-    }
-
-    #summonerRankedFlex .col > div {
         align-items: end;
     }
 }

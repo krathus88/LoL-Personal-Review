@@ -63,5 +63,5 @@ export const getSummonerName = (
         }
     }
 
-    return { summonerNameTag: `${summonerName}-${summonerTag}` };
+    return { summonerNameTagForm: `${summonerName}-${summonerTag}` };
 };

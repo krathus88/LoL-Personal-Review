@@ -236,7 +236,6 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
         if match == None:
             continue
         for participant in match["info"]["participants"]:
-            print(match)
             if participant["puuid"] == puuid:
                 # Calculates game duration
                 game_duration = (
