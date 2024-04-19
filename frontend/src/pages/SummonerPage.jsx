@@ -30,9 +30,7 @@ export function Component() {
 
     const [summonerData, setSummonerData] = useState(summonerDataLoader);
     const [loading, setLoading] = useState(true);
-    const [extraMatchLoading, setExtraMatchLoading] = useState(false);
     const [errorMatchHistory, setErrorMatchHistory] = useState(false);
-    const [errorExtraMatchHistory, setErrorExtraMatchHistory] = useState(false);
     const [matches, setMatches] = useState([]);
     const [playedWith, setPlayedWith] = useState([]);
 
@@ -62,13 +60,12 @@ export function Component() {
 
     const fetchMatchHistoryData = async (start, numGames) => {
         try {
-            if (numGames) {
-                setExtraMatchLoading(true);
-            } else {
+            // Reset Recently Played whilst changing player view
+            if (!numGames) {
                 setPlayedWith([]);
-                setErrorExtraMatchHistory(false);
-                setLoading(true);
             }
+
+            setLoading(true);
 
             const responseData = await fetchData(
                 "get",
@@ -83,25 +80,17 @@ export function Component() {
 
             console.log(responseData);
 
+            // Only update Recently Played with the initial 10 games data
             if (responseData.recently_played) {
                 setPlayedWith(responseData.recently_played);
-                setErrorMatchHistory(false);
-                setLoading(false);
-            } else {
-                setErrorMatchHistory(false);
-                setExtraMatchLoading(false);
             }
 
+            setErrorMatchHistory(false);
+            setLoading(false);
             setMatches((matches) => [...matches, ...responseData.matches]);
         } catch {
-            if (numGames) {
-                console.log("ello");
-                setErrorExtraMatchHistory(true);
-                setExtraMatchLoading(false);
-            } else {
-                setErrorMatchHistory(true);
-                setLoading(false);
-            }
+            setErrorMatchHistory(true);
+            setLoading(false);
         }
     };
 
@@ -129,13 +118,15 @@ export function Component() {
             <div className="d-flex flex-lg-row flex-column gap-3">
                 <div className="d-flex flex-column gap-3">
                     <PersonalRating rankedInfo={summonerData.ranked_info} />
-                    <RecentlyPlayed loading={loading} playedWith={playedWith} />
+                    <RecentlyPlayed
+                        loading={loading}
+                        playedWith={playedWith}
+                        matches={matches}
+                    />
                 </div>
                 <MatchHistory
                     loading={loading}
-                    extraMatchLoading={extraMatchLoading}
                     errorMatchHistory={errorMatchHistory}
-                    errorExtraMatchHistory={errorExtraMatchHistory}
                     matches={matches}
                     onFetchMatch={fetchMatchHistoryData}
                 />

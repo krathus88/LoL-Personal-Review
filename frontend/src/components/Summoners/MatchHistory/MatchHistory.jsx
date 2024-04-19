@@ -19,9 +19,9 @@ function MatchHistory(props) {
             <div className="container-fluid rounded-4 pt-1 pb-2">
                 <p className="border-bottom ps-2 fw-light">Recent Games</p>
                 <div className="rounded-1 d-flex flex-column gap-2">
-                    {props.loading ? (
+                    {props.loading && props.matches.length === 0 ? (
                         <Loading />
-                    ) : props.errorMatchHistory ? (
+                    ) : props.errorMatchHistory && props.matches.length === 0 ? (
                         <div className="d-flex justify-content-center">
                             <button
                                 className="border-0 rounded-3 px-3 py-2"
@@ -38,9 +38,9 @@ function MatchHistory(props) {
                                     matchData={combinedMatch.match}
                                 />
                             ))}
-                            {props.extraMatchLoading ? (
+                            {props.loading ? (
                                 <Loading />
-                            ) : props.errorExtraMatchHistory ? (
+                            ) : props.errorMatchHistory ? (
                                 <div className="d-flex justify-content-center">
                                     <button
                                         className="border-0 rounded-3 px-3 py-2"

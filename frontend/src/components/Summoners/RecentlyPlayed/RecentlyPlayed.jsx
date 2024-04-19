@@ -12,7 +12,7 @@ function RecentlyPlayed(props) {
                     Recently Played With
                 </p>
                 <div className="d-flex flex-lg-column flex-row flex-wrap justify-content-around gap-2">
-                    {props.loading ? (
+                    {props.loading && props.matches.length === 0 ? (
                         <Loading />
                     ) : (
                         <Suspense fallback=<Loading />>
