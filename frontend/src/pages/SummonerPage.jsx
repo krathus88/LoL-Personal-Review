@@ -31,9 +31,10 @@ export function Component() {
     const [summonerData, setSummonerData] = useState(summonerDataLoader);
     const [loading, setLoading] = useState(true);
     const [extraMatchLoading, setExtraMatchLoading] = useState(false);
+    const [errorMatchHistory, setErrorMatchHistory] = useState(false);
+    const [errorExtraMatchHistory, setErrorExtraMatchHistory] = useState(false);
     const [matches, setMatches] = useState([]);
     const [playedWith, setPlayedWith] = useState([]);
-    const [errorMatchHistory, setErrorMatchHistory] = useState(false);
 
     useEffect(() => {
         setSummonerData(summonerDataLoader);
@@ -63,6 +64,10 @@ export function Component() {
         try {
             if (numGames) {
                 setExtraMatchLoading(true);
+            } else {
+                setPlayedWith([]);
+                setErrorExtraMatchHistory(false);
+                setLoading(true);
             }
 
             const responseData = await fetchData(
@@ -79,22 +84,24 @@ export function Component() {
             console.log(responseData);
 
             if (responseData.recently_played) {
-                console.log("1");
                 setPlayedWith(responseData.recently_played);
                 setErrorMatchHistory(false);
                 setLoading(false);
             } else {
-                console.log("2");
                 setErrorMatchHistory(false);
                 setExtraMatchLoading(false);
             }
 
             setMatches((matches) => [...matches, ...responseData.matches]);
         } catch {
-            console.log("catch");
-            setPlayedWith([]);
-            setLoading(false);
-            setErrorMatchHistory(true);
+            if (numGames) {
+                console.log("ello");
+                setErrorExtraMatchHistory(true);
+                setExtraMatchLoading(false);
+            } else {
+                setErrorMatchHistory(true);
+                setLoading(false);
+            }
         }
     };
 
@@ -127,9 +134,10 @@ export function Component() {
                 <MatchHistory
                     loading={loading}
                     extraMatchLoading={extraMatchLoading}
-                    matches={matches}
-                    onShowMore={fetchMatchHistoryData}
                     errorMatchHistory={errorMatchHistory}
+                    errorExtraMatchHistory={errorExtraMatchHistory}
+                    matches={matches}
+                    onFetchMatch={fetchMatchHistoryData}
                 />
             </div>
         </main>
