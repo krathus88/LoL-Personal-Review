@@ -5,11 +5,13 @@ import { Suspense, lazy } from "react";
 const Match = lazy(() => import("./Match/Match"));
 
 function MatchHistory(props) {
-    const handleShowMore = () => {
-        console.log("???");
-        const start = props.matches.length.toString();
-        const numGames = "5";
-        props.onShowMore(start, numGames);
+    const handleButtons = (numGames = null) => {
+        if (numGames) {
+            const start = props.matches.length.toString();
+            props.onFetchMatch(start, numGames);
+        } else {
+            props.onFetchMatch();
+        }
     };
 
     return (
@@ -22,8 +24,8 @@ function MatchHistory(props) {
                     ) : props.errorMatchHistory ? (
                         <div className="d-flex justify-content-center">
                             <button
-                                className="border-0 rounded-2 px-3 py-2"
-                                onClick={() => props.onShowMore()}>
+                                className="border-0 rounded-3 px-3 py-2"
+                                onClick={() => handleButtons()}>
                                 Failed to load match history. Please try again.
                             </button>
                         </div>
@@ -38,10 +40,18 @@ function MatchHistory(props) {
                             ))}
                             {props.extraMatchLoading ? (
                                 <Loading />
+                            ) : props.errorExtraMatchHistory ? (
+                                <div className="d-flex justify-content-center">
+                                    <button
+                                        className="border-0 rounded-3 px-3 py-2"
+                                        onClick={() => handleButtons(5)}>
+                                        Failed to load match history. Please try again.
+                                    </button>
+                                </div>
                             ) : (
                                 <button
                                     className="d-flex flex-column rounded-1 py-2"
-                                    onClick={handleShowMore}>
+                                    onClick={() => handleButtons(5)}>
                                     Show More
                                 </button>
                             )}
