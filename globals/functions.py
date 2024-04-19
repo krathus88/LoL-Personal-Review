@@ -230,7 +230,7 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
     (by the given PUUID).
 
     Accepts multiple matches in a singe List."""
-
+    
     player_data = []
     for match in match_data:
         if match == None:
