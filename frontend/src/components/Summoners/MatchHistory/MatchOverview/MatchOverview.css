@@ -158,6 +158,7 @@
 
 #matchHistoryContainer .match-overview tbody .damage > div > div {
     width: 42px;
+    padding-bottom: 0.25rem;
 }
 
 #matchHistoryContainer .match-overview tbody .damage .progress {
@@ -279,6 +280,11 @@
         align-items: start;
         gap: 0.25rem;
     }
+
+    #matchHistoryContainer .match-overview tbody .damage > div > div {
+        padding-bottom: 0;
+    }
+
     #matchHistoryContainer .match-overview tbody .damage .progress {
         height: 12px;
         min-width: 50px;
@@ -368,5 +374,19 @@
     #matchHistoryContainer .match-overview tbody .items .items-container > div {
         width: 18px;
         height: 18px;
+    }
+}
+
+@media (max-width: 350px) {
+    #matchHistoryContainer .match-overview tbody .items {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview colgroup .name {
+        min-width: 50%;
+    }
+
+    #matchHistoryContainer .match-overview tbody .name > div {
+        min-width: 0;
     }
 }

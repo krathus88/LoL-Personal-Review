@@ -33,6 +33,7 @@ export function Component() {
     const [extraMatchLoading, setExtraMatchLoading] = useState(false);
     const [matches, setMatches] = useState([]);
     const [playedWith, setPlayedWith] = useState([]);
+    const [errorMatchHistory, setErrorMatchHistory] = useState(false);
 
     useEffect(() => {
         setSummonerData(summonerDataLoader);
@@ -59,24 +60,41 @@ export function Component() {
     }, [summonerData.summoner_info.puuid]);
 
     const fetchMatchHistoryData = async (start, numGames) => {
-        if (numGames) {
-            setExtraMatchLoading(true);
-        }
+        try {
+            if (numGames) {
+                setExtraMatchLoading(true);
+            }
 
-        const responseData = await fetchData("get", "/api/summoners/match-history/", {
-            region: summonerData.summoner_info.region,
-            start: start || "0",
-            num_games: numGames || "10",
-            puuid: summonerData.summoner_info.puuid,
-        });
+            const responseData = await fetchData(
+                "get",
+                "/api/summoners/match-history/",
+                {
+                    region: summonerData.summoner_info.region,
+                    start: start || "0",
+                    num_games: numGames || "10",
+                    puuid: summonerData.summoner_info.puuid,
+                }
+            );
 
-        setMatches((matches) => [...matches, ...responseData.matches]);
+            console.log(responseData);
 
-        if (responseData.recently_played) {
-            setPlayedWith(responseData.recently_played);
+            if (responseData.recently_played) {
+                console.log("1");
+                setPlayedWith(responseData.recently_played);
+                setErrorMatchHistory(false);
+                setLoading(false);
+            } else {
+                console.log("2");
+                setErrorMatchHistory(false);
+                setExtraMatchLoading(false);
+            }
+
+            setMatches((matches) => [...matches, ...responseData.matches]);
+        } catch {
+            console.log("catch");
+            setPlayedWith([]);
             setLoading(false);
-        } else {
-            setExtraMatchLoading(false);
+            setErrorMatchHistory(true);
         }
     };
 
@@ -111,6 +129,7 @@ export function Component() {
                     extraMatchLoading={extraMatchLoading}
                     matches={matches}
                     onShowMore={fetchMatchHistoryData}
+                    errorMatchHistory={errorMatchHistory}
                 />
             </div>
         </main>

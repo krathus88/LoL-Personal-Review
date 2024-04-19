@@ -1,6 +1,8 @@
 import Loading from "../../Common/Loading";
-import PlayerPlayedWith from "./PlayerPlayedWith";
 import "./RecentlyPlayed.css";
+import { Suspense, lazy } from "react";
+
+const PlayerPlayedWith = lazy(() => import("./PlayerPlayedWith"));
 
 function RecentlyPlayed(props) {
     return (
@@ -13,15 +15,17 @@ function RecentlyPlayed(props) {
                     {props.loading ? (
                         <Loading />
                     ) : (
-                        Object.entries(props.playedWith).map(
-                            ([summonerName, player], index) => (
-                                <PlayerPlayedWith
-                                    key={index}
-                                    summonerName={summonerName}
-                                    playedWith={player}
-                                />
-                            )
-                        )
+                        <Suspense fallback=<Loading />>
+                            {Object.entries(props.playedWith).map(
+                                ([summonerName, player], index) => (
+                                    <PlayerPlayedWith
+                                        key={index}
+                                        summonerName={summonerName}
+                                        playedWith={player}
+                                    />
+                                )
+                            )}
+                        </Suspense>
                     )}
                 </div>
             </div>

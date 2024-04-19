@@ -1,9 +1,12 @@
 import Loading from "../../Common/Loading";
-import Match from "./Match/Match";
 import "./MatchHistory.css";
+import { Suspense, lazy } from "react";
+
+const Match = lazy(() => import("./Match/Match"));
 
 function MatchHistory(props) {
     const handleShowMore = () => {
+        console.log("???");
         const start = props.matches.length.toString();
         const numGames = "5";
         props.onShowMore(start, numGames);
@@ -16,17 +19,22 @@ function MatchHistory(props) {
                 <div className="rounded-1 d-flex flex-column gap-2">
                     {props.loading ? (
                         <Loading />
+                    ) : props.errorMatchHistory ? (
+                        <div className="d-flex justify-content-center">
+                            <button
+                                className="border-0 rounded-2 px-3 py-2"
+                                onClick={() => props.onShowMore()}>
+                                Failed to load match history. Please try again.
+                            </button>
+                        </div>
                     ) : (
-                        <>
+                        <Suspense fallback=<Loading />>
                             {props.matches.map((combinedMatch, index) => (
-                                <div
+                                <Match
                                     key={index}
-                                    className="match-container d-flex flex-column">
-                                    <Match
-                                        playerData={combinedMatch.player_match}
-                                        matchData={combinedMatch.match}
-                                    />
-                                </div>
+                                    playerData={combinedMatch.player_match}
+                                    matchData={combinedMatch.match}
+                                />
                             ))}
                             {props.extraMatchLoading ? (
                                 <Loading />
@@ -37,7 +45,7 @@ function MatchHistory(props) {
                                     Show More
                                 </button>
                             )}
-                        </>
+                        </Suspense>
                     )}
                 </div>
             </div>

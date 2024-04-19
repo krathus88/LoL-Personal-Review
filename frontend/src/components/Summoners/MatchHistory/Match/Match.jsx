@@ -18,7 +18,7 @@ function Match(props) {
     };
 
     return (
-        <>
+        <div key={props.index} className="match-container d-flex flex-column">
             <div
                 className={`match overflow-hidden position-relative d-flex flex-column justify-content-center pe-0 rounded-1 ${
                     props.playerData.win ? "background-win" : "background-defeat"
@@ -96,7 +96,7 @@ function Match(props) {
             <Suspense fallback=<Loading />>
                 {overviewOpen && <MatchOverview matchData={props.matchData} />}
             </Suspense>
-        </>
+        </div>
     );
 }
 
