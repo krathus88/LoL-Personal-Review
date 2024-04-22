@@ -176,19 +176,17 @@ def update_button(
             matches_data, runes_data, items_data, puuid
         )
 
-        combined_data = [
-            {"match": match}
-            for match in zip(matches_data_clean)
-            if match
-            is not None  # Makes it so it doesnt return value on only one of the variables
-        ]
+        functions.sort_performance(matches_data_clean)
+
+        recently_played = functions.recently_played_with(puuid, matches_data)
 
         return {
             "summoner_data": {
                 "ranked_info": ranked_data,
                 "summoner_info": summoner_info,
             },
-            "matches": combined_data,
+            "matches": matches_data_clean,
+            "recently_played": recently_played,
         }
     except exceptions.RiotAPI as e:
         raise HttpError(
