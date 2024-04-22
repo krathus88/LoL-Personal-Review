@@ -14,7 +14,7 @@ function Champion(props) {
                     src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${props.champId}.png`}
                     alt="Champion"
                 />
-                <p className="match-player-champ-level">18</p>
+                <p className="match-player-champ-level">{props.level}</p>
             </div>
             <div className="ms-1 d-flex flex-column justify-content-between">
                 <img

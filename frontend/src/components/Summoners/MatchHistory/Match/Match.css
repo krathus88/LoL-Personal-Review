@@ -2,6 +2,7 @@
 #matchHistoryContainer .match {
     height: 80px;
     padding-left: 0.75rem;
+    overflow-x: clip;
 }
 
 #matchHistoryContainer .match > small {
@@ -106,7 +107,7 @@
 
 /* .match-player-stats */
 #matchHistoryContainer .match-player-stats {
-    min-width: 97px;
+    min-width: 133px;
     line-height: normal;
 }
 
@@ -130,6 +131,10 @@
 }
 
 /* .match-team-comp */
+#matchHistoryContainer .team-comp-icon-container {
+    position: relative;
+}
+
 #matchHistoryContainer .match-team-comp-icon {
     width: 32px;
     height: 32px;
@@ -137,6 +142,18 @@
     display: flex;
     flex-direction: column;
     object-fit: cover;
+}
+
+#matchHistoryContainer .match-team-comp .name-label {
+    position: absolute;
+    top: -1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: #31313c;
+    overflow: visible;
 }
 
 /* .match-player-analysis */
@@ -266,10 +283,6 @@
         width: 26px;
     }
 
-    #matchHistoryContainer .match-player-stats .separator {
-        display: none;
-    }
-
     #matchHistoryContainer .match-player-item-container {
         width: 28px;
         height: 28px;
@@ -289,6 +302,16 @@
     #matchHistoryContainer .match-team-comp-icon {
         width: 26px;
         height: 26px;
+    }
+}
+
+@media (max-width: 1100px) {
+    #matchHistoryContainer .match-player-stats {
+        min-width: 95px;
+    }
+
+    #matchHistoryContainer .match-player-stats small .kp {
+        display: none;
     }
 }
 
@@ -331,5 +354,9 @@
 @media (max-width: 575px) {
     #matchHistoryContainer .match-team-comp {
         display: none;
+    }
+
+    #matchHistoryContainer .match-player-stats {
+        min-width: 80px;
     }
 }

@@ -66,7 +66,8 @@ function SummonerHeader(props) {
             </div>
             <div className="col truncate">
                 <h4 className="truncate">
-                    {props.summonerInfo.name}#{props.summonerInfo.tag} (
+                    {props.summonerInfo.name}{" "}
+                    <span className="summoner-tag">#{props.summonerInfo.tag}</span> (
                     {props.summonerInfo.region})
                 </h4>
                 <small className="truncate">Level: {props.summonerInfo.level}</small>

@@ -8,7 +8,6 @@
 }
 
 #matchHistoryContainer .match-overview .team-blue {
-    background-color: #28344e;
     border-top-left-radius: var(--bs-border-radius);
     border-top-right-radius: var(--bs-border-radius);
     border-bottom-width: 1px;
@@ -17,7 +16,6 @@
 }
 
 #matchHistoryContainer .match-overview .team-red {
-    background-color: #59343b;
     border-bottom-right-radius: var(--bs-border-radius);
     border-bottom-left-radius: var(--bs-border-radius);
     border-top-width: 1px;
@@ -94,8 +92,8 @@
 #matchHistoryContainer .match-overview tbody .name small > span.tier {
     background-color: darkcyan;
     color: #fff;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-left: 3px;
+    padding-right: 3px;
 }
 
 #matchHistoryContainer .match-overview tbody .name > div {
@@ -275,31 +273,13 @@
         font-size: 13px;
     }
 
-    #matchHistoryContainer .match-overview tbody .damage > div {
-        flex-direction: column;
-        align-items: start;
-        gap: 0.25rem;
-    }
-
-    #matchHistoryContainer .match-overview tbody .damage > div > div {
-        padding-bottom: 0;
-    }
-
-    #matchHistoryContainer .match-overview tbody .damage .progress {
-        height: 12px;
-        min-width: 50px;
-    }
-
-    #matchHistoryContainer .match-overview tbody .damage .progress span {
-        display: block;
-    }
-
-    #matchHistoryContainer .match-overview tbody .damage small {
+    #matchHistoryContainer .match-overview .damage {
         display: none;
     }
-}
 
-@media (max-width: 1299px) and (min-width: 992px) {
+    #matchHistoryContainer .match-overview tbody .items .damage-container {
+        display: flex;
+    }
 }
 
 @media (max-width: 1199px) and (min-width: 992px) {
@@ -322,9 +302,41 @@
     }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 991px) and (min-width: 768px) {
+    #matchHistoryContainer .match-overview colgroup .damage {
+        display: table-column;
+    }
+
+    #matchHistoryContainer .match-overview .overview-player .damage {
+        display: table-cell;
+    }
+
+    #matchHistoryContainer .match-overview tbody .items .damage-container {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview tbody .damage > div {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
     #matchHistoryContainer .match-overview tbody .damage > div > div {
+        padding-bottom: 0;
         width: 55px;
+    }
+
+    #matchHistoryContainer .match-overview tbody .damage .progress {
+        height: 12px;
+        min-width: 50px;
+    }
+
+    #matchHistoryContainer .match-overview tbody .damage .progress span {
+        display: block;
+    }
+
+    #matchHistoryContainer .match-overview tbody .damage small {
+        display: none;
     }
 }
 

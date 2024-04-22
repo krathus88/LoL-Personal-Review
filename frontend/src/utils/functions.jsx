@@ -65,3 +65,21 @@ export const getSummonerName = (
 
     return { summonerNameTagForm: `${summonerName}-${summonerTag}` };
 };
+
+export const calculateCsPerMinute = (cs, gameDuration) => {
+    // Extract minutes and seconds from the game duration string
+    const [minutesString, secondsString] = gameDuration.split("m ");
+    const minutes = parseInt(minutesString, 10);
+    const seconds = parseInt(secondsString, 10);
+
+    // Calculate total game duration in minutes (including partial minutes)
+    const totalMinutes = minutes + seconds / 60;
+
+    // Ensure props.cs is a valid number (handle potential errors)
+    cs = parseInt(cs, 10) || 0; // Default to 0 if CS is not a number
+
+    // Calculate CS per minute with proper rounding
+    const csPerMinute = Math.round((cs / totalMinutes) * 10) / 10; // Round to one decimal place
+
+    return csPerMinute;
+};

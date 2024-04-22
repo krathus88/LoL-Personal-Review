@@ -51,7 +51,8 @@ function Team(props) {
                         <div className="truncate">
                             <div>
                                 <small>
-                                    <span className="tier w-1300">GM</span> Kräthus#EUW
+                                    <span className="tier w-1300 rounded">GM</span>{" "}
+                                    Kräthus <span className="summoner-tag">#EUW</span>
                                 </small>
                                 <small className="tier">Challenger</small>
                                 <small className="w-1300">
@@ -69,7 +70,7 @@ function Team(props) {
                     <td className="kda pe-1">
                         <div>
                             <small className="k-d-a text-nowrap">16/10/12 (100%)</small>
-                            <small className="text-nowrap">7.00:1</small>
+                            <small className="text-nowrap fw-bold">7.00:1</small>
                         </div>
                     </td>
                     <td className="damage pe-1">
