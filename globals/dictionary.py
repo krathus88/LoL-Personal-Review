@@ -68,6 +68,14 @@ dict_summoner_spells = {
     39: "summoner_mark",  # Snowball URF
 }
 
+dict_runes = {
+    8000: "7201_precision.png",
+    8100: "7200_domination.png",
+    8200: "7202_sorcery.png",
+    8300: "7203_whimsy.png",
+    8400: "7204_resolve.png",
+}
+
 dict_queue_id = {
     0: "Custom",
     2: "5v5 Blind Pick",  # Deprecated | patch 7.19 in favor of queueId 430

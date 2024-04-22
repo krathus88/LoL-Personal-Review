@@ -17,49 +17,52 @@ function Match(props) {
         setOverviewOpen(!overviewOpen);
     };
 
-    console.log(props.matchData);
+    const playerData = props.matchData.players_data.find(
+        (player) => player.puuid === props.puuid
+    );
 
     return (
         <div key={props.index} className="match-container d-flex flex-column">
             <div
                 className={`match position-relative d-flex flex-column justify-content-center pe-0 rounded-1 ${
-                    props.playerData.win ? "background-win" : "background-defeat"
+                    playerData.win ? "background-win" : "background-defeat"
                 }`}>
                 <small className="border-bottom truncate">
-                    {props.playerData.gameMode} - {props.playerData.timeSinceGameEnd}{" "}
-                    ago
+                    {props.matchData.gameMode} - {props.matchData.timeSinceGameEnd} ago
                 </small>
                 <div className="d-flex flex-row align-items-center flex-nowrap mx-0">
                     <div
                         className={`decoration ${
-                            props.playerData.win
-                                ? "decoration-win"
-                                : "decoration-defeat"
+                            playerData.win ? "decoration-win" : "decoration-defeat"
                         }`}></div>
                     <MatchInfo
-                        gameMode={props.playerData.gameMode}
-                        gameEnd={props.playerData.timeSinceGameEnd}
-                        gameDuration={props.playerData.gameDuration}
+                        gameMode={props.matchData.gameMode}
+                        gameEnd={props.matchData.timeSinceGameEnd}
+                        gameDuration={props.matchData.gameDuration}
                     />
                     <Champion
-                        champId={props.playerData.championId}
-                        level={props.playerData.level}
-                        sum1Id={props.playerData.summoner1Id}
-                        sum2Id={props.playerData.summoner2Id}
-                        primaryRune={props.playerData.primaryRune}
+                        champId={playerData.championId}
+                        champName={playerData.championName}
+                        level={playerData.level}
+                        sum1Id={playerData.summoner1Id}
+                        sum2Id={playerData.summoner2Id}
+                        primaryRune={playerData.primaryRune}
                     />
                     <Stats
-                        gameDuration={props.playerData.gameDuration}
-                        cs={props.playerData.cs}
-                        kp={props.playerData.killParticipation}
-                        kills={props.playerData.kills}
-                        deaths={props.playerData.deaths}
-                        assists={props.playerData.assists}
-                        kda={props.playerData.kda}
+                        gameDuration={props.matchData.gameDuration}
+                        cs={playerData.cs}
+                        kp={playerData.killParticipation}
+                        kills={playerData.kills}
+                        deaths={playerData.deaths}
+                        assists={playerData.assists}
+                        kda={playerData.kda}
                     />
-                    <Items items={props.playerData.items} />
-                    <TeamComp player={props.matchData.info.participants} />
-                    <Analysis multiKill={props.playerData.largestMultiKill} />
+                    <Items items={playerData.items} />
+                    <TeamComp player={props.matchData.players_data} />
+                    <Analysis
+                        multiKill={playerData.largestMultiKill}
+                        perfRank={playerData.performanceRanking}
+                    />
                     <button
                         type="button"
                         className="btn btn-warning btn-review d-flex justify-content-center align-items-center">

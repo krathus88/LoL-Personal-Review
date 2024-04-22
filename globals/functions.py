@@ -230,35 +230,53 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
     (by the given PUUID).
 
     Accepts multiple matches in a singe List."""
+
     matches_data = []
     for match in match_data:
         if match == None:
             continue
+
         players_data = []
+
         # Calculates game duration
         game_duration = match["info"]["gameDuration"]
         minutes = int(game_duration // 60)
         seconds = int(game_duration % 60)
+
         for participant in match["info"]["participants"]:
+            # Accounts for old API data
+            if participant["riotIdGameName"] != "":
+                summoner_name = participant["riotIdGameName"]
+            elif participant["riotIdName"] != "":
+                summoner_name = participant["riotIdName"]
+            else:
+                summoner_name = participant["summonerName"]
+
+            # Accounts for old API data
+            if participant["riotIdTagline"] != "":
+                summoner_tag = participant["riotIdTagline"]
+            else:
+                summoner_tag = None
+
             players_data.append(
                 {
                     "puuid": participant["puuid"],
+                    "summonerName": summoner_name,
+                    "summonerTag": summoner_tag,
                     "championId": participant["championId"],
+                    "championName": participant["championName"],
                     "level": participant["champLevel"],
                     "kills": participant["kills"],
                     "deaths": participant["deaths"],
                     "assists": participant["assists"],
+                    "kda": calculate_kda(participant),
                     "killParticipation": calculate_kp(
                         match,
                         participant["teamId"],
                         participant["kills"],
                         participant["assists"],
                     ),
-                    "kda": calculate_kda(participant),
-                    "performance_score": game_performance(minutes, participant),
-                    "largestMultiKill": dictionary.dict_multikill[participant["largestMultiKill"]],
-                    "cs": participant["totalMinionsKilled"]
-                    + participant["neutralMinionsKilled"],
+                    "cs": participant["totalMinionsKilled"] + participant["neutralMinionsKilled"],
                     "summoner1Id": dictionary.dict_summoner_spells[
                         participant["summoner1Id"]
                     ],
@@ -269,15 +287,23 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                         participant["perks"]["styles"][0]["selections"][0]["perk"],
                         runes_data,
                     ),
-                    "items": {
-                        "item1": filter_item(participant["item0"], items_data),
-                        "item2": filter_item(participant["item1"], items_data),
-                        "item3": filter_item(participant["item2"], items_data),
-                        "item4": filter_item(participant["item3"], items_data),
-                        "item5": filter_item(participant["item4"], items_data),
-                        "item6": filter_item(participant["item5"], items_data),
-                        "item7": filter_item(participant["item6"], items_data),
-                    },
+                    "secondaryRune": dictionary.dict_runes[participant["perks"]["styles"][1]["style"]],
+                    "items": [
+                        filter_item(participant["item0"], items_data),
+                        filter_item(participant["item1"], items_data),
+                        filter_item(participant["item2"], items_data),
+                        filter_item(participant["item3"], items_data),
+                        filter_item(participant["item4"], items_data),
+                        filter_item(participant["item5"], items_data),
+                        filter_item(participant["item6"], items_data),
+                    ],
+                    "largestMultiKill": dictionary.dict_multikill[participant["largestMultiKill"]],
+                    "damageDealt": participant["totalDamageDealtToChampions"],
+                    "damageTaken": participant["totalDamageTaken"],
+                    "controlWards": participant["visionWardsBoughtInGame"],
+                    "wardsPlaced": participant["wardsPlaced"],
+                    "wardsKilled": participant["wardsKilled"],
+                    "performanceScore": game_performance(minutes, participant),
                     "win": participant["win"],  # bool
                 }
             )
@@ -365,36 +391,41 @@ def calculate_kp(match, player_team, player_kills, player_assists):
     return int(((player_kills + player_assists) / team_kills) * 100)
 
 def game_performance(game_time, participant_data):
-    gold_minutes= participant_data["goldEarned"]/game_time
-    damage_minutes= participant_data["totalDamageDealt"]/game_time
-    level_minutes=participant_data["champLevel"]/game_time
-    kills_assists_minutes= (participant_data["kills"] + participant_data["assists"])/game_time
-    deaths_minutes= participant_data["deaths"]/game_time
-    score=0.336 - (1.437 * deaths_minutes) + (0.000117 * gold_minutes) + (0.443 * kills_assists_minutes) + (0.264 * level_minutes) + (0.000013 * damage_minutes)
-    return score*10
+    gold_minutes = participant_data["goldEarned"] / game_time
+    damage_minutes = participant_data["totalDamageDealt"] / game_time
+    level_minutes = participant_data["champLevel"] / game_time
+    kills_assists_minutes = (participant_data["kills"] + participant_data["assists"]) / game_time
+    deaths_minutes = participant_data["deaths"] / game_time
+    
+    score = 0.336 - (1.437 * deaths_minutes) + (0.000117 * gold_minutes) + (0.443 * kills_assists_minutes) + (0.264 * level_minutes) + (0.000013 * damage_minutes)
+    
+    return round(score * 10, 1)
 
 def sort_performance(matches):
     for match in matches:
         players_performance = []
         players_performance_winning_team = []
         players_performance_losing_team = []
+
         #get all 10 players data
         for player in match["players_data"]:
-            players_performance.append(player["performance_score"])
+            players_performance.append(player["performanceScore"])
             if player["win"]:
-                players_performance_winning_team.append(player["performance_score"])
+                players_performance_winning_team.append(player["performanceScore"])
             else:
-                players_performance_losing_team.append(player["performance_score"])
+                players_performance_losing_team.append(player["performanceScore"])
+
         players_performance_winning_team.sort(reverse=True)
         players_performance_losing_team.sort(reverse=True)
         players_performance.sort(reverse=True)
+
         for player in match["players_data"]:
-            if player["performance_score"] == players_performance_winning_team[0]:
-                player["performance_ranking"] = "MVP"
-            elif player["performance_score"] == players_performance_losing_team[0]:
-                player["performance_ranking"] = "ACE"
+            if player["performanceScore"] == players_performance_winning_team[0]:
+                player["performanceRanking"] = "MVP"
+            elif player["performanceScore"] == players_performance_losing_team[0]:
+                player["performanceRanking"] = "ACE"
             else:
-                player["performance_ranking"] = dictionary.dict_place[(players_performance.index(player["performance_score"])+1)]
+                player["performanceRanking"] = dictionary.dict_place[(players_performance.index(player["performanceScore"]) + 1)]
 
 def calculate_kda(participant_data):
     """Returns a Float
