@@ -2,18 +2,30 @@ import Analysis from "./Analysis";
 import Champion from "./Champion";
 import Items from "./Items";
 import MatchInfo from "./MatchInfo";
-import Overview from "./Overview";
 import Stats from "./Stats";
 import TeamComp from "./TeamComp";
+import "./Match.css";
+import { useState, Suspense, lazy } from "react";
+import Loading from "../../../Common/Loading";
+
+const MatchOverview = lazy(() => import("../MatchOverview/MatchOverview"));
 
 function Match(props) {
+    const [overviewOpen, setOverviewOpen] = useState(false);
+
+    const toggleOverview = () => {
+        setOverviewOpen(!overviewOpen);
+    };
+
+    console.log(props.matchData);
+
     return (
-        <>
+        <div key={props.index} className="match-container d-flex flex-column">
             <div
-                className={`match overflow-hidden position-relative d-flex flex-column justify-content-center pe-0 rounded-1 ${
+                className={`match position-relative d-flex flex-column justify-content-center pe-0 rounded-1 ${
                     props.playerData.win ? "background-win" : "background-defeat"
                 }`}>
-                <small className="truncate border-bottom">
+                <small className="border-bottom truncate">
                     {props.playerData.gameMode} - {props.playerData.timeSinceGameEnd}{" "}
                     ago
                 </small>
@@ -31,11 +43,13 @@ function Match(props) {
                     />
                     <Champion
                         champId={props.playerData.championId}
+                        level={props.playerData.level}
                         sum1Id={props.playerData.summoner1Id}
                         sum2Id={props.playerData.summoner2Id}
                         primaryRune={props.playerData.primaryRune}
                     />
                     <Stats
+                        gameDuration={props.playerData.gameDuration}
                         cs={props.playerData.cs}
                         kp={props.playerData.killParticipation}
                         kills={props.playerData.kills}
@@ -44,7 +58,7 @@ function Match(props) {
                         kda={props.playerData.kda}
                     />
                     <Items items={props.playerData.items} />
-                    <TeamComp playerChamps={props.matchData.info.participants} />
+                    <TeamComp player={props.matchData.info.participants} />
                     <Analysis multiKill={props.playerData.largestMultiKill} />
                     <button
                         type="button"
@@ -69,6 +83,7 @@ function Match(props) {
                     </button>
                     <button
                         type="button"
+                        onClick={toggleOverview}
                         className="btn btn-secondary btn-overview d-flex justify-content-center align-items-center ms-auto mt-auto">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -82,8 +97,10 @@ function Match(props) {
                     </button>
                 </div>
             </div>
-            <Overview matchData={props.matchData} />
-        </>
+            <Suspense fallback=<Loading />>
+                {overviewOpen && <MatchOverview matchData={props.matchData} />}
+            </Suspense>
+        </div>
     );
 }
 

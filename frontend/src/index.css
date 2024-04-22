@@ -90,11 +90,30 @@ body {
     background-color: #e84057;
 }
 
+.team-blue {
+    background-color: #28344e;
+}
+
+.team-red {
+    background-color: #59343b;
+}
+
+.team-blue tbody tr:hover {
+    background-color: #2c3955;
+}
+
+.team-red tbody tr:hover {
+    background-color: #643a42;
+}
+
 .truncate {
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    display: block;
+}
+
+.summoner-tag {
+    color: #9e9eb1;
 }
 
 @keyframes spin {

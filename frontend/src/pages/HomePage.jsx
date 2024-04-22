@@ -4,7 +4,7 @@ import { setProgress } from "../app/Slices/ProgressSlice";
 import SearchForm from "../components/Home/SearchForm";
 import "../components/Home/Home.css";
 
-function HomePage() {
+export function Component() {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -18,4 +18,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+Component.displayName = "HomePage";

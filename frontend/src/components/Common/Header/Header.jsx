@@ -49,6 +49,12 @@ function Header() {
         navigate(`/summoner/${regionForm}/${summonerNameTagForm}`);
     };
 
+    const handleCloseError = () => {
+        inputRefHeader.current.style.borderColor = "";
+        inputRefHeader.current.style.boxShadow = "";
+        setError(null);
+    };
+
     return (
         <header>
             {error && <ErrorPopup message={error} onClose={handleCloseError} />}

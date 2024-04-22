@@ -9,7 +9,7 @@ import RecentlyPlayed from "../components/Summoners/RecentlyPlayed/RecentlyPlaye
 import SummonerHeader from "../components/Summoners/SummonerHeader/SummonerHeader";
 import { fetchData } from "../utils/functions";
 
-export const SummonerLoader = async ({ params }) => {
+export async function loader({ params }) {
     const { region, summonerNameTag } = params;
 
     let [summonerName, summonerTag] = summonerNameTag.split("-");
@@ -21,16 +21,16 @@ export const SummonerLoader = async ({ params }) => {
     });
 
     return responseData;
-};
+}
 
-function SummonerPage() {
+export function Component() {
     const dispatch = useDispatch();
 
     const summonerDataLoader = useLoaderData();
 
     const [summonerData, setSummonerData] = useState(summonerDataLoader);
     const [loading, setLoading] = useState(true);
-    const [extraMatchLoading, setExtraMatchLoading] = useState(false);
+    const [errorMatchHistory, setErrorMatchHistory] = useState(false);
     const [matches, setMatches] = useState([]);
     const [playedWith, setPlayedWith] = useState([]);
 
@@ -59,24 +59,36 @@ function SummonerPage() {
     }, [summonerData.summoner_info.puuid]);
 
     const fetchMatchHistoryData = async (start, numGames) => {
-        if (numGames) {
-            setExtraMatchLoading(true);
-        }
+        try {
+            // Reset Recently Played whilst changing player view
+            if (!numGames) {
+                setPlayedWith([]);
+            }
 
-        const responseData = await fetchData("get", "/api/summoners/match-history/", {
-            region: summonerData.summoner_info.region,
-            start: start || "0",
-            num_games: numGames || "10",
-            puuid: summonerData.summoner_info.puuid,
-        });
+            setLoading(true);
 
-        setMatches((matches) => [...matches, ...responseData.matches]);
+            const responseData = await fetchData(
+                "get",
+                "/api/summoners/match-history/",
+                {
+                    region: summonerData.summoner_info.region,
+                    start: start || "0",
+                    num_games: numGames || "10",
+                    puuid: summonerData.summoner_info.puuid,
+                }
+            );
 
-        if (responseData.recently_played) {
-            setPlayedWith(responseData.recently_played);
+            // Only update Recently Played with the initial 10 games data
+            if (responseData.recently_played) {
+                setPlayedWith(responseData.recently_played);
+            }
+
+            setErrorMatchHistory(false);
             setLoading(false);
-        } else {
-            setExtraMatchLoading(false);
+            setMatches((matches) => [...matches, ...responseData.matches]);
+        } catch {
+            setErrorMatchHistory(true);
+            setLoading(false);
         }
     };
 
@@ -104,17 +116,21 @@ function SummonerPage() {
             <div className="d-flex flex-lg-row flex-column gap-3">
                 <div className="d-flex flex-column gap-3">
                     <PersonalRating rankedInfo={summonerData.ranked_info} />
-                    <RecentlyPlayed loading={loading} playedWith={playedWith} />
+                    <RecentlyPlayed
+                        loading={loading}
+                        playedWith={playedWith}
+                        matches={matches}
+                    />
                 </div>
                 <MatchHistory
                     loading={loading}
-                    extraMatchLoading={extraMatchLoading}
+                    errorMatchHistory={errorMatchHistory}
                     matches={matches}
-                    onShowMore={fetchMatchHistoryData}
+                    onFetchMatch={fetchMatchHistoryData}
                 />
             </div>
         </main>
     );
 }
 
-export default SummonerPage;
+Component.displayName = "SummonerPage";
