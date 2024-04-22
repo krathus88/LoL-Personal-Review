@@ -78,8 +78,6 @@ export function Component() {
                 }
             );
 
-            console.log(responseData);
-
             // Only update Recently Played with the initial 10 games data
             if (responseData.recently_played) {
                 setPlayedWith(responseData.recently_played);
