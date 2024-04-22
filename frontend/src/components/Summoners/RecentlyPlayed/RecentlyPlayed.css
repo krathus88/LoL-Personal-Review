@@ -34,6 +34,6 @@
 
 @media (max-width: 991px) {
     #recentlyPlayed .played-with-container {
-        flex: 0 0 calc(50% - 4px); /* Set width to fit 2 items per row */
+        flex: 0 0 calc(50% - 5px); /* Set width to fit 2 items per row */
     }
 }

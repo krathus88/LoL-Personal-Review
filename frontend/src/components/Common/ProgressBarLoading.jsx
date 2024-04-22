@@ -12,7 +12,7 @@ function ProgressBarLoading() {
             // If progress reaches 100%, reset it to 0 after animation finishes
             setTimeout(() => {
                 dispatch(setProgress(0));
-            }, 225); // Adjust delay time according to your animation duration
+            }, 200); // Adjust delay time according to your animation duration
         }
     }, [progress]);
 

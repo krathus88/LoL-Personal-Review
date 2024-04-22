@@ -1,6 +1,5 @@
-import FlexQueue from "./FlexQueue";
 import "./PersonalRating.css";
-import SoloQueue from "./SoloQueue";
+import Queue from "./Queue";
 
 function PersonalRating(props) {
     return (
@@ -13,7 +12,11 @@ function PersonalRating(props) {
                             Ranked Solo: <small>Unranked</small>
                         </p>
                     ) : (
-                        <SoloQueue rankSoloQ={props.rankedInfo[0]} />
+                        <Queue
+                            id="summonerRankedSoloQ"
+                            queueName="Soloqueue"
+                            queue={props.rankedInfo[0]}
+                        />
                     )}
                     <div className="vertical-separator"></div>
                     <hr />
@@ -22,7 +25,11 @@ function PersonalRating(props) {
                             Ranked Flex: <small>Unranked</small>
                         </p>
                     ) : (
-                        <FlexQueue rankFlex={props.rankedInfo[1]} />
+                        <Queue
+                            id="summonerRankedFlex"
+                            queueName="Ranked Flex"
+                            queue={props.rankedInfo[1]}
+                        />
                     )}
                 </div>
             </div>

@@ -2,7 +2,7 @@ import { setIsMobile } from "../app/Slices/IsMobileSlice";
 
 const resizeListenerMiddleware = (store) => {
     const handleResize = () => {
-        const isMobile = window.innerWidth <= 768;
+        const isMobile = window.innerWidth <= 767;
         store.dispatch(setIsMobile(isMobile));
     };
 
