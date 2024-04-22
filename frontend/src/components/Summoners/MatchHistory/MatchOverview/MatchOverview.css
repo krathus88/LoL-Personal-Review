@@ -130,12 +130,11 @@
 }
 
 #matchHistoryContainer .match-overview tbody .score .rank {
-    background-color: #eb9c00;
-    padding-bottom: 0.1rem;
+    background-color: #9e9eb1;
+    color: rgb(255, 255, 255);
+    width: 35px;
     padding-left: 0.35rem;
     padding-right: 0.35rem;
-    overflow: hidden; /* Hide overflow */
-    width: max-content;
     margin-left: 0.5rem;
 }
 
@@ -226,6 +225,7 @@
 }
 
 #matchHistoryContainer .match-overview tbody .items .items-container > div {
+    background-color: #31313c;
     display: flex;
     width: 22px;
     height: 22px;

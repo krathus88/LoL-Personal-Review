@@ -154,6 +154,7 @@
     padding-right: 0.5rem;
     background-color: #31313c;
     overflow: visible;
+    z-index: 1;
 }
 
 /* .match-player-analysis */
@@ -174,10 +175,13 @@
 }
 
 #matchHistoryContainer .match-player-analysis-text-container > small {
-    background-color: #eb9c00;
     padding-bottom: 0.1rem;
     overflow: hidden; /* Hide overflow */
     width: max-content;
+}
+
+#matchHistoryContainer .match-player-analysis .rank {
+    background-color: #9e9eb1;
 }
 
 #matchHistoryContainer .match-player-analysis .multikill {

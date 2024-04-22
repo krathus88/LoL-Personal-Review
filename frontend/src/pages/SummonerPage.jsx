@@ -125,6 +125,7 @@ export function Component() {
                 <MatchHistory
                     loading={loading}
                     errorMatchHistory={errorMatchHistory}
+                    puuid={summonerData.summoner_info.puuid}
                     matches={matches}
                     onFetchMatch={fetchMatchHistoryData}
                 />

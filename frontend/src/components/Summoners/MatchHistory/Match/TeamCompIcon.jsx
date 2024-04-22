@@ -23,8 +23,8 @@ function TeamCompIcon(props) {
             />
             {isHovered && (
                 <PlayerNameLabel
-                    playerName={props.player.riotIdGameName}
-                    playerTag={props.player.riotIdTagline}
+                    playerName={props.player.summonerName}
+                    playerTag={props.player.summonerTag}
                 />
             )}
         </div>

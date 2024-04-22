@@ -31,11 +31,11 @@ function MatchHistory(props) {
                         </div>
                     ) : (
                         <Suspense fallback=<Loading />>
-                            {props.matches.map((combinedMatch, index) => (
+                            {props.matches.map((match, index) => (
                                 <Match
                                     key={index}
-                                    playerData={combinedMatch.player_match}
-                                    matchData={combinedMatch.match}
+                                    puuid={props.puuid}
+                                    matchData={match}
                                 />
                             ))}
                             {props.loading ? (
