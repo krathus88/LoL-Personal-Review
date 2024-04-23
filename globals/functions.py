@@ -260,7 +260,15 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
 
         players_performance = calculate_performance(minutes, match)
 
+        blue_gold = 0
+        red_gold = 0
+
         for idx, participant in enumerate(match["info"]["participants"]):
+            if participant["teamId"] == 100:
+                blue_gold += participant["goldEarned"]
+            else:
+                red_gold += participant["goldEarned"]
+
             # Accounts for old API data
             if participant["riotIdGameName"] != "":
                 summoner_name = participant["riotIdGameName"]
@@ -344,7 +352,58 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                 "gameMode": dictionary.dict_queue_id[match["info"]["queueId"]],
                 "gameDuration": f"{minutes}m {seconds}s",
                 "timeSinceGameEnd": time_elapsed(match["info"]["gameEndTimestamp"]),
+                "win": "blue" if match["info"]["teams"][0]["win"] else "red",
                 "players_data": players_data,
+                "objectives": [
+                    {
+                        "kills": match["info"]["teams"][0]["objectives"]["champion"][
+                            "kills"
+                        ],
+                        "gold": blue_gold,
+                        "baron": match["info"]["teams"][0]["objectives"]["baron"][
+                            "kills"
+                        ],
+                        "dragon": match["info"]["teams"][0]["objectives"]["dragon"][
+                            "kills"
+                        ],
+                        "riftHerald": match["info"]["teams"][0]["objectives"][
+                            "riftHerald"
+                        ]["kills"],
+                        "voidgrubs": match["info"]["teams"][0]["objectives"]["horde"][
+                            "kills"
+                        ],
+                        "towers": match["info"]["teams"][0]["objectives"]["tower"][
+                            "kills"
+                        ],
+                        "inhibitors": match["info"]["teams"][0]["objectives"][
+                            "inhibitor"
+                        ]["kills"],
+                    },
+                    {
+                        "kills": match["info"]["teams"][1]["objectives"]["champion"][
+                            "kills"
+                        ],
+                        "gold": red_gold,
+                        "baron": match["info"]["teams"][1]["objectives"]["baron"][
+                            "kills"
+                        ],
+                        "dragon": match["info"]["teams"][1]["objectives"]["dragon"][
+                            "kills"
+                        ],
+                        "riftHerald": match["info"]["teams"][1]["objectives"][
+                            "riftHerald"
+                        ]["kills"],
+                        "voidgrubs": match["info"]["teams"][1]["objectives"]["horde"][
+                            "kills"
+                        ],
+                        "towers": match["info"]["teams"][1]["objectives"]["tower"][
+                            "kills"
+                        ],
+                        "inhibitors": match["info"]["teams"][1]["objectives"][
+                            "inhibitor"
+                        ]["kills"],
+                    },
+                ],
             }
         )
 
