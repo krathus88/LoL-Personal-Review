@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from ninja import Router
 
-# Create your views here.
+router = Router()
+
+
+@router.put("/stats")
+def gather_champion_stats(request, on: bool):
+    # criar / matar a thread crawler
+
+    return
