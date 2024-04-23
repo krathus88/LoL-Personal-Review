@@ -245,18 +245,9 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
 
         for participant in match["info"]["participants"]:
             # Accounts for old API data
-            if participant["riotIdGameName"] != "":
-                summoner_name = participant["riotIdGameName"]
-            elif participant["riotIdName"] != "":
-                summoner_name = participant["riotIdName"]
-            else:
-                summoner_name = participant["summonerName"]
+            summoner_name = participant["riotIdGameName"]
+            summoner_tag = participant["riotIdTagline"]
 
-            # Accounts for old API data
-            if participant["riotIdTagline"] != "":
-                summoner_tag = participant["riotIdTagline"]
-            else:
-                summoner_tag = None
 
             players_data.append(
                 {
@@ -399,7 +390,7 @@ def game_performance(game_time, participant_data):
     
     score = 0.336 - (1.437 * deaths_minutes) + (0.000117 * gold_minutes) + (0.443 * kills_assists_minutes) + (0.264 * level_minutes) + (0.000013 * damage_minutes)
     
-    return round(score * 10, 1)
+    return score * 10
 
 def sort_performance(matches):
     for match in matches:
@@ -426,6 +417,13 @@ def sort_performance(matches):
                 player["performanceRanking"] = "ACE"
             else:
                 player["performanceRanking"] = dictionary.dict_place[(players_performance.index(player["performanceScore"]) + 1)]
+            if player["performanceScore"] <= 10 and player["performanceScore"] >= 0:
+                player["performanceScore"] = round (player["performanceScore"], 1)
+            else:
+                if player["performanceScore"] > 10:
+                    player["performanceScore"] = 10
+                else:
+                    player["performanceScore"] = 0
 
 def calculate_kda(participant_data):
     """Returns a Float
