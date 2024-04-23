@@ -6,7 +6,7 @@ from requests.exceptions import HTTPError
 from datetime import datetime
 from globals import dictionary, exceptions
 
- 
+
 def find_account(region, summoner_name, tag):
     """Returns a Dictionary
 
@@ -25,13 +25,13 @@ def find_account(region, summoner_name, tag):
         )
 
         api_result.raise_for_status()
-        
+
         return api_result.json()
     except HTTPError as http_err:
         raise exceptions.RiotAPI(http_err.response.status_code)
 
 
-def find_account_puuid(puuid,region):
+def find_account_puuid(puuid, region):
     """Returns a Dictionary
 
     Gets Player's Account information using PUUID."""
@@ -43,7 +43,7 @@ def find_account_puuid(puuid,region):
         api_result = requests.get(
             api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
         )
-        
+
         api_result.raise_for_status()
 
         return api_result.json()
@@ -142,58 +142,11 @@ def find_match_data_general(region, matches):
     # Filter out None entries
     filtered_results = [result for result in results if result is not None]
 
-    return filtered_results[0], filtered_results[1], filtered_results[2:]
-
-
-def recently_played_with(puuid, matches):
-    """Returns a Dictionary
-
-    Returns the recently played with players."""
-
-    players_stats = {}
-
-    for match in matches:
-        player_index = match["metadata"]["participants"].index(puuid)
-        player_team = match["info"]["participants"][player_index]["teamId"]
-
-        for participant in match["info"]["participants"]:
-            if "riotIdGameName" not in participant:  # Check if "riotIdGameName" is present
-                continue
-
-            if participant["puuid"] != puuid and participant["teamId"] == player_team:
-                name_tag = (
-                    f"{participant["riotIdGameName"]}#{participant["riotIdTagline"]}"
-                )
-                # Update games played together
-                if name_tag in players_stats:
-                    players_stats[name_tag]["games_played"] += 1
-                else:
-                    players_stats[name_tag] = {
-                        "profileIcon": participant["profileIcon"],
-                        "games_played": 1,
-                        "wins": 0,
-                    }
-                # Update wins and defeats
-                if participant["win"]:
-                    players_stats[name_tag]["wins"] += 1
-
-    # Calculate winrate and remove entries with less than 2 games played
-    players_stats_filtered = {}
-    for name_tag, stats in players_stats.items():
-        if stats["games_played"] >= 2:
-            stats["winrate"] = round((stats["wins"] / stats["games_played"]) * 100)
-            players_stats_filtered[name_tag] = stats
-
-    # Sort players_stats_filtered by games_played in descending order
-    sorted_stats = dict(
-        sorted(
-            players_stats_filtered.items(),
-            key=lambda item: (item[1]["games_played"], item[1]["winrate"]),
-            reverse=True
-        )
-    )
-
-    return sorted_stats
+    return (
+        filtered_results[0],
+        filtered_results[1],
+        filtered_results[2:],
+    )  # runes_data, items_data, matches_data
 
 
 def organize_summoner_ranked_data(summoner_list):
@@ -223,6 +176,59 @@ def organize_summoner_ranked_data(summoner_list):
     return [solo_queue, flex_queue]
 
 
+def recently_played_with(puuid, matches):
+    """Returns a Dictionary
+
+    Returns the recently played with players."""
+
+    players_stats = {}
+
+    for match in matches:
+        player_index = match["metadata"]["participants"].index(puuid)
+        player_team = match["info"]["participants"][player_index]["teamId"]
+
+        for participant in match["info"]["participants"]:
+            if (
+                "riotIdGameName" not in participant
+            ):  # Check if "riotIdGameName" is present
+                continue
+
+            if participant["puuid"] != puuid and participant["teamId"] == player_team:
+                name_tag = (
+                    f"{participant['riotIdGameName']}#{participant['riotIdTagline']}"
+                )
+                # Update games played together
+                if name_tag in players_stats:
+                    players_stats[name_tag]["games_played"] += 1
+                else:
+                    players_stats[name_tag] = {
+                        "profileIcon": participant["profileIcon"],
+                        "games_played": 1,
+                        "wins": 0,
+                    }
+                # Update wins and defeats
+                if participant["win"]:
+                    players_stats[name_tag]["wins"] += 1
+
+    # Calculate winrate and remove entries with less than 2 games played
+    players_stats_filtered = {}
+    for name_tag, stats in players_stats.items():
+        if stats["games_played"] >= 2:
+            stats["winrate"] = round((stats["wins"] / stats["games_played"]) * 100)
+            players_stats_filtered[name_tag] = stats
+
+    # Sort players_stats_filtered by games_played in descending order
+    sorted_stats = dict(
+        sorted(
+            players_stats_filtered.items(),
+            key=lambda item: (item[1]["games_played"], item[1]["winrate"]),
+            reverse=True,
+        )
+    )
+
+    return sorted_stats
+
+
 def filter_player_match_data(match_data, runes_data, items_data, puuid):
     """Returns a List of Dictionaries
 
@@ -243,11 +249,28 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
         minutes = int(game_duration // 60)
         seconds = int(game_duration % 60)
 
+        max_damage_dealt = max(
+            participant["totalDamageDealtToChampions"]
+            for participant in match["info"]["participants"]
+        )
+        max_damage_taken = max(
+            participant["totalDamageTaken"]
+            for participant in match["info"]["participants"]
+        )
+
         for participant in match["info"]["participants"]:
             # Accounts for old API data
-            summoner_name = participant["riotIdGameName"]
-            summoner_tag = participant["riotIdTagline"]
+            if participant["riotIdGameName"] != "":
+                summoner_name = participant["riotIdGameName"]
+            elif participant["riotIdName"] != "":
+                summoner_name = participant["riotIdName"]
+            else:
+                summoner_name = participant["summonerName"]
 
+            if participant["riotIdTagline"] != "":
+                summoner_tag = participant["riotIdTagline"]
+            else:
+                summoner_tag = None
 
             players_data.append(
                 {
@@ -267,30 +290,43 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                         participant["kills"],
                         participant["assists"],
                     ),
-                    "cs": participant["totalMinionsKilled"] + participant["neutralMinionsKilled"],
-                    "summoner1Id": dictionary.dict_summoner_spells[
-                        participant["summoner1Id"]
-                    ],
-                    "summoner2Id": dictionary.dict_summoner_spells[
-                        participant["summoner2Id"]
-                    ],
+                    "cs": participant["totalMinionsKilled"]
+                    + participant["neutralMinionsKilled"],
+                    "summoner1Id": dictionary.dict_summoner_spells.get(
+                        participant["summoner1Id"], "summoner_empty"
+                    ),
+                    "summoner2Id": dictionary.dict_summoner_spells.get(
+                        participant["summoner2Id"], "summoner_empty"
+                    ),
                     "primaryRune": filter_rune(
                         participant["perks"]["styles"][0]["selections"][0]["perk"],
                         runes_data,
                     ),
-                    "secondaryRune": dictionary.dict_runes[participant["perks"]["styles"][1]["style"]],
-                    "items": [
-                        filter_item(participant["item0"], items_data),
-                        filter_item(participant["item1"], items_data),
-                        filter_item(participant["item2"], items_data),
-                        filter_item(participant["item3"], items_data),
-                        filter_item(participant["item4"], items_data),
-                        filter_item(participant["item5"], items_data),
-                        filter_item(participant["item6"], items_data),
+                    "secondaryRune": dictionary.dict_runes[
+                        participant["perks"]["styles"][1]["style"]
                     ],
-                    "largestMultiKill": dictionary.dict_multikill[participant["largestMultiKill"]],
+                    "items": [
+                        items_data.get(str(participant["item0"]), {}).get("icon", None),
+                        items_data.get(str(participant["item1"]), {}).get("icon", None),
+                        items_data.get(str(participant["item2"]), {}).get("icon", None),
+                        items_data.get(str(participant["item3"]), {}).get("icon", None),
+                        items_data.get(str(participant["item4"]), {}).get("icon", None),
+                        items_data.get(str(participant["item5"]), {}).get("icon", None),
+                        items_data.get(str(participant["item6"]), {}).get("icon", None),
+                    ],
+                    "largestMultiKill": dictionary.dict_multikill[
+                        participant["largestMultiKill"]
+                    ],
                     "damageDealt": participant["totalDamageDealtToChampions"],
+                    "damageDealtPercentage": (
+                        participant["totalDamageDealtToChampions"]
+                        / max_damage_dealt
+                        * 100
+                    ),
                     "damageTaken": participant["totalDamageTaken"],
+                    "damageTakenPercentage": (
+                        participant["totalDamageTaken"] / max_damage_taken * 100
+                    ),
                     "controlWards": participant["visionWardsBoughtInGame"],
                     "wardsPlaced": participant["wardsPlaced"],
                     "wardsKilled": participant["wardsKilled"],
@@ -298,26 +334,16 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                     "win": participant["win"],  # bool
                 }
             )
-        matches_data.append({
+        matches_data.append(
+            {
                 "gameMode": dictionary.dict_queue_id[match["info"]["queueId"]],
                 "gameDuration": f"{minutes}m {seconds}s",
-                "timeSinceGameEnd": time_elapsed(
-                 match["info"]["gameEndTimestamp"]),
-                "players_data" : players_data,
-        })
+                "timeSinceGameEnd": time_elapsed(match["info"]["gameEndTimestamp"]),
+                "players_data": players_data,
+            }
+        )
 
     return matches_data
-
-
-def filter_item(item_id, items_data):
-    """Returns a String if item exists, else None
-
-    Filters each given item id into a full URL with the item's image."""
-
-    if item_id == 0:
-        return None
-    else:
-        return items_data.get(str(item_id), {}).get("icon")
 
 
 def filter_rune(rune_id, runes_data):
@@ -381,16 +407,27 @@ def calculate_kp(match, player_team, player_kills, player_assists):
 
     return int(((player_kills + player_assists) / team_kills) * 100)
 
+
 def game_performance(game_time, participant_data):
     gold_minutes = participant_data["goldEarned"] / game_time
     damage_minutes = participant_data["totalDamageDealt"] / game_time
     level_minutes = participant_data["champLevel"] / game_time
-    kills_assists_minutes = (participant_data["kills"] + participant_data["assists"]) / game_time
+    kills_assists_minutes = (
+        participant_data["kills"] + participant_data["assists"]
+    ) / game_time
     deaths_minutes = participant_data["deaths"] / game_time
-    
-    score = 0.336 - (1.437 * deaths_minutes) + (0.000117 * gold_minutes) + (0.443 * kills_assists_minutes) + (0.264 * level_minutes) + (0.000013 * damage_minutes)
-    
+
+    score = (
+        0.336
+        - (1.437 * deaths_minutes)
+        + (0.000117 * gold_minutes)
+        + (0.443 * kills_assists_minutes)
+        + (0.264 * level_minutes)
+        + (0.000013 * damage_minutes)
+    )
+
     return score * 10
+
 
 def sort_performance(matches):
     for match in matches:
@@ -398,7 +435,7 @@ def sort_performance(matches):
         players_performance_winning_team = []
         players_performance_losing_team = []
 
-        #get all 10 players data
+        # get all 10 players data
         for player in match["players_data"]:
             players_performance.append(player["performanceScore"])
             if player["win"]:
@@ -416,14 +453,18 @@ def sort_performance(matches):
             elif player["performanceScore"] == players_performance_losing_team[0]:
                 player["performanceRanking"] = "ACE"
             else:
-                player["performanceRanking"] = dictionary.dict_place[(players_performance.index(player["performanceScore"]) + 1)]
+                player["performanceRanking"] = dictionary.dict_place[
+                    (players_performance.index(player["performanceScore"]) + 1)
+                ]
+
             if player["performanceScore"] <= 10 and player["performanceScore"] >= 0:
-                player["performanceScore"] = round (player["performanceScore"], 1)
+                player["performanceScore"] = round(player["performanceScore"], 1)
             else:
                 if player["performanceScore"] > 10:
                     player["performanceScore"] = 10
                 else:
                     player["performanceScore"] = 0
+
 
 def calculate_kda(participant_data):
     """Returns a Float

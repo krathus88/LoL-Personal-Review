@@ -1,7 +1,17 @@
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { setProgress } from "../../../../app/Slices/ProgressSlice";
+import { selectRegion } from "../../../../app/Slices/RegionSlice";
 import { calculateCsPerMinute } from "../../../../utils/functions";
 
 function Team(props) {
-    console.log(props.players);
+    const dispatch = useDispatch();
+
+    const region = useSelector(selectRegion);
+
+    const handleLinkClick = () => {
+        dispatch(setProgress(60));
+    };
 
     return (
         <table className={`${props.team}`}>
@@ -19,7 +29,11 @@ function Team(props) {
             </colgroup>
             <tbody>
                 {props.players.map((player, playerIndex) => (
-                    <tr key={playerIndex} className="overview-player fw-light">
+                    <tr
+                        key={playerIndex}
+                        className={`overview-player fw-light ${
+                            player.puuid === props.puuid ? "player" : ""
+                        }`}>
                         <td className="champion ps-2">
                             <div className="img-container">
                                 <img
@@ -52,31 +66,35 @@ function Team(props) {
                                     alt="Secondary Rune"></img>
                             </div>
                         </td>
-                        <td className="name">
-                            <div className="truncate">
-                                <div>
-                                    <small>
-                                        <span className="tier w-1300 rounded">GM</span>{" "}
+                        <td className="name truncate">
+                            <div>
+                                <Link
+                                    to={`/summoner/${region}/${player.summonerName}-${player.summonerTag}`}
+                                    onClick={handleLinkClick}>
+                                    <small className="tier w-1300 ">
+                                        <span className="rounded">GM</span>{" "}
+                                    </small>
+                                    <small className="name-container">
                                         {player.summonerName}{" "}
                                         <span className="summoner-tag">
                                             #{player.summonerTag}
                                         </span>
                                     </small>
-                                    <small className="tier">Challenger</small>
-                                    <small className="w-1300">
-                                        {player.kills}/
-                                        <span className="font-color-defeat">
-                                            {player.deaths}
-                                        </span>
-                                        /{player.assists}{" "}
-                                        <span className="fw-bold">{player.kda}</span>
-                                    </small>
-                                </div>
+                                </Link>
+                                <small className="tier">Challenger</small>
+                                <small className="w-1300">
+                                    {player.kills}/
+                                    <span className="font-color-defeat">
+                                        {player.deaths}
+                                    </span>
+                                    /{player.assists}{" "}
+                                    <span className="fw-bold">{player.kda}</span>
+                                </small>
                             </div>
                         </td>
                         <td className="score pe-1">
                             <div>
-                                <small className="score fw-normal">
+                                <small className="score text-center fw-normal">
                                     {player.performanceScore}
                                 </small>
                                 <small
@@ -112,7 +130,9 @@ function Team(props) {
                                     <div className="progress">
                                         <div
                                             className="fill"
-                                            style={{ width: "87%" }}></div>
+                                            style={{
+                                                width: `${player.damageDealtPercentage}%`,
+                                            }}></div>
                                         <span className="w-1200">
                                             {player.damageDealt.toLocaleString("en-US")}
                                         </span>
@@ -125,7 +145,9 @@ function Team(props) {
                                     <div className="progress">
                                         <div
                                             className="fill"
-                                            style={{ width: "37%" }}></div>
+                                            style={{
+                                                width: `${player.damageTakenPercentage}%`,
+                                            }}></div>
                                         <span className="w-1200">
                                             {player.damageTaken.toLocaleString("en-US")}
                                         </span>
@@ -175,17 +197,27 @@ function Team(props) {
                                         <div className="progress">
                                             <div
                                                 className="fill"
-                                                style={{ width: "87%" }}></div>
-                                            <span>{player.damageDealt}</span>
+                                                style={{
+                                                    width: `${player.damageDealtPercentage}%`,
+                                                }}></div>
+                                            <span>
+                                                {player.damageDealt.toLocaleString(
+                                                    "en-US"
+                                                )}
+                                            </span>
                                         </div>
                                     </div>
                                     <div className="taken col-5 text-center">
                                         <div className="progress">
                                             <div
                                                 className="fill"
-                                                style={{ width: "37%" }}></div>
+                                                style={{
+                                                    width: `${player.damageTakenPercentage}%`,
+                                                }}></div>
                                             <span className="w-1200">
-                                                {player.damageTaken}
+                                                {player.damageTaken.toLocaleString(
+                                                    "en-US"
+                                                )}
                                             </span>
                                         </div>
                                     </div>
