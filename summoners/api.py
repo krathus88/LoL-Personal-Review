@@ -100,8 +100,6 @@ def match_history(request, region: str, start: str, num_games: str, puuid: str):
             matches_data, runes_data, items_data, puuid
         )
 
-        functions.sort_performance(matches_data_clean)
-
         # If adding more data to the match history
         if int(num_games) < 10:
             return {"matches": matches_data_clean}

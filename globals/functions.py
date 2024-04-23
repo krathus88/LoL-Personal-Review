@@ -258,7 +258,9 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
             for participant in match["info"]["participants"]
         )
 
-        for participant in match["info"]["participants"]:
+        players_performance = calculate_performance(minutes, match)
+
+        for idx, participant in enumerate(match["info"]["participants"]):
             # Accounts for old API data
             if participant["riotIdGameName"] != "":
                 summoner_name = participant["riotIdGameName"]
@@ -302,9 +304,9 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                         participant["perks"]["styles"][0]["selections"][0]["perk"],
                         runes_data,
                     ),
-                    "secondaryRune": dictionary.dict_runes[
-                        participant["perks"]["styles"][1]["style"]
-                    ],
+                    "secondaryRune": dictionary.dict_runes.get(
+                        participant["perks"]["styles"][1]["style"], None
+                    ),
                     "items": [
                         items_data.get(str(participant["item0"]), {}).get("icon", None),
                         items_data.get(str(participant["item1"]), {}).get("icon", None),
@@ -330,7 +332,10 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                     "controlWards": participant["visionWardsBoughtInGame"],
                     "wardsPlaced": participant["wardsPlaced"],
                     "wardsKilled": participant["wardsKilled"],
-                    "performanceScore": game_performance(minutes, participant),
+                    "performanceScore": round(
+                        min(max(players_performance[idx]["score"], 0), 10), 1
+                    ),
+                    "performanceRanking": players_performance[idx]["rank"],
                     "win": participant["win"],  # bool
                 }
             )
@@ -408,62 +413,56 @@ def calculate_kp(match, player_team, player_kills, player_assists):
     return int(((player_kills + player_assists) / team_kills) * 100)
 
 
-def game_performance(game_time, participant_data):
-    gold_minutes = participant_data["goldEarned"] / game_time
-    damage_minutes = participant_data["totalDamageDealt"] / game_time
-    level_minutes = participant_data["champLevel"] / game_time
-    kills_assists_minutes = (
-        participant_data["kills"] + participant_data["assists"]
-    ) / game_time
-    deaths_minutes = participant_data["deaths"] / game_time
+def calculate_performance(game_time, match):
+    """Returns a Dictionary
 
-    score = (
-        0.336
-        - (1.437 * deaths_minutes)
-        + (0.000117 * gold_minutes)
-        + (0.443 * kills_assists_minutes)
-        + (0.264 * level_minutes)
-        + (0.000013 * damage_minutes)
-    )
+    Calculates the performance of all players in a given match"""
 
-    return score * 10
+    scores = []
 
+    for participant_data in match["info"]["participants"]:
+        gold_minutes = participant_data["goldEarned"] / game_time
+        damage_minutes = participant_data["totalDamageDealt"] / game_time
+        level_minutes = participant_data["champLevel"] / game_time
+        kills_assists_minutes = (
+            participant_data["kills"] + participant_data["assists"]
+        ) / game_time
+        deaths_minutes = participant_data["deaths"] / game_time
 
-def sort_performance(matches):
-    for match in matches:
-        players_performance = []
-        players_performance_winning_team = []
-        players_performance_losing_team = []
+        score = (
+            0.336
+            - (1.437 * deaths_minutes)
+            + (0.000117 * gold_minutes)
+            + (0.443 * kills_assists_minutes)
+            + (0.264 * level_minutes)
+            + (0.000013 * damage_minutes)
+        )
 
-        # get all 10 players data
-        for player in match["players_data"]:
-            players_performance.append(player["performanceScore"])
-            if player["win"]:
-                players_performance_winning_team.append(player["performanceScore"])
-            else:
-                players_performance_losing_team.append(player["performanceScore"])
+        scores.append(score * 10)
 
-        players_performance_winning_team.sort(reverse=True)
-        players_performance_losing_team.sort(reverse=True)
-        players_performance.sort(reverse=True)
+    # Sorting the scores and assigning ranks
+    ranked_scores = sorted(scores, reverse=True)
+    ranked_list = []
 
-        for player in match["players_data"]:
-            if player["performanceScore"] == players_performance_winning_team[0]:
-                player["performanceRanking"] = "MVP"
-            elif player["performanceScore"] == players_performance_losing_team[0]:
-                player["performanceRanking"] = "ACE"
-            else:
-                player["performanceRanking"] = dictionary.dict_place[
-                    (players_performance.index(player["performanceScore"]) + 1)
-                ]
+    if match["info"]["teams"][0]["win"]:
+        mvp_range = range(0, 5)
+        ace_range = range(5, 10)
+    else:
+        mvp_range = range(5, 10)
+        ace_range = range(0, 5)
 
-            if player["performanceScore"] <= 10 and player["performanceScore"] >= 0:
-                player["performanceScore"] = round(player["performanceScore"], 1)
-            else:
-                if player["performanceScore"] > 10:
-                    player["performanceScore"] = 10
-                else:
-                    player["performanceScore"] = 0
+    for idx, score in enumerate(scores):
+        if idx in mvp_range and score == max(scores[mvp_range[0] : mvp_range[-1] + 1]):
+            ranked_list.append({"rank": "MVP", "score": score})
+        elif idx in ace_range and score == max(
+            scores[ace_range[0] : ace_range[-1] + 1]
+        ):
+            ranked_list.append({"rank": "ACE", "score": score})
+        else:
+            rank = ranked_scores.index(score) + 1
+            ranked_list.append({"rank": dictionary.dict_place[rank], "score": score})
+
+    return ranked_list
 
 
 def calculate_kda(participant_data):
