@@ -14,7 +14,10 @@ function MatchOverview(props) {
                 puuid={props.puuid}
                 gameDuration={props.matchData.gameDuration}
             />
-            <MatchInfo />
+            <MatchInfo
+                overallInfo={props.matchData.objectives}
+                win={props.matchData.win}
+            />
             <Team
                 team="team-red"
                 players={teamRed}

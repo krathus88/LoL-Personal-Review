@@ -26,11 +26,84 @@
 #matchHistoryContainer .match-overview .separator {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    height: 40px;
     border: 1px solid #1c1c1f;
     background-color: #282830;
+}
+
+#matchHistoryContainer .match-overview .separator .match-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 1.25rem;
+}
+
+#matchHistoryContainer .match-overview .separator .match-data .kills {
+    display: flex;
+    flex-direction: row;
+}
+
+#matchHistoryContainer .match-overview .separator .match-data .progress {
+    position: relative;
+    width: 100%;
+    background-color: #e84057;
+}
+
+#matchHistoryContainer .match-overview .separator .match-data .progress span {
+    position: absolute;
+    height: 100%;
+    background-color: #5383e8;
+    top: 0;
+    left: 0;
+}
+
+#matchHistoryContainer .match-overview .separator .match-data .progress > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 1;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data.blue {
+    padding-right: 0.25rem;
+    padding-left: 1.5rem;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data.red {
+    padding-right: 1.25rem;
+    padding-left: 0.25rem;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data > div > div {
+    width: 44px;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data.blue > div > div > svg {
+    color: rgb(83, 131, 232);
+}
+
+#matchHistoryContainer .match-overview .separator .team-data.red > div > div > svg {
+    color: rgb(232, 64, 87);
 }
 
 #matchHistoryContainer .match-overview .team-blue .player {
@@ -327,6 +400,10 @@
     #matchHistoryContainer .match-overview .wards {
         display: none;
     }
+
+    #matchHistoryContainer .match-overview .separator .match-data .progress {
+        display: none;
+    }
 }
 
 @media (max-width: 991px) and (min-width: 768px) {
@@ -381,6 +458,12 @@
     }
 }
 
+@media (max-width: 725px) {
+    #matchHistoryContainer .match-overview .separator .match-data .progress {
+        display: none;
+    }
+}
+
 @media (max-width: 649px) {
     #matchHistoryContainer .match-overview colgroup .name {
         min-width: 25%;
@@ -406,6 +489,17 @@
 
     #matchHistoryContainer .match-overview tbody .items .cs-container {
         display: flex;
+    }
+    #matchHistoryContainer .match-overview .separator .match-data {
+        padding-left: 0;
+        padding-right: 0.75rem;
+    }
+    #matchHistoryContainer .match-overview .separator .team-data.blue {
+        padding-left: 0.75rem;
+    }
+
+    #matchHistoryContainer .match-overview .separator .team-data.red {
+        padding-right: 0;
     }
 }
 
