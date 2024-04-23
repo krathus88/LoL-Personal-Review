@@ -1,6 +1,6 @@
+import { Suspense, lazy } from "react";
 import Loading from "../../Common/Loading";
 import "./MatchHistory.css";
-import { Suspense, lazy } from "react";
 
 const Match = lazy(() => import("./Match/Match"));
 
