@@ -7,6 +7,7 @@ import "./Match.css";
 import MatchInfo from "./MatchInfo";
 import Stats from "./Stats";
 import TeamComp from "./TeamComp";
+import Decoration from "../Decoration";
 
 const MatchOverview = lazy(() => import("../MatchOverview/MatchOverview"));
 
@@ -18,29 +19,37 @@ function Match(props) {
     };
 
     let playerData = null;
+    let gameDurationMinutes = 0;
 
     if (props.matchData.players_data && props.matchData.players_data.length > 0) {
         playerData = props.matchData.players_data.find(
             (player) => player.puuid === props.puuid
         );
+
+        gameDurationMinutes = parseInt(props.matchData.gameDuration.match(/\d+m/));
     }
 
     if (playerData) {
         return (
-            <div key={props.index} className="match-container d-flex flex-column">
+            <div className="match-container d-flex flex-column">
                 <div
                     className={`match position-relative d-flex flex-column justify-content-center pe-0 rounded-1 ${
-                        playerData.win ? "background-win" : "background-defeat"
+                        gameDurationMinutes < 4
+                            ? "background-remake"
+                            : playerData.win
+                            ? "background-win"
+                            : "background-defeat"
                     }`}>
+                    <Decoration
+                        win={playerData.win}
+                        gameDuration={props.matchData.gameDuration}
+                    />
                     <small className="border-bottom truncate">
                         {props.matchData.gameMode} - {props.matchData.timeSinceGameEnd}{" "}
-                        ago
+                        ago - {props.matchData.gameDuration}
                     </small>
+
                     <div className="d-flex flex-row align-items-center flex-nowrap mx-0">
-                        <div
-                            className={`decoration ${
-                                playerData.win ? "decoration-win" : "decoration-defeat"
-                            }`}></div>
                         <MatchInfo
                             gameMode={props.matchData.gameMode}
                             gameEnd={props.matchData.timeSinceGameEnd}
@@ -111,6 +120,7 @@ function Match(props) {
                         <MatchOverview
                             matchData={props.matchData}
                             puuid={props.puuid}
+                            gameDurationMinutes={gameDurationMinutes}
                         />
                     )}
                 </Suspense>

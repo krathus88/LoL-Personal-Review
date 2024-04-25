@@ -24,12 +24,30 @@
 }
 
 #matchHistoryContainer .match-overview .separator {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     border: 1px solid #1c1c1f;
     background-color: #282830;
+}
+
+#matchHistoryContainer .match-overview .separator .decoration {
+    position: absolute;
+    width: 3px;
+    height: 100%;
+    padding: 0;
+}
+
+#matchHistoryContainer .match-overview .separator .decoration.blue {
+    top: 0;
+    left: 0;
+}
+
+#matchHistoryContainer .match-overview .separator .decoration.red {
+    top: 0;
+    right: 0;
 }
 
 #matchHistoryContainer .match-overview .separator .match-data {
@@ -73,7 +91,7 @@
 
 #matchHistoryContainer .match-overview .separator .team-data {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
 }
@@ -88,21 +106,25 @@
     padding-left: 0.25rem;
 }
 
-#matchHistoryContainer .match-overview .separator .team-data > div {
+#matchHistoryContainer .match-overview .separator .team-data > ul {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0px 4px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 125px;
 }
 
-#matchHistoryContainer .match-overview .separator .team-data > div > div {
-    width: 44px;
+#matchHistoryContainer .match-overview .separator .team-data > ul > li {
+    width: 39px;
 }
 
-#matchHistoryContainer .match-overview .separator .team-data.blue > div > div > svg {
+#matchHistoryContainer .match-overview .separator .team-data.blue > ul > li > svg {
     color: rgb(83, 131, 232);
 }
 
-#matchHistoryContainer .match-overview .separator .team-data.red > div > div > svg {
+#matchHistoryContainer .match-overview .separator .team-data.red > ul > li > svg {
     color: rgb(232, 64, 87);
 }
 
@@ -128,7 +150,31 @@
     font-size: 13px;
 }
 
+#matchHistoryContainer .match-overview table tbody tr {
+    position: relative;
+}
+
+#matchHistoryContainer .match-overview table tbody td .decoration {
+    position: absolute;
+    height: 100%;
+    width: 3px;
+}
+
+#matchHistoryContainer .match-overview .team-blue .decoration {
+    top: 0;
+    left: 1px;
+}
+
+#matchHistoryContainer .match-overview .team-red .decoration {
+    top: 0;
+    right: 1px;
+}
+
 /* .champion */
+#matchHistoryContainer .match-overview .champion {
+    width: 40px;
+}
+
 #matchHistoryContainer .match-overview tbody .champion .img-container {
     position: relative;
 }
@@ -152,6 +198,10 @@
 }
 
 /* .spells */
+#matchHistoryContainer .match-overview .spells {
+    width: 18px;
+}
+
 #matchHistoryContainer .match-overview tbody .spells > div {
     display: flex;
     flex-direction: column;
@@ -163,6 +213,10 @@
 }
 
 /* .runes */
+#matchHistoryContainer .match-overview .runes {
+    width: 19px;
+}
+
 #matchHistoryContainer .match-overview tbody .runes > div {
     display: flex;
     flex-direction: column;
@@ -503,6 +557,12 @@
     }
 }
 
+@media (max-width: 450px) {
+    #matchHistoryContainer .match-overview .separator .team-data > ul {
+        width: 82px;
+    }
+}
+
 @media (max-width: 400px) {
     #matchHistoryContainer .match-overview tbody .items .items-container > div {
         width: 18px;
@@ -521,5 +581,11 @@
 
     #matchHistoryContainer .match-overview tbody .name {
         min-width: 0;
+    }
+}
+
+@media (max-width: 300px) {
+    #matchHistoryContainer .match-overview .separator .team-data > ul {
+        width: 39px;
     }
 }

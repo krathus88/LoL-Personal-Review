@@ -1,8 +1,8 @@
 function TeamData(props) {
     return (
         <div className={`team-data ${props.team}`}>
-            <div>
-                <div className="baron">
+            <ul>
+                <li className="baron">
                     <svg
                         width="16"
                         height="16"
@@ -32,8 +32,8 @@ function TeamData(props) {
                         <g mask="url(#mask0_5762_288543)" fill="currentColor"></g>
                     </svg>
                     <small className="ps-1">{props.data.baron}</small>
-                </div>
-                <div className="dragon">
+                </li>
+                <li className="dragon">
                     <svg
                         width="16"
                         height="16"
@@ -62,8 +62,8 @@ function TeamData(props) {
                         <g mask="url(#mask0_5762_288546)" fill="currentColor"></g>
                     </svg>
                     <small className="ps-1">{props.data.dragon}</small>
-                </div>
-                <div className="rift-herald">
+                </li>
+                <li className="rift-herald">
                     <svg
                         width="16"
                         height="16"
@@ -77,10 +77,8 @@ function TeamData(props) {
                             fill="currentColor"></path>
                     </svg>
                     <small className="ps-1">{props.data.riftHerald}</small>
-                </div>
-            </div>
-            <div>
-                <div className="voidgrubs">
+                </li>
+                <li className="voidgrubs">
                     <svg
                         width="16"
                         height="16"
@@ -94,8 +92,8 @@ function TeamData(props) {
                             fill="currentColor"></path>
                     </svg>
                     <small className="ps-1">{props.data.voidgrubs}</small>
-                </div>
-                <div className="towers">
+                </li>
+                <li className="towers">
                     <svg
                         width="16"
                         height="16"
@@ -124,8 +122,8 @@ function TeamData(props) {
                         <g mask="url(#mask0_5762_288549)" fill="currentColor"></g>
                     </svg>
                     <small className="ps-1">{props.data.towers}</small>
-                </div>
-                <div className="inhibitors">
+                </li>
+                <li className="inhibitors">
                     <svg
                         width="16"
                         height="16"
@@ -146,8 +144,8 @@ function TeamData(props) {
                             fill="currentColor"></rect>
                     </svg>
                     <small className="ps-1">{props.data.inhibitors}</small>
-                </div>
-            </div>
+                </li>
+            </ul>
         </div>
     );
 }

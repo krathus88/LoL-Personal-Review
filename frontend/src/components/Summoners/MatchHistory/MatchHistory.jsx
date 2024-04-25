@@ -34,6 +34,7 @@ function MatchHistory(props) {
                             {props.matches.map((match, index) => (
                                 <Match
                                     key={index}
+                                    index={index}
                                     puuid={props.puuid}
                                     matchData={match}
                                 />

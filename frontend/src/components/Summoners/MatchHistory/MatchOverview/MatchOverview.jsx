@@ -1,6 +1,6 @@
-import MatchInfo from "./MatchInfo";
+import MatchInfo from "./MatchInfo/MatchInfo";
 import "./MatchOverview.css";
-import Team from "./Team";
+import Team from "./Team/Team";
 
 function MatchOverview(props) {
     const teamBlue = props.matchData.players_data.slice(0, 5);
@@ -17,6 +17,7 @@ function MatchOverview(props) {
             <MatchInfo
                 overallInfo={props.matchData.objectives}
                 win={props.matchData.win}
+                gameDuration={props.matchData.gameDuration}
             />
             <Team
                 team="team-red"
