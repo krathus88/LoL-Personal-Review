@@ -81,7 +81,7 @@ function Match(props) {
                         {gameDurationMinutes > 4 && (
                             <button
                                 type="button"
-                                className="btn btn-warning btn-review d-flex justify-content-center align-items-center">
+                                className="btn btn-warning btn-review fw-bold d-flex justify-content-center align-items-center">
                                 <span className="ms-2">Review</span>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
