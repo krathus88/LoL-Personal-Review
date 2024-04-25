@@ -20,6 +20,12 @@ function Damage({
                         {damageDealt.toLocaleString("en-US")}
                     </span>
                 </div>
+                <div className="label rounded">
+                    <small>Damage Dealt: {damageDealt.toLocaleString("en-US")}</small>
+                    <small>
+                        Percentage (game): {damageDealtPercentage.toFixed(1)}%
+                    </small>
+                </div>
             </div>
             <div className="taken col-5 text-center">
                 <small className="text-nowrap">
@@ -34,6 +40,12 @@ function Damage({
                     <span className="w-1200">
                         {damageTaken.toLocaleString("en-US")}
                     </span>
+                </div>
+                <div className="label rounded">
+                    <small>Damage Taken: {damageTaken.toLocaleString("en-US")}</small>
+                    <small>
+                        Percentage (game): {damageTakenPercentage.toFixed(1)}%
+                    </small>
                 </div>
             </div>
         </div>
