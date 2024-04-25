@@ -1,0 +1,620 @@
+#matchHistoryContainer .match-overview table {
+    z-index: 0;
+    width: 100%;
+    table-layout: auto; /* Set table layout to auto */
+}
+
+#matchHistoryContainer .match-overview table .w-1300 {
+    display: none;
+}
+
+#matchHistoryContainer .match-overview .team-blue {
+    border-top-left-radius: var(--bs-border-radius);
+    border-top-right-radius: var(--bs-border-radius);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: #2f436e;
+}
+
+#matchHistoryContainer .match-overview .team-red {
+    border-bottom-right-radius: var(--bs-border-radius);
+    border-bottom-left-radius: var(--bs-border-radius);
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-color: #703c47;
+}
+
+#matchHistoryContainer .match-overview .team-blue .player {
+    background-color: #2f436e;
+}
+
+#matchHistoryContainer .match-overview .team-blue .player:hover {
+    background-color: #334977;
+}
+
+#matchHistoryContainer .match-overview .team-red .player {
+    background-color: #703c47;
+}
+
+#matchHistoryContainer .match-overview .team-red .player:hover {
+    background-color: #7a414e;
+}
+
+#matchHistoryContainer .match-overview table tbody td {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    font-size: 13px;
+}
+
+#matchHistoryContainer .match-overview table tbody tr {
+    position: relative;
+}
+
+#matchHistoryContainer .match-overview table tbody .label {
+    pointer-events: none;
+}
+
+/* .decoration */
+#matchHistoryContainer .match-overview table tbody td .decoration {
+    position: absolute;
+    height: 100%;
+    width: 3px;
+}
+
+#matchHistoryContainer .match-overview .team-blue .decoration {
+    top: 0;
+    left: 1px;
+}
+
+#matchHistoryContainer .match-overview .team-red .decoration {
+    top: 0;
+    right: 1px;
+}
+
+/* .champion */
+#matchHistoryContainer .match-overview table .champion {
+    width: 40px;
+}
+
+#matchHistoryContainer .match-overview table tbody .champion .img-container {
+    position: relative;
+}
+
+#matchHistoryContainer .match-overview table tbody .champion img {
+    width: 32px;
+    height: 32px;
+}
+
+#matchHistoryContainer .match-overview table tbody .champion .level {
+    position: absolute;
+    left: -3px;
+    bottom: -3px;
+    width: 15px;
+    height: 15px;
+    background: rgb(32, 45, 55);
+    border-radius: 50%;
+    color: rgb(255, 255, 255);
+    font-size: 10px;
+    text-align: center;
+}
+
+/* .spells */
+#matchHistoryContainer .match-overview table .spells {
+    width: 18px;
+}
+
+#matchHistoryContainer .match-overview table tbody .spells > div {
+    display: flex;
+    flex-direction: column;
+}
+
+#matchHistoryContainer .match-overview table tbody .spells img {
+    width: 16px;
+    height: 16px;
+}
+
+/* .runes */
+#matchHistoryContainer .match-overview table .runes {
+    width: 19px;
+}
+
+#matchHistoryContainer .match-overview table tbody .runes > div {
+    display: flex;
+    flex-direction: column;
+}
+
+#matchHistoryContainer .match-overview table tbody .runes img {
+    width: 16px;
+    height: 16px;
+}
+
+/* .name */
+#matchHistoryContainer .match-overview table colgroup .name {
+    min-width: 20%;
+}
+
+#matchHistoryContainer .match-overview table tbody .name a .tier > span {
+    background-color: darkcyan;
+    color: #fff;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+#matchHistoryContainer .match-overview table tbody .name {
+    position: relative;
+    min-width: 55px;
+    height: 34px;
+}
+
+#matchHistoryContainer .match-overview table tbody .name > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    height: 100%;
+    top: 1px;
+    left: 0;
+    width: max-content;
+    align-items: start;
+}
+
+#matchHistoryContainer .match-overview table tbody .name > div > a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#matchHistoryContainer .match-overview table tbody .name > div > a:hover {
+    text-decoration: underline;
+}
+
+#matchHistoryContainer .match-overview table tbody .name > div > small.tier {
+    color: #9e9eb1;
+}
+
+/* .score */
+#matchHistoryContainer .match-overview table tbody .score > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#matchHistoryContainer .match-overview table tbody .score .score {
+    font-size: 14px;
+    width: 20px;
+}
+
+#matchHistoryContainer .match-overview table tbody .score .rank {
+    background-color: #9e9eb1;
+    color: rgb(255, 255, 255);
+    width: 35px;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+    margin-left: 0.5rem;
+}
+
+/* .kda */
+#matchHistoryContainer .match-overview table tbody .kda > div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* .damage */
+#matchHistoryContainer .match-overview table tbody .damage > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#matchHistoryContainer .match-overview table tbody .damage > div > div {
+    position: relative;
+    width: 42px;
+    padding-bottom: 0.25rem;
+}
+
+#matchHistoryContainer .match-overview table tbody .damage .label {
+    background-color: #31313c;
+    width: max-content;
+    padding: 0.1rem 0.5rem;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: -2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: visible;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.15s linear;
+    transition-delay: 0s; /* Add a 1-second delay */
+}
+
+#matchHistoryContainer .match-overview table tbody .damage .dealt:hover .label {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.5s; /* Reset the transition delay on hover */
+}
+
+#matchHistoryContainer .match-overview table tbody .damage .taken:hover .label {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.5s; /* Reset the transition delay on hover */
+}
+
+#matchHistoryContainer .match-overview table tbody .damage .progress {
+    height: 8px;
+    background-color: #31313c;
+}
+
+/* Manages both .progress in .items and in .damage */
+#matchHistoryContainer .match-overview table tbody .progress {
+    position: relative;
+    font-size: 11px;
+}
+
+#matchHistoryContainer .match-overview table tbody .damage .progress {
+    height: 8px;
+}
+
+/* Manages both .progress in .items and in .damage */
+#matchHistoryContainer .match-overview table tbody .dealt .progress .fill {
+    background-color: #e84057;
+}
+
+/* Manages both .progress in .items and in .damage */
+#matchHistoryContainer .match-overview table tbody .taken .progress .fill {
+    background-color: #7b7a8e;
+}
+
+#matchHistoryContainer .match-overview table tbody .progress span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#matchHistoryContainer .match-overview table tbody .damage .progress span {
+    display: none;
+}
+
+/* .wards */
+#matchHistoryContainer .match-overview table tbody .wards {
+    position: relative;
+}
+
+#matchHistoryContainer .match-overview table tbody .wards > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#matchHistoryContainer .match-overview table tbody .wards .label {
+    background-color: #31313c;
+    width: max-content;
+    padding: 0.1rem 0.5rem;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: -3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: visible;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.15s linear;
+    transition-delay: 0s; /* Add a 1-second delay */
+}
+
+#matchHistoryContainer .match-overview table tbody .wards:hover .label {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.5s; /* Reset the transition delay on hover */
+}
+
+/* .cs */
+#matchHistoryContainer .match-overview table tbody .cs {
+    position: relative;
+}
+
+#matchHistoryContainer .match-overview table tbody .cs > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#matchHistoryContainer .match-overview table tbody .cs .label {
+    background-color: #31313c;
+    width: max-content;
+    padding: 0.1rem 0.5rem;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: -2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: visible;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.15s linear;
+    transition-delay: 0s; /* Add a 1-second delay */
+}
+
+#matchHistoryContainer .match-overview table tbody .cs:hover .label {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.5s; /* Reset the transition delay on hover */
+}
+
+/* .items */
+#matchHistoryContainer .match-overview table tbody .items > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+#matchHistoryContainer .match-overview table tbody .items .items-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#matchHistoryContainer .match-overview table tbody .items .items-container > div {
+    background-color: #31313c;
+    display: flex;
+    width: 22px;
+    height: 22px;
+    margin-right: 0.05rem;
+}
+
+#matchHistoryContainer .match-overview table tbody .items .items-container img {
+    width: 100%;
+    height: auto;
+}
+
+#matchHistoryContainer .match-overview table tbody .items .damage-container {
+    display: none;
+    justify-content: center;
+    flex-direction: row;
+    width: 150px;
+}
+
+#matchHistoryContainer .match-overview table tbody .items .damage-container > div {
+    position: relative;
+    width: calc(50% - 0.125rem);
+}
+
+#matchHistoryContainer .match-overview table tbody .items .damage-container .label {
+    background-color: #31313c;
+    width: max-content;
+    padding: 0.1rem 0.5rem;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: -2.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: visible;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.15s linear;
+    transition-delay: 0s; /* Add a 1-second delay */
+}
+
+#matchHistoryContainer
+    .match-overview
+    table
+    tbody
+    .items
+    .damage-container
+    .dealt:hover
+    .label {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.5s; /* Reset the transition delay on hover */
+}
+
+#matchHistoryContainer
+    .match-overview
+    table
+    tbody
+    .items
+    .damage-container
+    .taken:hover
+    .label {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.5s; /* Reset the transition delay on hover */
+}
+
+#matchHistoryContainer .match-overview table tbody .items .damage-container .progress {
+    height: 12px;
+}
+
+#matchHistoryContainer .match-overview table tbody .items .cs-container {
+    position: relative;
+    display: none;
+}
+
+#matchHistoryContainer .match-overview table tbody .items .cs-container .label {
+    background-color: #31313c;
+    width: max-content;
+    padding: 0.1rem 0.5rem;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: -2.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    overflow: visible;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.15s linear;
+    transition-delay: 0s; /* Add a 1-second delay */
+}
+
+#matchHistoryContainer .match-overview table tbody .items .cs-container:hover .label {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0.5s; /* Reset the transition delay on hover */
+}
+
+@media (max-width: 1299px) {
+    #matchHistoryContainer .match-overview table .w-1300 {
+        display: inline;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .name > div > small.tier {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table .kda {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .score .score {
+        font-size: 13px;
+    }
+
+    #matchHistoryContainer .match-overview table .damage {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .items .damage-container {
+        display: flex;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 992px) {
+    #matchHistoryContainer .match-overview table tbody .score .score {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table .damage {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .items .damage-container {
+        display: flex;
+    }
+}
+
+@media (max-width: 1099px) and (min-width: 992px) {
+    #matchHistoryContainer .match-overview table .wards {
+        display: none;
+    }
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+    #matchHistoryContainer .match-overview table colgroup .damage {
+        display: table-column;
+    }
+
+    #matchHistoryContainer .match-overview table .overview-player .damage {
+        display: table-cell;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .items .damage-container {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .damage > div {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .damage > div > div {
+        padding-bottom: 0;
+        width: 55px;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .damage .progress {
+        height: 12px;
+        min-width: 50px;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .damage .progress span {
+        display: block;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .damage .dealt > small {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .damage .taken > small {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    #matchHistoryContainer .match-overview table tbody .score .score {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table .damage {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .items .damage-container {
+        display: flex;
+    }
+}
+
+@media (max-width: 649px) {
+    #matchHistoryContainer .match-overview table colgroup .name {
+        min-width: 25%;
+    }
+
+    #matchHistoryContainer .match-overview table .wards {
+        display: none;
+    }
+}
+
+@media (max-width: 500px) {
+    #matchHistoryContainer .match-overview table colgroup .name {
+        min-width: 30%;
+    }
+
+    #matchHistoryContainer .match-overview table .cs {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .items .damage-container {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .items .cs-container {
+        display: flex;
+    }
+}
+
+@media (max-width: 400px) {
+    #matchHistoryContainer .match-overview table tbody .items .items-container > div {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 350px) {
+    #matchHistoryContainer .match-overview table tbody .items {
+        display: none;
+    }
+
+    #matchHistoryContainer .match-overview table colgroup .name {
+        min-width: 50%;
+    }
+
+    #matchHistoryContainer .match-overview table tbody .name {
+        min-width: 0;
+    }
+}

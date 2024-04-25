@@ -1,0 +1,172 @@
+#matchHistoryContainer .match-overview .separator {
+    z-index: 3123123123;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #1c1c1f;
+    background-color: #282830;
+}
+
+/* .decoration */
+#matchHistoryContainer .match-overview .separator .decoration {
+    position: absolute;
+    width: 3px;
+    height: 100%;
+    padding: 0;
+}
+
+#matchHistoryContainer .match-overview .separator .decoration.blue {
+    top: 0;
+    left: 0;
+}
+
+#matchHistoryContainer .match-overview .separator .decoration.red {
+    top: 0;
+    right: 0;
+}
+
+/* .match-data */
+#matchHistoryContainer .match-overview .separator .match-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 1.25rem;
+}
+
+#matchHistoryContainer .match-overview .separator .match-data .kills {
+    display: flex;
+    flex-direction: row;
+}
+
+#matchHistoryContainer .match-overview .separator .match-data .progress {
+    position: relative;
+    width: 100%;
+    background-color: #e84057;
+}
+
+#matchHistoryContainer .match-overview .separator .match-data .progress span {
+    position: absolute;
+    height: 100%;
+    background-color: #5383e8;
+    top: 0;
+    left: 0;
+}
+
+#matchHistoryContainer .match-overview .separator .match-data .progress > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 1;
+    padding-left: 0.35rem;
+    padding-right: 0.35rem;
+}
+
+/* .team-data */
+#matchHistoryContainer .match-overview .separator .team-data {
+    display: flex;
+    flex-direction: row;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data.blue {
+    padding-right: 0.25rem;
+    padding-left: 1.5rem;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data.red {
+    padding-right: 1.25rem;
+    padding-left: 0.25rem;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data > ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0px 4px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 125px;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data > ul > li {
+    position: relative;
+    width: 39px;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data > ul > li .label {
+    position: absolute;
+    top: -1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: #31313c;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 1000;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.15s linear;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data > ul > li .label small {
+    overflow: visible;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data > ul > li:hover .label {
+    visibility: visible;
+    opacity: 1;
+}
+
+#matchHistoryContainer .match-overview .separator .team-data.blue > ul > li > svg {
+    color: rgb(83, 131, 232);
+}
+
+#matchHistoryContainer .match-overview .separator .team-data.red > ul > li > svg {
+    color: rgb(232, 64, 87);
+}
+
+@media (max-width: 1099px) and (min-width: 992px) {
+    #matchHistoryContainer .match-overview .separator .match-data .progress {
+        display: none;
+    }
+}
+
+@media (max-width: 725px) {
+    #matchHistoryContainer .match-overview .separator .match-data .progress {
+        display: none;
+    }
+}
+
+@media (max-width: 500px) {
+    #matchHistoryContainer .match-overview .separator .match-data {
+        padding-left: 0;
+        padding-right: 0.75rem;
+    }
+    #matchHistoryContainer .match-overview .separator .team-data.blue {
+        padding-left: 0.75rem;
+    }
+
+    #matchHistoryContainer .match-overview .separator .team-data.red {
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 450px) {
+    #matchHistoryContainer .match-overview .separator .team-data > ul {
+        width: 82px;
+    }
+}
+
+@media (max-width: 300px) {
+    #matchHistoryContainer .match-overview .separator .team-data > ul {
+        width: 39px;
+    }
+}

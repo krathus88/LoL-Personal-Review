@@ -9,6 +9,8 @@ function Items({
     cs,
     gameDuration,
 }) {
+    const csPerMin = calculateCsPerMinute(cs, gameDuration);
+
     return (
         <div>
             <div className="items-container">
@@ -34,6 +36,14 @@ function Items({
                             }}></div>
                         <span>{damageDealt.toLocaleString("en-US")}</span>
                     </div>
+                    <div className="label rounded">
+                        <small>
+                            Damage Dealt: {damageDealt.toLocaleString("en-US")}
+                        </small>
+                        <small>
+                            Percentage (game): {damageDealtPercentage.toFixed(1)}%
+                        </small>
+                    </div>
                 </div>
                 <div className="taken col-5 text-center">
                     <div className="progress">
@@ -46,13 +56,24 @@ function Items({
                             {damageTaken.toLocaleString("en-US")}
                         </span>
                     </div>
+                    <div className="label rounded">
+                        <small>
+                            Damage Taken: {damageTaken.toLocaleString("en-US")}
+                        </small>
+                        <small>
+                            Percentage (game): {damageTakenPercentage.toFixed(1)}%
+                        </small>
+                    </div>
                 </div>
             </div>
             <div className="cs-container">
                 <small className="text-nowrap">
-                    {cs} ({calculateCsPerMinute(cs, gameDuration)}
-                    /m)
+                    {cs} ({csPerMin}/m)
                 </small>
+                <div className="label rounded">
+                    <small>CS: {cs}</small>
+                    <small>CS per min: {csPerMin}</small>
+                </div>
             </div>
         </div>
     );
