@@ -66,6 +66,14 @@ body {
     color: #ff5859;
 }
 
+.background-remake {
+    background-color: #282830;
+}
+
+.background-remake:hover {
+    background-color: #212127;
+}
+
 .background-win {
     background-color: #2cffa636;
 }
@@ -80,6 +88,10 @@ body {
 
 .background-defeat:hover {
     background-color: #643a42;
+}
+
+.decoration-remake {
+    background-color: #9e9eb1;
 }
 
 .decoration-win {

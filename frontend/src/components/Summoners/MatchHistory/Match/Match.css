@@ -155,6 +155,14 @@
     background-color: #31313c;
     overflow: visible;
     z-index: 1;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.15s linear;
+}
+
+#matchHistoryContainer .match-team-comp .team-comp-icon-container:hover .name-label {
+    visibility: visible;
+    opacity: 1;
 }
 
 /* .match-player-analysis */

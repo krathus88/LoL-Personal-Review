@@ -35,17 +35,17 @@ function SearchForm() {
         let summonerNameTag;
 
         if (isMobile) {
-            let { summonerNameTag: mobileSummonerNameTag, errorMessage } =
-                getSummonerName(formData.get("summoner_name_tag"));
+            let { summonerNameTagForm, errorMessage } = getSummonerName(
+                formData.get("summoner_name_tag")
+            );
 
+            summonerNameTag = summonerNameTagForm;
             if (errorMessage) {
                 inputRefMobile.current.style.borderColor = "red";
                 inputRefMobile.current.style.boxShadow = "0 0 10px #ea868f";
                 setError(errorMessage);
                 return;
             }
-
-            summonerNameTag = mobileSummonerNameTag;
         } else {
             let summonerName = formData.get("summoner_name");
             let summonerTag = formData.get("summoner_tag");
