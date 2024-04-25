@@ -350,6 +350,7 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
         matches_data.append(
             {
                 "gameMode": dictionary.dict_queue_id[match["info"]["queueId"]],
+                "matchId": match["metadata"]["matchId"],
                 "gameDuration": f"{minutes}m {seconds}s",
                 "timeSinceGameEnd": time_elapsed(match["info"]["gameEndTimestamp"]),
                 "win": "blue" if match["info"]["teams"][0]["win"] else "red",

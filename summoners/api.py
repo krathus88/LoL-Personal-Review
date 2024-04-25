@@ -174,8 +174,6 @@ def update_button(
             matches_data, runes_data, items_data, puuid
         )
 
-        functions.sort_performance(matches_data_clean)
-
         recently_played = functions.recently_played_with(puuid, matches_data)
 
         return {

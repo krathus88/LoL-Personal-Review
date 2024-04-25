@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 import { useLoaderData } from "react-router-dom";
 import { setProgress } from "../app/Slices/ProgressSlice";
 import { setRegion } from "../app/Slices/RegionSlice";
-import MatchHistory from "../components/Summoners/MatchHistory/MatchHistory";
-import PersonalRating from "../components/Summoners/PersonalRating/PersonalRating";
-import RecentlyPlayed from "../components/Summoners/RecentlyPlayed/RecentlyPlayed";
-import SummonerHeader from "../components/Summoners/SummonerHeader/SummonerHeader";
+import MatchHistory from "../components/Summoner/MatchHistory/MatchHistory";
+import PersonalRating from "../components/Summoner/PersonalRating/PersonalRating";
+import RecentlyPlayed from "../components/Summoner/RecentlyPlayed/RecentlyPlayed";
+import SummonerHeader from "../components/Summoner/SummonerHeader/SummonerHeader";
 import { fetchData } from "../utils/functions";
 
 export async function loader({ params }) {
@@ -95,7 +95,7 @@ export function Component() {
     const updateInfo = async () => {
         const responseData = await fetchData("patch", "/api/summoners/", {
             region: summonerData.summoner_info.region,
-            lastMatch: matches[0].match.metadata.matchId,
+            lastMatch: matches[0].matchId,
             puuid: summonerData.summoner_info.puuid,
         });
 
