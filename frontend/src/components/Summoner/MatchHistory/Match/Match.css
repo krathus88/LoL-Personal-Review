@@ -202,6 +202,7 @@
 }
 
 #matchHistoryContainer .match .btn-review {
+    color: #333333;
     height: 24px;
     width: 85px;
     position: absolute;
@@ -229,10 +230,6 @@
 
 #matchHistoryContainer .background-win .btn-overview {
     background-color: #2deb9047;
-}
-
-#matchHistoryContainer .btn-review {
-    background-color: #ffc107c7;
 }
 
 @media (max-width: 1499px) {
