@@ -7,14 +7,14 @@ import { regions } from "../../utils/constants";
 import { getSummonerName } from "../../utils/functions";
 import ErrorPopup from "../Common/ErrorPopup";
 
-function SearchForm() {
+export default function SearchForm() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const isMobile = useSelector(selectIsMobile);
+    const isMobile: boolean = useSelector(selectIsMobile);
 
-    const inputRefMobile = useRef(null);
-    const [error, setError] = useState(null);
+    const inputRefMobile = useRef<HTMLInputElement>(null);
+    const [error, setError] = useState<string | null>(null);
 
     // Closes error prompt if component unrenders
     useEffect(() => {
@@ -23,34 +23,41 @@ function SearchForm() {
         };
     }, []);
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         dispatch(setProgress(25));
 
         // Get form data
-        const formData = new FormData(event.target);
-        let region = formData.get("region");
+        const formData = new FormData(event.currentTarget);
+        const region = formData.get("region") as string;
 
-        let summonerNameTag;
+        let summonerNameTag: string;
 
         if (isMobile) {
-            let { summonerNameTagForm, errorMessage } = getSummonerName(
-                formData.get("summoner_name_tag")
+            const { summonerNameTagFiltered, errorMessage } = getSummonerName(
+                formData.get("summoner_name_tag") as string
             );
 
-            summonerNameTag = summonerNameTagForm;
+            console.log(summonerNameTagFiltered);
+
             if (errorMessage) {
-                inputRefMobile.current.style.borderColor = "red";
-                inputRefMobile.current.style.boxShadow = "0 0 10px #ea868f";
+                if (inputRefMobile.current) {
+                    inputRefMobile.current.style.borderColor = "red";
+                    inputRefMobile.current.style.boxShadow = "0 0 10px #ea868f";
+                }
                 setError(errorMessage);
                 return;
             }
+
+            summonerNameTag = summonerNameTagFiltered as string;
         } else {
-            let summonerName = formData.get("summoner_name");
-            let summonerTag = formData.get("summoner_tag");
+            const summonerName = formData.get("summoner_name") as string;
+            const summonerTag = formData.get("summoner_tag") as string;
+
             summonerNameTag = summonerName + "-" + summonerTag;
         }
+        console.log(summonerNameTag);
 
         dispatch(setProgress(60));
 
@@ -71,7 +78,7 @@ function SearchForm() {
                 role="search"
                 onSubmit={handleSubmit}>
                 <div className="search-container d-flex flex-row">
-                    <div className="form-floating me-1" bis_skin_checked="1">
+                    <div className="form-floating me-1">
                         <select
                             className="form-select"
                             id="region"
@@ -88,9 +95,7 @@ function SearchForm() {
                     </div>
                     {!isMobile && (
                         <div className="d-flex flex-row">
-                            <div
-                                className="form-floating form-desktop-name"
-                                bis_skin_checked="1">
+                            <div className="form-floating form-desktop-name">
                                 <input
                                     type="text"
                                     className="form-control rounded-start"
@@ -98,14 +103,12 @@ function SearchForm() {
                                     name="summoner_name"
                                     placeholder="Name"
                                     aria-label="Search Summoner Name"
-                                    maxLength="16"
+                                    maxLength={16}
                                     required
                                 />
                                 <label htmlFor="floatingInputName">Name</label>
                             </div>
-                            <div
-                                className="form-floating form-desktop-tag"
-                                bis_skin_checked="1">
+                            <div className="form-floating form-desktop-tag">
                                 <input
                                     type="text"
                                     className="form-control rounded-end"
@@ -113,7 +116,7 @@ function SearchForm() {
                                     name="summoner_tag"
                                     placeholder="Tag"
                                     aria-label="Search Summoner Tag"
-                                    maxLength="5"
+                                    maxLength={5}
                                     required
                                 />
                                 <label htmlFor="floatingInputTag">Tag</label>
@@ -121,7 +124,7 @@ function SearchForm() {
                         </div>
                     )}
                     {isMobile && (
-                        <div className="form-floating form-mobile" bis_skin_checked="1">
+                        <div className="form-floating form-mobile">
                             <input
                                 ref={inputRefMobile}
                                 type="text"
@@ -130,7 +133,7 @@ function SearchForm() {
                                 name="summoner_name_tag"
                                 placeholder="Name"
                                 aria-label="Search Summoner Name"
-                                maxLength="22"
+                                maxLength={22}
                                 required
                             />
                             <label htmlFor="floatingInputNameTag">Name + Tag</label>
@@ -144,5 +147,3 @@ function SearchForm() {
         </>
     );
 }
-
-export default SearchForm;

@@ -1,8 +1,10 @@
+import { AxiosError } from "axios";
 import { useRouteError } from "react-router-dom";
 import { dict_errors_riot_api } from "../../utils/constants";
 
 function ErrorDetailed() {
-    const error = useRouteError();
+    const error = useRouteError() as AxiosError;
+
     return (
         <>
             {error.response ? (
