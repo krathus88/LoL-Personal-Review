@@ -1,7 +1,15 @@
 import axios from "axios";
 
-export const fetchData = async (method, url, params = {}) => {
+type fetchDataParams = {
+    method: string;
+    url: string;
+    params?: Record<string, number>;
+};
+
+export const fetchData = async ({ method, url, params = {} }: fetchDataParams) => {
     try {
+        console.log(method, url, params);
+
         const response = await axios({
             method,
             url,
@@ -10,25 +18,34 @@ export const fetchData = async (method, url, params = {}) => {
 
         return response.data;
     } catch (error) {
-        if (error.response) {
-            throw error;
-        } else if (error.request) {
-            console.error("Network Error:", error.request);
-            throw error.response;
-        } else {
-            console.error("Error:", error.message);
+        console.log(error);
+        if (axios.isAxiosError(error)) {
+            if (error.response) {
+                throw error;
+            } else if (error.request) {
+                console.error("Network Error:", error.request);
+                throw error.response;
+            } else {
+                console.error("Error:", error.message);
+            }
         }
+        console.log("why here");
 
         throw error;
     }
 };
 
+type getSummonerNameResult = {
+    errorMessage?: string;
+    summonerNameTagFiltered?: string;
+};
+
 export const getSummonerName = (
-    summonerNameTagForm,
-    regionForm = {},
-    summonerNameTag = {},
-    region = {}
-) => {
+    summonerNameTagForm: string,
+    regionForm: string = "",
+    summonerNameTag: string = "",
+    region: string = ""
+): getSummonerNameResult => {
     // Check if summonerNameTagForm contains more than one "#" character
     if (summonerNameTagForm.split("#").length > 2) {
         return {
@@ -63,10 +80,18 @@ export const getSummonerName = (
         }
     }
 
-    return { summonerNameTagForm: `${summonerName}-${summonerTag}` };
+    return { summonerNameTagFiltered: `${summonerName}-${summonerTag}` };
 };
 
-export const calculateCsPerMinute = (cs, gameDuration) => {
+type calculateCsPerMinuteParams = {
+    cs: string;
+    gameDuration: string;
+};
+
+export const calculateCsPerMinute = ({
+    cs,
+    gameDuration,
+}: calculateCsPerMinuteParams) => {
     // Extract minutes and seconds from the game duration string
     const [minutesString, secondsString] = gameDuration.split("m ");
     const minutes = parseInt(minutesString, 10);
@@ -75,11 +100,8 @@ export const calculateCsPerMinute = (cs, gameDuration) => {
     // Calculate total game duration in minutes (including partial minutes)
     const totalMinutes = minutes + seconds / 60;
 
-    // Ensure props.cs is a valid number (handle potential errors)
-    cs = parseInt(cs, 10) || 0; // Default to 0 if CS is not a number
-
     // Calculate CS per minute with proper rounding
-    const csPerMinute = Math.round((cs / totalMinutes) * 10) / 10; // Round to one decimal place
+    const csPerMinute = Math.round(((parseInt(cs, 10) | 0) / totalMinutes) * 10) / 10; // Round to one decimal place
 
     return csPerMinute;
 };

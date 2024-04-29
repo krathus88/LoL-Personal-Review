@@ -1,40 +1,41 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { setProgress } from "../../../app/Slices/ProgressSlice";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { selectIsMobile } from "../../../app/Slices/IsMobileSlice";
+import { setProgress } from "../../../app/Slices/ProgressSlice";
 import { regions } from "../../../utils/constants";
 import { getSummonerName } from "../../../utils/functions";
 import ErrorPopup from "../ErrorPopup";
 import "./Header.css";
 import ThemeSwitch from "./ThemeSwitch";
-import { useParams } from "react-router-dom";
 
 function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { region, summonerNameTag } = useParams();
+    const { region = "", summonerNameTag = "" } = useParams();
 
     const isMobile = useSelector(selectIsMobile);
 
-    const inputRefHeader = useRef(null);
-    const [error, setError] = useState(null);
+    const inputRefHeader = useRef<HTMLInputElement>(null);
+    const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         // Get form data
         const formData = new FormData(event.target);
-        let regionForm = formData.get("region");
-        let { summonerNameTagForm, errorMessage } = getSummonerName(
-            formData.get("summoner_name_tag"),
+        const regionForm = formData.get("region") as string;
+        const summonerNameTagForm = formData.get("summoner_name_tag") as string;
+
+        const { summonerNameTagFiltered, errorMessage } = getSummonerName(
+            summonerNameTagForm,
             regionForm,
             summonerNameTag,
             region
         );
 
-        if (errorMessage) {
+        if (inputRefHeader.current && errorMessage) {
             inputRefHeader.current.style.borderColor = "red";
             inputRefHeader.current.style.boxShadow = "0 0 10px #ea868f";
             setError(errorMessage);
@@ -46,20 +47,22 @@ function Header() {
         dispatch(setProgress(60));
 
         // Redirect to the "/summoner" route
-        navigate(`/summoner/${regionForm}/${summonerNameTagForm}`);
+        navigate(`/summoner/${regionForm}/${summonerNameTagFiltered}`);
     };
 
     const handleCloseError = () => {
-        inputRefHeader.current.style.borderColor = "";
-        inputRefHeader.current.style.boxShadow = "";
-        setError(null);
+        if (inputRefHeader.current) {
+            inputRefHeader.current.style.borderColor = "";
+            inputRefHeader.current.style.boxShadow = "";
+            setError(null);
+        }
     };
 
     return (
         <header>
             {error && <ErrorPopup message={error} onClose={handleCloseError} />}
             <nav className="navbar navbar-expand-md border-bottom">
-                <div className="container-fluid" bis_skin_checked="1">
+                <div className="container-fluid">
                     <Link className="navbar-brand" to="/">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -83,10 +86,7 @@ function Header() {
                         aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div
-                        className="navbar-collapse collapse"
-                        id="navbarCollapse"
-                        bis_skin_checked="1">
+                    <div className="navbar-collapse collapse" id="navbarCollapse">
                         <ul className="navbar-nav mb-2 mb-md-0">
                             <li className="nav-item">
                                 <Link
@@ -126,7 +126,7 @@ function Header() {
                                 type="text"
                                 name="summoner_name_tag"
                                 className="form-control rounded-end flex-grow-1"
-                                maxLength="22"
+                                maxLength={22}
                                 placeholder="ex: Summ#EUW"
                                 autoComplete="off"
                                 aria-label="Search Summoner Header"

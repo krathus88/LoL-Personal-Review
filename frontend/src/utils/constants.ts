@@ -17,7 +17,11 @@ export const regions = [
     "TH",
 ];
 
-export const dict_errors_riot_api = {
+type RiotErrorDict = {
+    [statusCode: number]: string;
+};
+
+export const dict_errors_riot_api: RiotErrorDict = {
     400: "Bad request", // Bad request
     401: "Unauthorized", // Unauthorized
     403: "Have you renewed your API key?", // Forbidden

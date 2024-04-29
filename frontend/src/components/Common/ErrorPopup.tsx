@@ -1,11 +1,16 @@
-function ErrorPopup(props) {
+type ErrorPopupProps = {
+    message: string;
+    onClose: () => void;
+};
+
+export default function ErrorPopup({ message, onClose }: ErrorPopupProps) {
     return (
         <div className="error-popup-container text-center">
             <div className="error-popup container d-flex flex-row align-items-center rounded-2 pe-0 mt-1">
-                <p>{props.message}</p>
+                <p>{message}</p>
                 <button
                     className="ms-2 d-flex justify-content-center"
-                    onClick={props.onClose}>
+                    onClick={onClose}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="28"
@@ -20,5 +25,3 @@ function ErrorPopup(props) {
         </div>
     );
 }
-
-export default ErrorPopup;
