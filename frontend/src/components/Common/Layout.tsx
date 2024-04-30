@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-import Footer from "./Footer/Footer";
-import Header from "./Header/Header";
-import ProgressBarLoading from "./ProgressBarLoading";
+import { Footer } from "./Footer/Footer";
+import { Header } from "./Header/Header";
+import { ProgressBarLoading } from "./ProgressBarLoading";
 
-function Layout() {
+export function Layout() {
     return (
         <>
             <ProgressBarLoading />
@@ -13,5 +13,3 @@ function Layout() {
         </>
     );
 }
-
-export default Layout;

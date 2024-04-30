@@ -1,12 +1,10 @@
 import "./Error.css";
-import ErrorDetailed from "./ErrorDetailed";
+import { ErrorDetailed } from "./ErrorDetailed";
 
-function Error() {
+export function Error() {
     return (
         <div className="container col-6 rounded-4" id="errorContainer">
             <ErrorDetailed />
         </div>
     );
 }
-
-export default Error;

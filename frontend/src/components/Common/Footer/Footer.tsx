@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Footer.css";
 
-function Footer() {
+export function Footer() {
     return (
         <footer className="container mt-auto">
             <div className="d-flex flex-wrap justify-content-between align-items-center py-2 px-3 my-3 border-top">
@@ -24,5 +24,3 @@ function Footer() {
         </footer>
     );
 }
-
-export default Footer;

@@ -3,7 +3,7 @@ type ErrorPopupProps = {
     onClose: () => void;
 };
 
-export default function ErrorPopup({ message, onClose }: ErrorPopupProps) {
+export function ErrorPopup({ message, onClose }: ErrorPopupProps) {
     return (
         <div className="error-popup-container text-center">
             <div className="error-popup container d-flex flex-row align-items-center rounded-2 pe-0 mt-1">

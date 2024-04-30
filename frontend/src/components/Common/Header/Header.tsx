@@ -5,11 +5,11 @@ import { selectIsMobile } from "../../../app/Slices/IsMobileSlice";
 import { setProgress } from "../../../app/Slices/ProgressSlice";
 import { regions } from "../../../utils/constants";
 import { getSummonerName } from "../../../utils/functions";
-import ErrorPopup from "../ErrorPopup";
+import { ErrorPopup } from "../ErrorPopup";
 import "./Header.css";
-import ThemeSwitch from "./ThemeSwitch";
+import { ThemeSwitch } from "./ThemeSwitch";
 
-function Header() {
+export function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -58,12 +58,16 @@ function Header() {
         }
     };
 
+    const LinkClick = () => {
+        dispatch(setProgress(60));
+    };
+
     return (
         <header>
             {error && <ErrorPopup message={error} onClose={handleCloseError} />}
             <nav className="navbar navbar-expand-md border-bottom">
                 <div className="container-fluid">
-                    <Link className="navbar-brand" to="/">
+                    <Link className="navbar-brand" to="/" onClick={LinkClick}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="50"
@@ -92,12 +96,13 @@ function Header() {
                                 <Link
                                     className="nav-link active"
                                     aria-current="page"
-                                    to="/">
+                                    to="/"
+                                    onClick={LinkClick}>
                                     Home
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">
+                                <Link className="nav-link" to="/" onClick={LinkClick}>
                                     Link
                                 </Link>
                             </li>
@@ -139,5 +144,3 @@ function Header() {
         </header>
     );
 }
-
-export default Header;

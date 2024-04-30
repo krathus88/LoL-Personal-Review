@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 type IsMobileState = {
-    value: boolean; // Define the type for region state
+    value: boolean;
 };
 
 const initialState: IsMobileState = {

@@ -1,4 +1,4 @@
-function Loading() {
+export function Loading() {
     return (
         <div className="text-center my-3">
             <svg
@@ -17,5 +17,3 @@ function Loading() {
         </div>
     );
 }
-
-export default Loading;

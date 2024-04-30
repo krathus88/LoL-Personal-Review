@@ -1,7 +1,7 @@
-import { setIsMobile } from "../Slices/IsMobileSlice";
 import { Middleware } from "redux";
+import { setIsMobile } from "../Slices/IsMobileSlice";
 
-const resizeListenerMiddleware: Middleware = (store) => {
+export const resizeListenerMiddleware: Middleware = (store) => {
     let prevIsMobile = window.innerWidth <= 767;
 
     const handleResize = () => {
@@ -18,5 +18,3 @@ const resizeListenerMiddleware: Middleware = (store) => {
         return next(action);
     };
 };
-
-export default resizeListenerMiddleware;

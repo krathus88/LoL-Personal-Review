@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setProgress } from "../app/Slices/ProgressSlice";
-import Error from "../components/Error/Error";
+import { Error } from "../components/Error/Error";
 
-function ErrorPage() {
+export function ErrorPage() {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -17,5 +17,3 @@ function ErrorPage() {
         </main>
     );
 }
-
-export default ErrorPage;
