@@ -1,15 +1,19 @@
 import axios from "axios";
 
-type fetchDataParams = {
-    method: string;
-    url: string;
-    params?: Record<string, number>;
-};
-
-export const fetchData = async ({ method, url, params = {} }: fetchDataParams) => {
+export const fetchData = async (
+    method: string,
+    url: string,
+    params?: {
+        puuid?: string;
+        region?: string;
+        summoner_name?: string;
+        summoner_tag?: string;
+        start?: string;
+        num_games?: string;
+        lastMatch?: string;
+    }
+) => {
     try {
-        console.log(method, url, params);
-
         const response = await axios({
             method,
             url,

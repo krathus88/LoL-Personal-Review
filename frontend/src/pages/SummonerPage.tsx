@@ -8,11 +8,16 @@ import PersonalRating from "../components/Summoner/PersonalRating/PersonalRating
 import RecentlyPlayed from "../components/Summoner/RecentlyPlayed/RecentlyPlayed";
 import SummonerHeader from "../components/Summoner/SummonerHeader/SummonerHeader";
 import { fetchData } from "../utils/functions";
+import type { LoaderFunctionArgs } from "react-router-dom";
 
-export async function loader({ params }) {
+export const Loader = async ({ params }: LoaderFunctionArgs) => {
     const { region, summonerNameTag } = params;
 
-    let [summonerName, summonerTag] = summonerNameTag.split("-");
+    if (!summonerNameTag) {
+        throw Error;
+    }
+
+    const [summonerName, summonerTag] = summonerNameTag.split("-");
 
     const responseData = await fetchData("get", "/api/summoners/", {
         region: region,
@@ -21,17 +26,84 @@ export async function loader({ params }) {
     });
 
     return responseData;
-}
+};
+
+type SummonerDataType = {
+    summoner_info: {
+        puuid: string;
+        region: string;
+        name: string;
+        tag: string;
+        level: number;
+        iconId: number;
+    };
+    ranked_info: {
+        solo_queue: Record<string, unknown>;
+        flex_queue: Record<string, unknown>;
+    };
+};
+
+type MatchPlayerData = {
+    puuid: string;
+    summonerName: string;
+    summonerTag: string | null;
+    championId: number;
+    championName: string;
+    level: number;
+    kills: number;
+    deaths: number;
+    assists: number;
+    kda: number;
+    killParticipation: number;
+    cs: number;
+    summoner1Id: string;
+    summoner2Id: string;
+    primaryRune: string;
+    secondaryRune: string | null;
+    items: (string | null)[];
+    largestMultiKill: string;
+    damageDealt: number;
+    damageDealtPercentage: number;
+    damageTaken: number;
+    damageTakenPercentage: number;
+    controlWards: number;
+    wardsPlaced: number;
+    wardsKilled: number;
+    performanceScore: number;
+    performanceRanking: number;
+    win: boolean;
+};
+
+type MatchObjectives = {
+    kills: number;
+    gold: number;
+    baron: number;
+    dragon: number;
+    riftHerald: number;
+    voidgrubs: number;
+    towers: number;
+    inhibitors: number;
+};
+
+type MatchData = {
+    gameMode: string;
+    matchId: string;
+    gameDuration: string;
+    timeSinceGameEnd: string;
+    win: "blue" | "red";
+    playersData: MatchPlayerData[];
+    objectives: MatchObjectives[];
+};
 
 export function Component() {
     const dispatch = useDispatch();
 
-    const summonerDataLoader = useLoaderData();
+    const summonerDataLoader = useLoaderData() as SummonerDataType;
 
     const [summonerData, setSummonerData] = useState(summonerDataLoader);
     const [loading, setLoading] = useState(true);
     const [errorMatchHistory, setErrorMatchHistory] = useState(false);
-    const [matches, setMatches] = useState([]);
+    const [matches, setMatches] = useState<MatchData[]>([]);
     const [playedWith, setPlayedWith] = useState([]);
 
     useEffect(() => {
@@ -56,9 +128,10 @@ export function Component() {
             setMatches([]);
             setLoading(true);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [summonerData.summoner_info.puuid]);
 
-    const fetchMatchHistoryData = async (start, numGames) => {
+    const fetchMatchHistoryData = async (start = "0", numGames = "10") => {
         try {
             // Reset Recently Played whilst changing player view
             if (!numGames) {
@@ -71,10 +144,10 @@ export function Component() {
                 "get",
                 "/api/summoners/match-history/",
                 {
-                    region: summonerData.summoner_info.region,
-                    start: start || "0",
-                    num_games: numGames || "10",
                     puuid: summonerData.summoner_info.puuid,
+                    region: summonerData.summoner_info.region,
+                    start: start,
+                    num_games: numGames,
                 }
             );
 
