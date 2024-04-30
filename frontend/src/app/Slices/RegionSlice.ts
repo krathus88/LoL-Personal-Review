@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 type RegionState = {
-    region: string; // Define the type for region state
+    region: string;
 };
 
 const initialState: RegionState = {
@@ -24,6 +24,6 @@ export const RegionSlice = createSlice({
 
 export const { setRegion } = RegionSlice.actions;
 
-export const selectRegion = (state: RootState) => state.region;
+export const selectRegion = (state: RootState) => state.region.region;
 
 export default RegionSlice.reducer;

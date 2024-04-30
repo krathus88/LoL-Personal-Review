@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function ThemeSwitch() {
+export function ThemeSwitch() {
     const [theme, setTheme] = useState(() => {
         const storedTheme = localStorage.getItem("theme");
         return storedTheme ? storedTheme : "dark";
@@ -48,5 +48,3 @@ function ThemeSwitch() {
         </div>
     );
 }
-
-export default ThemeSwitch;

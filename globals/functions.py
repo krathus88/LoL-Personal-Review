@@ -199,11 +199,11 @@ def recently_played_with(puuid, matches):
                 )
                 # Update games played together
                 if name_tag in players_stats:
-                    players_stats[name_tag]["games_played"] += 1
+                    players_stats[name_tag]["gamesPlayed"] += 1
                 else:
                     players_stats[name_tag] = {
                         "profileIcon": participant["profileIcon"],
-                        "games_played": 1,
+                        "gamesPlayed": 1,
                         "wins": 0,
                     }
                 # Update wins and defeats
@@ -213,15 +213,15 @@ def recently_played_with(puuid, matches):
     # Calculate winrate and remove entries with less than 2 games played
     players_stats_filtered = {}
     for name_tag, stats in players_stats.items():
-        if stats["games_played"] >= 2:
-            stats["winrate"] = round((stats["wins"] / stats["games_played"]) * 100)
+        if stats["gamesPlayed"] >= 2:
+            stats["winrate"] = round((stats["wins"] / stats["gamesPlayed"]) * 100)
             players_stats_filtered[name_tag] = stats
 
-    # Sort players_stats_filtered by games_played in descending order
+    # Sort players_stats_filtered by gamesPlayed in descending order
     sorted_stats = dict(
         sorted(
             players_stats_filtered.items(),
-            key=lambda item: (item[1]["games_played"], item[1]["winrate"]),
+            key=lambda item: (item[1]["gamesPlayed"], item[1]["winrate"]),
             reverse=True,
         )
     )
@@ -302,10 +302,10 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                     ),
                     "cs": participant["totalMinionsKilled"]
                     + participant["neutralMinionsKilled"],
-                    "summoner1Id": dictionary.dict_summoner_spells.get(
+                    "summoner1": dictionary.dict_summoner_spells.get(
                         participant["summoner1Id"], "summoner_empty"
                     ),
-                    "summoner2Id": dictionary.dict_summoner_spells.get(
+                    "summoner2": dictionary.dict_summoner_spells.get(
                         participant["summoner2Id"], "summoner_empty"
                     ),
                     "primaryRune": filter_rune(
@@ -354,7 +354,7 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                 "gameDuration": f"{minutes}m {seconds}s",
                 "timeSinceGameEnd": time_elapsed(match["info"]["gameEndTimestamp"]),
                 "win": "blue" if match["info"]["teams"][0]["win"] else "red",
-                "players_data": players_data,
+                "playersData": players_data,
                 "objectives": [
                     {
                         "kills": match["info"]["teams"][0]["objectives"]["champion"][

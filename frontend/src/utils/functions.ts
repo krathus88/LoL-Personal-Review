@@ -87,15 +87,7 @@ export const getSummonerName = (
     return { summonerNameTagFiltered: `${summonerName}-${summonerTag}` };
 };
 
-type calculateCsPerMinuteParams = {
-    cs: string;
-    gameDuration: string;
-};
-
-export const calculateCsPerMinute = ({
-    cs,
-    gameDuration,
-}: calculateCsPerMinuteParams) => {
+export const calculateCsPerMinute = (cs: number, gameDuration: string) => {
     // Extract minutes and seconds from the game duration string
     const [minutesString, secondsString] = gameDuration.split("m ");
     const minutes = parseInt(minutesString, 10);
@@ -105,7 +97,7 @@ export const calculateCsPerMinute = ({
     const totalMinutes = minutes + seconds / 60;
 
     // Calculate CS per minute with proper rounding
-    const csPerMinute = Math.round(((parseInt(cs, 10) | 0) / totalMinutes) * 10) / 10; // Round to one decimal place
+    const csPerMinute = Math.round(((cs | 0) / totalMinutes) * 10) / 10; // Round to one decimal place
 
     return csPerMinute;
 };

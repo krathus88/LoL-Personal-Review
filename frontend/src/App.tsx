@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./components/Common/Layout";
-import ErrorPage from "./pages/ErrorPage";
+import { Layout } from "./components/Common/Layout";
+import { ErrorPage } from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
     {
@@ -16,7 +16,10 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "/summoner/:region/:summonerNameTag",
-                        lazy: () => import("./pages/SummonerPage"),
+                        async lazy() {
+                            const { Component } = await import("./pages/SummonerPage");
+                            return { loader: Component.loader, Component };
+                        },
                     },
                 ],
             },
@@ -24,12 +27,10 @@ const router = createBrowserRouter([
     },
 ]);
 
-function App() {
+export function App() {
     return (
         <Suspense>
             <RouterProvider router={router} />
         </Suspense>
     );
 }
-
-export default App;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectProgress, setProgress } from "../../app/Slices/ProgressSlice";
 import "./ProgressBarLoading.css";
 
-function ProgressBarLoading() {
+export function ProgressBarLoading() {
     const dispatch = useDispatch();
     const progress = useSelector(selectProgress);
 
@@ -35,5 +35,3 @@ function ProgressBarLoading() {
         </div>
     );
 }
-
-export default ProgressBarLoading;

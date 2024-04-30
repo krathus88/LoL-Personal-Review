@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 type ProgressState = {
-    width: number; // Define the type for region state
+    width: number;
 };
 
 const initialState: ProgressState = {

@@ -76,8 +76,8 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
             )
 
             return {
-                "summoner_info": summoner_info,
-                "ranked_info": organized_ranked_data,
+                "summonerInfo": summoner_info,
+                "rankedInfo": organized_ranked_data,
             }
 
     except exceptions.RiotAPI as e:
@@ -106,7 +106,7 @@ def match_history(request, region: str, start: str, num_games: str, puuid: str):
 
         recently_played = functions.recently_played_with(puuid, matches_data)
 
-        return {"matches": matches_data_clean, "recently_played": recently_played}
+        return {"matches": matches_data_clean, "recentlyPlayed": recently_played}
     except exceptions.RiotAPI as e:
         raise HttpError(
             e.status_code,
@@ -178,11 +178,11 @@ def update_button(
 
         return {
             "summoner_data": {
-                "ranked_info": ranked_data,
-                "summoner_info": summoner_info,
+                "rankedInfo": ranked_data,
+                "summonerInfo": summoner_info,
             },
             "matches": matches_data_clean,
-            "recently_played": recently_played,
+            "recentlyPlayed": recently_played,
         }
     except exceptions.RiotAPI as e:
         raise HttpError(
