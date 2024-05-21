@@ -1,4 +1,4 @@
-class RiotAPI(Exception):
+class RiotAPIException(Exception):
     """Custom exception for Riot API errors."""
 
     def __init__(self, status_code):

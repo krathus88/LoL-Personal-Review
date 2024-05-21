@@ -2,118 +2,121 @@ import os
 import aiohttp
 import asyncio
 import requests
+import logging
+
 from requests.exceptions import HTTPError
 from datetime import datetime
-from globals import dictionary, exceptions
+
+from .dictionary import (
+    dict_region,
+    dict_server,
+    dict_summoner_spells,
+    dict_runes,
+    dict_multikill,
+    dict_queue_id,
+    dict_place,
+)
+from .exceptions import RiotAPIException
 
 
-def find_account(region, summoner_name, tag):
+# region API Calls
+def perform_riot_api_call(
+    dict, riot_server, api_endpoint, replacements, query_params=None
+):
+    """General method to perform an API call and return the JSON response."""
+
+    if dict == "region":
+        dict_response = dict_region[riot_server]
+    elif dict == "server":
+        dict_response = dict_server[riot_server]
+    else:
+        logging.error(
+            f"Error selecting which dictionary to use to perform api call. API endpoint: {api_endpoint}"
+        )
+        raise Exception(detail="Specified server isn't valid.")
+
+    # Replace placeholders in the API URL and endpoint URL
+    api_url = os.getenv("API_URL").replace("[server]", dict_response)
+
+    endpoint_url = os.getenv(api_endpoint)
+    for placeholder, value in replacements.items():
+        endpoint_url = endpoint_url.replace(placeholder, value)
+
+    # Construct the full URL
+    full_url = f"{api_url}{endpoint_url}?api_key={os.getenv('API_KEY')}"
+    if query_params:
+        full_url += "&" + "&".join(f"{k}={v}" for k, v in query_params.items())
+
+    # Perform the API request
+    try:
+        api_result = requests.get(full_url)
+        api_result.raise_for_status()
+
+        return api_result.json()
+    except HTTPError as http_err:
+        raise RiotAPIException(http_err.response.status_code)
+
+
+def find_account(riot_server, summoner_name, tag):
     """Returns a Dictionary
 
     Gets Player's Account information (retrieves PUUID)."""
-    try:
-        api_url = os.getenv("API_URL").replace(
-            "[server]", dictionary.dict_region[region]
-        )
-        endpoint_url = (
-            os.getenv("ACCOUNT_SEARCH")
-            .replace("[gameName]", summoner_name)
-            .replace("[tagLine]", tag)
-        )
-        api_result = requests.get(
-            api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
-        )
 
-        api_result.raise_for_status()
-
-        return api_result.json()
-    except HTTPError as http_err:
-        raise exceptions.RiotAPI(http_err.response.status_code)
+    return perform_riot_api_call(
+        "region",
+        riot_server,
+        "ACCOUNT_SEARCH",
+        {"[gameName]": summoner_name, "[tagLine]": tag},
+    )
 
 
-def find_account_puuid(puuid, region):
+def find_account_puuid(puuid, riot_server):
     """Returns a Dictionary
 
     Gets Player's Account information using PUUID."""
-    try:
-        api_url = os.getenv("API_URL").replace(
-            "[server]", dictionary.dict_region[region]
-        )
-        endpoint_url = os.getenv("ACCOUNT_SEARCH_PUUID").replace("[puuid]", puuid)
-        api_result = requests.get(
-            api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
-        )
 
-        api_result.raise_for_status()
-
-        return api_result.json()
-    except HTTPError as http_err:
-        raise exceptions.RiotAPI(http_err.response.status_code)
+    return perform_riot_api_call(
+        "region", riot_server, "ACCOUNT_SEARCH_PUUID", {"[puuid]": puuid}
+    )
 
 
-def find_summoner(server, puuid):
+def find_summoner(riot_server, puuid):
     """Returns a Dictionary
 
     Gets Summoner's Account information"""
-    try:
-        api_url = os.getenv("API_URL").replace(
-            "[server]", dictionary.dict_server[server]
-        )
-        endpoint_url = os.getenv("SUMMONER_SEARCH").replace("[encryptedPUUID]", puuid)
-        api_result = requests.get(
-            api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
-        )
-        api_result.raise_for_status()
-        return api_result.json()
-    except HTTPError as http_err:
-        raise exceptions.RiotAPI(http_err.response.status_code)
+
+    return perform_riot_api_call(
+        "server", riot_server, "SUMMONER_SEARCH", {"[encryptedPUUID]": puuid}
+    )
 
 
-def find_ranked_data(server, summoner_id):
+def find_ranked_data(riot_server, summoner_id):
     """Returns a List with 2 Dictionaries
 
     Provides Ranked stats for a given player (by Id). Information must
     then be parsed by organize_summoner_ranked_data() to structure it correctly."""
-    try:
-        api_url = os.getenv("API_URL").replace(
-            "[server]", dictionary.dict_server[server]
-        )
-        endpoint_url = os.getenv("RANKED_SEARCH").replace(
-            "[encryptedSummonerId]", summoner_id
-        )
-        api_result = requests.get(
-            api_url + endpoint_url + "?api_key=" + os.getenv("API_KEY")
-        )
-        api_result.raise_for_status()
-        return api_result.json()
-    except HTTPError as http_err:
-        raise exceptions.RiotAPI(http_err.response.status_code)
+
+    return perform_riot_api_call(
+        "server", riot_server, "RANKED_SEARCH", {"[encryptedSummonerId]": summoner_id}
+    )
 
 
-def find_match_history(region, start_count, num_games, puuid):
+def find_match_history(riot_server, start_count, num_games, puuid):
     """Returns a List
 
     Provides the match history (matchIds) of a given summoner (by PUUID).
     Choose on what index to start and how many matches to filter."""
-    try:
-        api_url = os.getenv("API_URL").replace(
-            "[server]", dictionary.dict_region[region]
-        )
-        endpoint_url = (
-            os.getenv("SUMMONER_MATCH_HISTORY_SEARCH").replace(
-                "[encryptedPUUID]", puuid
-            )
-        ) + f"?start={start_count}&count={num_games}"
-        api_result = requests.get(
-            api_url + endpoint_url + "&api_key=" + os.getenv("API_KEY")
-        )
-        api_result.raise_for_status()
-        return api_result.json()
-    except HTTPError as http_err:
-        raise exceptions.RiotAPI(http_err.response.status_code)
+
+    return perform_riot_api_call(
+        "region",
+        riot_server,
+        "SUMMONER_MATCH_HISTORY_SEARCH",
+        {"[encryptedPUUID]": puuid},
+        query_params={"start": start_count, "count": num_games},
+    )
 
 
-def find_match_data_general(region, matches):
+def find_match_data_general(riot_server, matches):
     """Returns a List of Dictionaries
 
     Provides GENERAL information about a given match for all players.
@@ -130,7 +133,7 @@ def find_match_data_general(region, matches):
         "https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json"
     )
 
-    api_url = os.getenv("API_URL").replace("[server]", dictionary.dict_region[region])
+    api_url = os.getenv("API_URL").replace("[server]", dict_region[riot_server])
     for match in matches:
         endpoint_url = os.getenv("SUMMONER_MATCH_SEARCH_GENERAL").replace(
             "[match]", match
@@ -149,6 +152,25 @@ def find_match_data_general(region, matches):
     )  # runes_data, items_data, matches_data
 
 
+async def get(url, session):
+    try:
+        async with session.get(url=url) as response:
+            if response.status == 200:
+                return await response.json()
+    except Exception as e:
+        print("Unable to get url {} due to {}.".format(url, e.__class__))
+
+
+async def main(urls):
+    async with aiohttp.ClientSession() as session:
+        ret = await asyncio.gather(*(get(url, session) for url in urls))
+    return ret
+
+
+# endregion
+
+
+# region Helper Functions
 def organize_summoner_ranked_data(summoner_list):
     """Returns a List containing two dictionaries, [SoloQ, FlexQ]
 
@@ -302,17 +324,17 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                     ),
                     "cs": participant["totalMinionsKilled"]
                     + participant["neutralMinionsKilled"],
-                    "summoner1": dictionary.dict_summoner_spells.get(
+                    "summoner1": dict_summoner_spells.get(
                         participant["summoner1Id"], "summoner_empty"
                     ),
-                    "summoner2": dictionary.dict_summoner_spells.get(
+                    "summoner2": dict_summoner_spells.get(
                         participant["summoner2Id"], "summoner_empty"
                     ),
                     "primaryRune": filter_rune(
                         participant["perks"]["styles"][0]["selections"][0]["perk"],
                         runes_data,
                     ),
-                    "secondaryRune": dictionary.dict_runes.get(
+                    "secondaryRune": dict_runes.get(
                         participant["perks"]["styles"][1]["style"], None
                     ),
                     "items": [
@@ -324,9 +346,7 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
                         items_data.get(str(participant["item5"]), {}).get("icon", None),
                         items_data.get(str(participant["item6"]), {}).get("icon", None),
                     ],
-                    "largestMultiKill": dictionary.dict_multikill[
-                        participant["largestMultiKill"]
-                    ],
+                    "largestMultiKill": dict_multikill[participant["largestMultiKill"]],
                     "damageDealt": participant["totalDamageDealtToChampions"],
                     "damageDealtPercentage": (
                         participant["totalDamageDealtToChampions"]
@@ -349,7 +369,7 @@ def filter_player_match_data(match_data, runes_data, items_data, puuid):
             )
         matches_data.append(
             {
-                "gameMode": dictionary.dict_queue_id[match["info"]["queueId"]],
+                "gameMode": dict_queue_id[match["info"]["queueId"]],
                 "matchId": match["metadata"]["matchId"],
                 "gameDuration": f"{minutes}m {seconds}s",
                 "timeSinceGameEnd": time_elapsed(match["info"]["gameEndTimestamp"]),
@@ -520,7 +540,7 @@ def calculate_performance(game_time, match):
             ranked_list.append({"rank": "ACE", "score": score})
         else:
             rank = ranked_scores.index(score) + 1
-            ranked_list.append({"rank": dictionary.dict_place[rank], "score": score})
+            ranked_list.append({"rank": dict_place[rank], "score": score})
 
     return ranked_list
 
@@ -544,16 +564,4 @@ def calculate_kda(participant_data):
     return kda
 
 
-async def get(url, session):
-    try:
-        async with session.get(url=url) as response:
-            if response.status == 200:
-                return await response.json()
-    except Exception as e:
-        print("Unable to get url {} due to {}.".format(url, e.__class__))
-
-
-async def main(urls):
-    async with aiohttp.ClientSession() as session:
-        ret = await asyncio.gather(*(get(url, session) for url in urls))
-    return ret
+# endregion
