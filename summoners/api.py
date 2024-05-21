@@ -1,14 +1,16 @@
-from django.views.decorators.cache import cache_page
 from ninja import Router
 from ninja.decorators import decorate_view
 from ninja.errors import HttpError
+from django.views.decorators.cache import cache_page
+
 from .models import Player, PlayerAdditionalInfo
+from .schemas import SummonerDetailResponse, MatchHistoryResponse, UpdateButtonResponse
 from globals import functions, dictionary, exceptions
 
 router = Router()
 
 
-@router.get("/")
+@router.get("/", response=SummonerDetailResponse)
 @decorate_view(cache_page(5 * 60))  # Cache response for 5 minutes
 def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str):
     try:
@@ -87,7 +89,7 @@ def summoner_detail(request, region: str, summoner_name: str, summoner_tag: str)
         )
 
 
-@router.get("/match-history/")
+@router.get("/match-history/", response=MatchHistoryResponse)
 @decorate_view(cache_page(5 * 60))  # Cache response for 5 minutes
 def match_history(request, region: str, start: str, num_games: str, puuid: str):
     try:
@@ -102,7 +104,7 @@ def match_history(request, region: str, start: str, num_games: str, puuid: str):
 
         # If adding more data to the match history
         if int(num_games) < 10:
-            return {"matches": matches_data_clean}
+            return {"matches": matches_data_clean, "recentlyPlayed": None}
 
         recently_played = functions.recently_played_with(puuid, matches_data)
 
@@ -114,7 +116,7 @@ def match_history(request, region: str, start: str, num_games: str, puuid: str):
         )
 
 
-@router.patch("/")
+@router.patch("/", response=UpdateButtonResponse)
 def update_button(
     request,
     region: str,
@@ -177,9 +179,9 @@ def update_button(
         recently_played = functions.recently_played_with(puuid, matches_data)
 
         return {
-            "summoner_data": {
-                "rankedInfo": ranked_data,
+            "summonerData": {
                 "summonerInfo": summoner_info,
+                "rankedInfo": ranked_data,
             },
             "matches": matches_data_clean,
             "recentlyPlayed": recently_played,
@@ -189,15 +191,3 @@ def update_button(
             e.status_code,
             "Riot API error occurred.",  # Default message
         )
-
-
-@router.get("/match-overview")
-def update_summoner_match(request):
-    team_blue_html = "Hello"
-    team_red_html = "Bye"
-
-    new_information = {
-        "team_blue_html": team_blue_html,
-        "team_red_html": team_red_html,
-    }
-    return {new_information}
